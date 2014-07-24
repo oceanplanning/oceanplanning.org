@@ -40,23 +40,23 @@
       "advanced": {}
     },
     {
-      "geometry": "linestring",
+      "geometry": "polygon",
       "extent": [
-        -180,
-        -17.555000001999986,
-        180,
-        74.70884000400002
+        -141.002990797,
+        40.040199965000056,
+        -47.743430710999974,
+        85.051
       ],
-      "id": "usmaritimelimitsnbou",
+      "id": "canada_eez",
       "class": "",
       "Datasource": {
-        "file": "data/USMaritimeLimitsNBoundaries.shp"
+        "file": "data/canada_eez.shp"
       },
       "layer": null,
       "srs-name": "autodetect",
       "srs": "",
       "advanced": {},
-      "name": "usmaritimelimitsnbou"
+      "name": "canada_eez"
     },
     {
       "geometry": "point",
@@ -79,6 +79,63 @@
       "srs": "",
       "advanced": {},
       "name": "populated_places"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -180,
+        -17.555000001999986,
+        180,
+        74.70884000400002
+      ],
+      "id": "USMaritimeLimitsNBoundaries",
+      "class": "",
+      "Datasource": {
+        "file": "data/USMaritimeLimitsNBoundaries.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "USMaritimeLimitsNBoundaries"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -71.9050027162944,
+        40.911527970311795,
+        -70.84431662276025,
+        41.496169027410986
+      ],
+      "id": "mboundssamp",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/alan/github/moore/data/mbounds_samp.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "mboundssamp"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -71.3427817280052,
+        41.1985225305815,
+        -69.83002469367881,
+        42.866974484016175
+      ],
+      "id": "macoastalzoneboundar",
+      "class": "",
+      "Datasource": {
+        "file": "data/MA_Coastal_Zone/MA_Coastal_Zone_Boundary.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "macoastalzoneboundar"
     }
   ],
   "scale": 1,
