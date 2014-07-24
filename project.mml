@@ -1,33 +1,43 @@
 {
   "bounds": [
-    -180,
-    -85.05112877980659,
-    180,
-    85.05112877980659
+    -72.0703,
+    -37.44,
+    73.6523,
+    56.945
   ],
   "center": [
     0,
     0,
-    2
+    3
   ],
   "format": "png8",
   "interactivity": false,
-  "minzoom": 0,
-  "maxzoom": 22,
+  "minzoom": 3,
+  "maxzoom": 8,
   "srs": "+proj=laea +lat_0=20 +lon_0=-140 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
   "Stylesheet": [
     "style.mss"
   ],
   "Layer": [
     {
-      "id": "countries",
-      "name": "countries",
-      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "id": "states_provinces",
+      "name": "states_provinces",
+      "srs": "",
       "geometry": "polygon",
       "Datasource": {
-        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-0-countries.zip",
+        "file": "data/ne_10m_admin_1_states_provinces_lakes.shp",
         "type": "shape"
-      }
+      },
+      "extent": [
+        -179.9999999999999,
+        -85.051,
+        180,
+        83.63410065300016
+      ],
+      "class": "",
+      "layer": null,
+      "srs-name": "autodetect",
+      "advanced": {}
     },
     {
       "geometry": "linestring",
@@ -47,10 +57,33 @@
       "srs": "",
       "advanced": {},
       "name": "usmaritimelimitsnbou"
+    },
+    {
+      "geometry": "point",
+      "extent": [
+        -179.58997888396897,
+        -85.051,
+        179.38330358817018,
+        82.48332318035943
+      ],
+      "id": "populated_places",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_populated_places.shp",
+        "id": "populated_places",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "populated_places"
     }
   ],
   "scale": 1,
   "metatile": 2,
   "name": "Moore Foundation",
-  "description": ""
+  "description": "",
+  "attribution": ""
 }

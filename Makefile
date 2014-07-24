@@ -12,6 +12,26 @@ clean:
 datadir:
 	test -d $(DATADIR) || mkdir $(DATADIR)
 
+# The unchanging base data for context:
+
+basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_populated_places.shp
+
+$(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
+
+$(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp: $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+$(DATADIR)/ne_10m_populated_places.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip -o $@
+
+$(DATADIR)/ne_10m_populated_places.shp: $(DATADIR)/ne_10m_populated_places.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+# The EEZ and protected area data:
+
 data: datadir $(DATADIR)/USMaritimeLimitsNBoundaries.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp $(DATADIR)/mbounds_samp.shp
 
 $(DATADIR)/USMaritimeLimitsAndBoundariesSHP.zip:
