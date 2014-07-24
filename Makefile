@@ -1,4 +1,10 @@
 DATADIR := data
+SHELL := /bin/bash
+
+# To install the tilemill project
+install:
+	mkdir -p ${HOME}/Documents/MapBox/project
+	ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore
 
 clean:
 	rm -rf $(DATADIR)/*
