@@ -1,5 +1,6 @@
 # Moore Foundation Ocean Maps
 
+![image](screenshot.png)
 This project will map a variety of ocean protection areas ranging from thousands of square miles in the Pacific to a few square miles off Massachusetts. The maps will likely use an equal-area projection to reduce distortion, but one of the design challenges will be making that projection intelligible even when the zoom is very close, like in the Cape Cod example.
 
 Another key priority of the client is that  updates are easy. Updates will be of a couple forms:
