@@ -1,8 +1,29 @@
 Map {
   background-color: #b8dee6;
+  background-color: #d0eeee;
 }
 
-#states_provinces {
+@non_na_land: #f6ffff;
+
+#land {
+  ::outline {
+    line-color: #85c5d3;
+    line-width: 2;
+    [zoom<=6] {
+      line-width: 1.5;
+    }
+    [zoom<=4] {
+      line-width: 1;
+    }
+    line-join: round;
+  }
+  line-color: @non_na_land;
+  line-width: 0.5;
+  polygon-fill: @non_na_land;
+}
+
+#states_provinces[iso_a2="US"],
+#states_provinces[iso_a2="CA"]{
   polygon-fill: #fff;
   ::outline {
     line-color: #85c5d3;
@@ -20,6 +41,7 @@ Map {
 #USMaritimeLimitsNBoundaries, #canada_eez {
   line-width:1;
   line-color:#168;
+  line-opacity:0.8;
 }
 
 #populated_places[SCALERANK<2][zoom>=4],
@@ -64,3 +86,4 @@ Map {
   }
   line-color:'purple';
 }
+

@@ -20,13 +20,35 @@
   ],
   "Layer": [
     {
+      "geometry": "polygon",
+      "extent": [
+        -179.9999999999999,
+        -85.051,
+        180,
+        83.63410065300008
+      ],
+      "id": "land",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_land_scale_rank.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "land"
+    },
+    {
       "id": "states_provinces",
       "name": "states_provinces",
       "srs": "",
       "geometry": "polygon",
       "Datasource": {
         "file": "data/ne_10m_admin_1_states_provinces_lakes.shp",
-        "type": "shape"
+        "type": "shape",
+        "id": "states_provinces",
+        "project": "moore",
+        "srs": ""
       },
       "extent": [
         -179.9999999999999,
