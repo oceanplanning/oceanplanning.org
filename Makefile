@@ -72,6 +72,8 @@ $(DATADIR)/mbounds_samp.shp: $(DATADIR)/mbounds_samp.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
+# TODO: source for Canadian EEZ. I downloaded from here: http://www.marineregions.org/gazetteer.php?p=details&id=8493
+
 # This would only work if all zip files had the same internal directory structure
 #$(DATADIR)/%.shp: $(DATADIR)/%.zip
 #	unzip $< -d $(DATADIR) && \
