@@ -1,5 +1,14 @@
 DATADIR := data
 SHELL := /bin/bash
+DATED=$(shell date '+%Y-%m-%d')
+
+latest:
+	ssh studio.stamen.com "cd /var/www/com.stamen.studio/moore/show/latest && git pull"
+
+dated-latest:
+	ssh studio.stamen.com "cd /var/www/com.stamen.studio/moore/show \
+	&& mkdir -p $(DATED) \
+	&& cp -r latest/* $(DATED)"
 
 # To install the tilemill project
 install:
