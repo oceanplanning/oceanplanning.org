@@ -22,6 +22,28 @@
     {
       "geometry": "polygon",
       "extent": [
+        -180,
+        -85.051,
+        180,
+        85.051
+      ],
+      "id": "worldeezv82014",
+      "class": "",
+      "Datasource": {
+        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp",
+        "id": "worldeezv82014",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "worldeezv82014"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
         -179.9999999999999,
         -85.051,
         180,
@@ -37,6 +59,28 @@
       "srs": "",
       "advanced": {},
       "name": "land"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -165.96558168829336,
+        -50.66966651748362,
+        177.1543791606897,
+        81.95520786930868
+      ],
+      "id": "lakes",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/alan/github/moore/data/ne_10m_lakes.shp",
+        "id": "lakes",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "lakes"
     },
     {
       "id": "states_provinces",
