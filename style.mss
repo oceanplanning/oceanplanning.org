@@ -67,23 +67,3 @@ Map {
   }
 }
 
-
-#mboundssamp {
-  line-color:#594;
-  line-width:1.5;
-  polygon-opacity:0.2;
-  polygon-fill:#ae8;
-}
-
-
-#macoastalzoneboundar {
-  line-width:2;
-  [zoom<=6] {
-    line-width:1;
-  }
-  [zoom<=4] {
-    line-width:0.5;
-  }
-  line-color:'purple';
-}
-
