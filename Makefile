@@ -39,6 +39,13 @@ $(DATADIR)/ne_10m_land_scale_rank.shp: $(DATADIR)/ne_10m_land_scale_rank.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
+$(DATADIR)/ne_10m_lakes.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_lakes.zip -o $@
+
+$(DATADIR)/ne_10m_lakes.shp: $(DATADIR)/ne_10m_lakes.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
 $(DATADIR)/ne_10m_populated_places.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip -o $@
 
