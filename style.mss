@@ -96,5 +96,3 @@ Map {
     text-placements: "W,NW,SW,NE,E,SE";
   }
 }
-
-
