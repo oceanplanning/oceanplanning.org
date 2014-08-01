@@ -4,8 +4,11 @@
 <meta charset=utf-8 />
 <title>Moore Foundation map prototype by Stamen Design</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src='vendor/leaflet.ajax.min.js'></script>
+<script src='vendor/proj4-compressed.js'></script>
+<script src='vendor/proj4leaflet.js'></script>
 <style>
   body { margin:0; padding:0; }
   #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -15,13 +18,70 @@
 <div id='map'></div>
 
 <script>
+
+var crs = new L.Proj.CRS(
+    'EPSG:2163',  // Guessing
+    //'EPSG:3408', 
+    '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
+    {
+        origin: [60112700,20037600], // I don't understand where these come from
+        resolutions: [
+            null, 
+            78271.51696484375,
+            39135.758482421875,
+            19567.8792412109375,
+            9783.93962060546875,
+            4891.969810302734375,
+            2445.9849051513671875,
+            1222.99245257568359375,
+            611.496226287841796875,
+            305.7481131439208984375,
+            152.87405657196044921875,
+            76.437028285980224609375,
+            38.2185141429901123046875,
+            19.10925707149505615234375,
+            9.554628535747528076171875,
+            4.7773142678737640380859375,
+            2.388657133934688201904296875,
+            1.194328566968441009521484375
+        ] // I just copied these from somewhere
+
+
+    }
+);
+
 var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore/{z}/{x}/{y}.png', {
     attribution: ''
 });
 
-var map = L.map('map')
+var map = L.map('map', { 
+      crs: crs,
+      continuousWorld: false,
+      worldCopyJump: false
+    })
     .addLayer(mapboxTiles)
-    .setView([0, 0], 3);
+    .setView([35, -120], 4);
+
+function popUp(feature, layer) {
+    layer.bindPopup(feature.properties.name);
+}
+
+function geojsonStyle(feature) {
+  return {
+    color: '#f09',
+    opacity: 0.8,
+    fillColor: '#f09',
+    fillOpacity: 0.3,
+    weight:2
+  };
+}
+
+var geojsonLayer = new L.GeoJSON.AJAX("geojson/ma_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(geojsonLayer);
+
+var geojsonLayer = new L.GeoJSON.AJAX("geojson/ri_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(geojsonLayer);
+
 </script>
 </body>
 </html>
