@@ -1,4 +1,5 @@
 DATADIR := data
+JSONDIR := geojson
 SHELL := /bin/bash
 DATED=$(shell date '+%Y-%m-%d')
 
@@ -20,6 +21,9 @@ clean:
 
 datadir:
 	test -d $(DATADIR) || mkdir $(DATADIR)
+
+jsondir:
+	test -d $(JSONDIR) || mkdir $(JSONDIR)
 
 # The unchanging base data for context:
 
@@ -55,7 +59,12 @@ $(DATADIR)/ne_10m_populated_places.shp: $(DATADIR)/ne_10m_populated_places.zip
 
 # The EEZ and protected area data:
 
+geojson: jsondir data $(JSONDIR)/us_eez.geojson $(JSONDIR)/canada_eez.geojson $(JSONDIR)/ma_coastalzone.geojson $(JSONDIR)/ri_coastalzone.geojson
+
 data: datadir $(DATADIR)/USMaritimeLimitsNBoundaries.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp $(DATADIR)/mbounds_samp.shp
+
+$(JSONDIR)/us_eez.geojson: $(DATADIR)/USMaritimeLimitsNBoundaries.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 $(DATADIR)/USMaritimeLimitsAndBoundariesSHP.zip:
 	curl -sL http://maritimeboundaries.noaa.gov/downloads/USMaritimeLimitsAndBoundariesSHP.zip -o $@
@@ -72,6 +81,8 @@ $(DATADIR)/CoastalZoneManagementActBoundary.zip:
 #$(DATADIR)/CoastalZoneManagementActBoundary.shp: $(DATADIR)/CoastalZoneManagementActBoundary.zip
 # TODO: continue here
 
+### US fisheries regions
+
 $(DATADIR)/NationalMarineFisheriesServiceRegions.zip:
 	curl -sL http://csc.noaa.gov/htdata/CMSP/FederalGeoregulations/NationalMarineFisheriesServiceRegions.zip -o $@
 
@@ -80,6 +91,7 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceR
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
+### Massachusetts
 $(DATADIR)/ma-coastal-zone-boundary-2012.zip:
 	curl -sL http://www.mass.gov/eea/docs/czm/fcr-regs/ma-coastal-zone-boundary-2012.zip -o $@
 
@@ -88,12 +100,23 @@ $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp: $(DATADIR)/ma-coastal-zone-bound
 	-unzip $< -d $(DATADIR) && \
 	touch $@
 
+$(JSONDIR)/ma_coastalzone.geojson: $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Massachusetts" as name, * FROM ma_coastal_zone' $@ $<
+
+### Rhode Island
 $(DATADIR)/mbounds_samp.zip:
 	curl -sL http://www.narrbay.org/d_projects/OceanSAMP/Downloads/mbounds_samp.zip -o $@
 
 $(DATADIR)/mbounds_samp.shp: $(DATADIR)/mbounds_samp.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
+
+$(JSONDIR)/ri_coastalzone.geojson: $(DATADIR)/mbounds_samp.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Rhode Island" as name, * FROM mbounds_samp' $@ $<
+
+### Canada EEZ
+$(JSONDIR)/canada_eez.geojson: $(DATADIR)/canada_eez.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 # TODO: source for Canadian EEZ. I downloaded from here: http://www.marineregions.org/gazetteer.php?p=details&id=8493
 
