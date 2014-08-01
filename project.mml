@@ -1,19 +1,19 @@
 {
   "bounds": [
-    -72.0703,
-    -37.44,
-    73.6523,
-    56.945
+    -82.7051,
+    -38.2036,
+    45.6152,
+    45.1511
   ],
   "center": [
-    0,
-    0,
-    3
+    -16.1719,
+    1.2304,
+    4
   ],
   "format": "png8",
   "interactivity": false,
   "minzoom": 0,
-  "maxzoom": 9,
+  "maxzoom": 10,
   "srs": "+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
   "Stylesheet": [
     "style.mss"
@@ -106,25 +106,6 @@
       "advanced": {}
     },
     {
-      "geometry": "polygon",
-      "extent": [
-        -141.002990797,
-        40.040199965000056,
-        -47.743430710999974,
-        85.051
-      ],
-      "id": "canada_eez",
-      "class": "",
-      "Datasource": {
-        "file": "data/canada_eez.shp"
-      },
-      "layer": null,
-      "srs-name": "autodetect",
-      "srs": "",
-      "advanced": {},
-      "name": "canada_eez"
-    },
-    {
       "geometry": "point",
       "extent": [
         -179.58997888396897,
@@ -145,25 +126,6 @@
       "srs": "",
       "advanced": {},
       "name": "populated_places"
-    },
-    {
-      "geometry": "linestring",
-      "extent": [
-        -180,
-        -17.555000001999986,
-        180,
-        74.70884000400002
-      ],
-      "id": "USMaritimeLimitsNBoundaries",
-      "class": "",
-      "Datasource": {
-        "file": "data/USMaritimeLimitsNBoundaries.shp"
-      },
-      "layer": null,
-      "srs-name": "autodetect",
-      "srs": "",
-      "advanced": {},
-      "name": "USMaritimeLimitsNBoundaries"
     }
   ],
   "scale": 1,
