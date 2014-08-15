@@ -82,6 +82,15 @@ map.addLayer(geojsonLayer);
 var geojsonLayer = new L.GeoJSON.AJAX("geojson/ri_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
 map.addLayer(geojsonLayer);
 
+var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_mapp_subregions.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(geojsonLayer);
+
+var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_wcvi.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(geojsonLayer);
+
+var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_pncima.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(geojsonLayer);
+
 </script>
 </body>
 </html>
