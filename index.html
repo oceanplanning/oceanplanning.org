@@ -60,7 +60,7 @@ var map = L.map('map', {
       worldCopyJump: false
     })
     .addLayer(mapboxTiles)
-    .setView([35, -120], 4);
+    .setView([35, -105], 3);
 
 function popUp(feature, layer) {
     layer.bindPopup(feature.properties.name);
