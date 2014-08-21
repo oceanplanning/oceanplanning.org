@@ -76,20 +76,34 @@ function geojsonStyle(feature) {
   };
 }
 
-var geojsonLayer = new L.GeoJSON.AJAX("geojson/ma_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(geojsonLayer);
+var ma_layer = new L.GeoJSON.AJAX("geojson/ma_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(ma_layer);
 
-var geojsonLayer = new L.GeoJSON.AJAX("geojson/ri_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(geojsonLayer);
+var ri_layer = new L.GeoJSON.AJAX("geojson/ri_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(ri_layer);
 
-var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_mapp_subregions.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(geojsonLayer);
+var bc_mapp_layer = new L.GeoJSON.AJAX("geojson/bc_mapp_subregions.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(bc_mapp_layer);
 
-var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_wcvi.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(geojsonLayer);
+var bc_wcvi_layer = new L.GeoJSON.AJAX("geojson/bc_wcvi.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(bc_wcvi_layer);
 
-var geojsonLayer = new L.GeoJSON.AJAX("geojson/bc_pncima.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(geojsonLayer);
+var bc_pncima_layer = new L.GeoJSON.AJAX("geojson/bc_pncima.geojson", {style:geojsonStyle, onEachFeature:popUp});
+map.addLayer(bc_pncima_layer);
+
+var overlayMaps = {
+  "Massachusetts": ma_layer,
+  "Rhode Island": ri_layer,
+  "BC MAPP": bc_mapp_layer,
+  "BC WCVI": bc_wcvi_layer,
+  "BC PNCIMA": bc_pncima_layer
+};
+
+var options = {
+  collapsed: false
+};
+
+L.control.layers(null, overlayMaps, options).addTo(map);
 
 </script>
 </body>
