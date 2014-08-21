@@ -1,9 +1,9 @@
 {
   "bounds": [
-    -82.7051,
-    -38.2036,
-    45.6152,
-    45.1511
+    -118.7403,
+    -74.7527,
+    119.9707,
+    74.7989
   ],
   "center": [
     -16.1719,
@@ -19,6 +19,25 @@
     "style.mss"
   ],
   "Layer": [
+    {
+      "geometry": "linestring",
+      "extent": [
+        -179.9999893871037,
+        -85.051,
+        180,
+        85.051
+      ],
+      "id": "ne10mgraticules10",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_graticules_10.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "ne10mgraticules10"
+    },
     {
       "geometry": "polygon",
       "extent": [

@@ -9,6 +9,11 @@ Map {
 @na_land: lighten(#e4e4e4, 5%);
 @na_borders: darken(#e4e4e4, 15%);
 
+#ne10mgraticules10 {
+  line-width:0.1;
+  line-color:#168;
+}
+
 #land {
   ::outline {
     line-color: @na_borders;
