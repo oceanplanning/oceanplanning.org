@@ -145,6 +145,28 @@
       "srs": "",
       "advanced": {},
       "name": "populated_places"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -180,
+        -85.051,
+        179.9998970889459,
+        85.051
+      ],
+      "id": "ne10mgeographymarine",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_geography_marine_polys.shp",
+        "id": "ne10mgeographymarine",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "ne10mgeographymarine"
     }
   ],
   "scale": 1,

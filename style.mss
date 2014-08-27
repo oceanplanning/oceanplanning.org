@@ -101,3 +101,15 @@ Map {
     text-placements: "W,NW,SW,NE,E,SE";
   }
 }
+
+
+#ne10mgeographymarine[featurecla="ocean"] {
+  text-name:[name];
+  text-face-name: 'Arial Bold';
+  text-size: 20;
+  text-fill: #666;
+  text-halo-radius: 2;
+  text-halo-fill: #fff;
+  text-placement-type: simple;
+  text-avoid-edges: true;
+}
