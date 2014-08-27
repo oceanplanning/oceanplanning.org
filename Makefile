@@ -27,7 +27,7 @@ jsondir:
 
 # The unchanging base data for context:
 
-basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp
+basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp
 
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
@@ -57,9 +57,16 @@ $(DATADIR)/ne_10m_populated_places.shp: $(DATADIR)/ne_10m_populated_places.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
+$(DATADIR)/ne_10m_geography_marine_polys.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_geography_marine_polys.zip -o $@
+
+$(DATADIR)/ne_10m_geography_marine_polys.shp: $(DATADIR)/ne_10m_geography_marine_polys.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
 # The EEZ and protected area data:
 
-geojson: jsondir data $(JSONDIR)/us_eez.geojson $(JSONDIR)/canada_eez.geojson $(JSONDIR)/ma_coastalzone.geojson $(JSONDIR)/ri_coastalzone.geojson $(JSONDIR)/bc_mapp_subregions.geojson $(JSONDIR)/bc_wcvi.geojson $(JSONDIR)/bc_pncima.geojson
+geojson: jsondir data $(JSONDIR)/us_eez.geojson $(JSONDIR)/canada_eez.geojson $(JSONDIR)/ma_coastalzone.geojson $(JSONDIR)/ri_coastalzone.geojson $(JSONDIR)/bc_mapp_subregions.geojson $(JSONDIR)/bc_wcvi.geojson $(JSONDIR)/bc_pncima.geojson $(JSONDIR)/hi_humpback_sanctuary.geojson
 
 data: datadir $(DATADIR)/USMaritimeLimitsNBoundaries.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp $(DATADIR)/mbounds_samp.shp
 
@@ -125,6 +132,17 @@ $(DATADIR)/mbounds_samp.shp: $(DATADIR)/mbounds_samp.zip
 
 $(JSONDIR)/ri_coastalzone.geojson: $(DATADIR)/mbounds_samp.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Rhode Island" as name, * FROM mbounds_samp' $@ $<
+
+### Hawaii
+$(DATADIR)/hihwnms_py2.zip:
+	curl -sL http://sanctuaries.noaa.gov/library/imast/hihwnms_py2.zip -o $@
+
+$(DATADIR)/hihwnms_py.shp: $(DATADIR)/hihwnms_py2.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+$(JSONDIR)/hi_humpback_sanctuary.geojson: $(DATADIR)/hihwnms_py.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Hawaii" as name, * FROM hihwnms_py' $@ $<
 
 ### Canada EEZ
 $(JSONDIR)/canada_eez.geojson: $(DATADIR)/canada_eez.shp
