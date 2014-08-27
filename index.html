@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src='vendor/leaflet.ajax.min.js'></script>
+<script src='vendor/d3.v3.min.js'></script>
+<script src='vendor/queue.v1.min.js'></script>
 <script src='vendor/proj4-compressed.js'></script>
 <script src='vendor/proj4leaflet.js'></script>
 <style>
@@ -62,48 +64,119 @@ var map = L.map('map', {
     .addLayer(mapboxTiles)
     .setView([35, -105], 3);
 
-function popUp(feature, layer) {
-    layer.bindPopup(feature.properties.name);
-}
+queue()
+  .defer(d3.csv, "csv/data.csv")
+  .defer(d3.json, "geojson/ma_coastalzone.geojson")
+  .defer(d3.json, "geojson/ri_coastalzone.geojson")
+  .defer(d3.json, "geojson/bc_mapp_subregions.geojson")
+  .defer(d3.json, "geojson/bc_wcvi.geojson")
+//  .defer(d3.json, "geojson/bc_pncima.geojson")
+  .defer(d3.json, "geojson/hi_humpback_sanctuary.geojson")
+  .await(function(error,
+    csvdata,
+    ma_coastalzone_geojson,
+    ri_coastalzone_geojson,
+    bc_mapp_subregions_geojson,
+    bc_wcvi_geojson,
+//    bc_pncima_geojson,
+    hi_humpback_sanctuary_geojson
+  ) {
 
-function geojsonStyle(feature) {
-  return {
-    color: '#f09',
-    opacity: 0.8,
-    fillColor: '#f09',
-    fillOpacity: 0.3,
-    weight:2
-  };
-}
+    var overlayMaps = {};
 
-var ma_layer = new L.GeoJSON.AJAX("geojson/ma_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(ma_layer);
+    function popUp(feature, layer) {
+        var html = feature.properties.Location;
+        layer.bindPopup(html);
+    }
 
-var ri_layer = new L.GeoJSON.AJAX("geojson/ri_coastalzone.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(ri_layer);
+    var geojsonMarkerOptions = {
+        radius: 8,
+        fillColor: "steelblue",
+        color: "steelblue",
+        weight: 2,
+        opacity: 0.8,
+        fillOpacity: 0.3
+    };
 
-var bc_mapp_layer = new L.GeoJSON.AJAX("geojson/bc_mapp_subregions.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(bc_mapp_layer);
+    csvdata.forEach(function(row) {
+      if (row.Latitude && row.Longitude) {
+        var layer = L.geoJson({
+          "type": "Feature",
+          "properties": row,
+          "geometry": {
+            "type": "Point",
+            "coordinates": [row.Longitude, row.Latitude]
+          }
+        }, {
+          pointToLayer: function(feature, latlng) {
+            return L.circleMarker(latlng, geojsonMarkerOptions);
+          },
+          onEachFeature: popUp
+        });
+        map.addLayer(layer);
+        overlayMaps[row.Location] = layer;
+      }
+    });
 
-var bc_wcvi_layer = new L.GeoJSON.AJAX("geojson/bc_wcvi.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(bc_wcvi_layer);
+    // TODO: do this less stupidly
+    ma_coastalzone_geojson.features.forEach(function(feature){
+      feature.properties = csvdata[3];
+    });
+    ri_coastalzone_geojson.features.forEach(function(feature){
+      feature.properties = csvdata[10];
+    });
+    bc_mapp_subregions_geojson.features.forEach(function(feature){
+      feature.properties = csvdata[22];
+    });
+    bc_wcvi_geojson.features.forEach(function(feature){
+      feature.properties = csvdata[23];
+    });
+    hi_humpback_sanctuary_geojson.features.forEach(function(feature) {
+      feature.properties = csvdata[19];
+    });
 
-var bc_pncima_layer = new L.GeoJSON.AJAX("geojson/bc_pncima.geojson", {style:geojsonStyle, onEachFeature:popUp});
-map.addLayer(bc_pncima_layer);
+    function geojsonStyle(feature) {
+      return {
+        color: '#f09',
+        opacity: 0.8,
+        fillColor: '#f09',
+        fillOpacity: 0.3,
+        weight:2
+      };
+    }
 
-var overlayMaps = {
-  "Massachusetts": ma_layer,
-  "Rhode Island": ri_layer,
-  "BC MAPP": bc_mapp_layer,
-  "BC WCVI": bc_wcvi_layer,
-  "BC PNCIMA": bc_pncima_layer
-};
+    var ma_layer = new L.GeoJSON(ma_coastalzone_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    map.addLayer(ma_layer);
 
-var options = {
-  collapsed: false
-};
+    var ri_layer = new L.GeoJSON(ri_coastalzone_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    map.addLayer(ri_layer);
 
-L.control.layers(null, overlayMaps, options).addTo(map);
+    var bc_mapp_layer = new L.GeoJSON(bc_mapp_subregions_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    map.addLayer(bc_mapp_layer);
+
+    var bc_wcvi_layer = new L.GeoJSON(bc_wcvi_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    map.addLayer(bc_wcvi_layer);
+
+    //var bc_pncima_layer = new L.GeoJSON(bc_pncima_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    //map.addLayer(bc_pncima_layer);
+
+    var hi_layer = new L.GeoJSON(hi_humpback_sanctuary_geojson, {style:geojsonStyle, onEachFeature:popUp});
+    map.addLayer(hi_layer);
+
+    overlayMaps["Massachusetts"] = ma_layer;
+    overlayMaps["Rhode Island"] = ri_layer;
+    overlayMaps["BC MAPP"] = bc_mapp_layer;
+    overlayMaps["BC WCVI"] = bc_wcvi_layer;
+    //overlayMaps["BC PNCIMA"] = bc_pncima_layer;
+    overlayMaps["Hawaii"] = hi_layer;
+
+    var options = {
+      collapsed: false
+    };
+
+    L.control.layers(null, overlayMaps, options).addTo(map);
+
+});
 
 </script>
 </body>
