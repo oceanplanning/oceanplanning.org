@@ -114,7 +114,7 @@
       "id": "lakes",
       "class": "",
       "Datasource": {
-        "file": "/Users/alan/github/moore/data/ne_10m_lakes_laea.shp",
+        "file": "data/ne_10m_lakes_laea.shp",
         "id": "lakes",
         "project": "moore",
         "srs": ""
