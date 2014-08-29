@@ -31,7 +31,10 @@
       "class": "",
       "Datasource": {
         "file": "centerpoint.geojson",
-        "layer": "OGRGeoJSON"
+        "layer": "OGRGeoJSON",
+        "id": "centerpoint",
+        "project": "moore",
+        "srs": ""
       },
       "layer": null,
       "srs-name": "autodetect",
@@ -70,19 +73,16 @@
         171.70092393087836,
         54.58333423876736
       ],
-      "id": "world_eezs",
+      "id": "world_eez",
       "class": "",
       "Datasource": {
-        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea_usa_canada.shp",
-        "id": "worldeezv82014",
-        "project": "moore",
-        "srs": ""
+        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea_usa_canada.shp"
       },
       "layer": null,
       "srs-name": "autodetect",
       "srs": "",
       "advanced": {},
-      "name": "world_eezs"
+      "name": "world_eez"
     },
     {
       "geometry": "polygon",

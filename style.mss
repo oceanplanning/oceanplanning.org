@@ -67,30 +67,34 @@ Map {
 /*
  *  Draw EEZs for Canada and US only
  */
-#world_eezs[Sovereign='Canada'],
-#world_eezs[Sovereign='United States'] {
+#world_eez[Sovereign='Canada'],
+#world_eez[Sovereign='United States'] {
   ::glow_wide {
     line-width:20;
     line-color:#168;
     line-opacity:0.05;
     line-join: round;
+    line-cap: round;
   }
   ::glow_middle {
     line-width:10;
     line-color:#168;
     line-opacity:0.1;
     line-join: round;
+    line-cap: round;
   }
   ::glow {
     line-width:4;
     line-color:lighten(#168,10%);
     line-opacity:0.2;
     line-join: round;
+    line-cap: round;
   }
   line-width:0;
   line-color:#168;
   line-opacity:0.8;
   line-join: round;
+  line-cap: round;
   polygon-fill: @eez_water;
 }
 
@@ -102,7 +106,7 @@ Map {
   marker-width:6;
   marker-fill:gray;
   marker-line-color:#333;
-  marker-allow-overlap:false;
+  marker-allow-overlap:true;
   marker-ignore-placement:true;
   
   text-name:[NAMEASCII];
@@ -111,6 +115,7 @@ Map {
   text-fill: #666;
   text-halo-radius: 2;
   text-halo-fill: #fff;
+  text-allow-overlap: true;
   text-placement-type: simple;
   text-placements: "NE,E,SE,W,NW,SW";
   text-dx: 5;
@@ -132,6 +137,7 @@ Map {
   text-halo-fill: #fff;
   text-placement-type: simple;
   text-avoid-edges: true;
+  text-allow-overlap: true;
 }
 
 /*
@@ -147,4 +153,5 @@ Map {
   marker-fill: @non_eez_water;
   marker-line-color:#813;
   marker-line-width:0;
+  marker-allow-overlap: true;
 }
