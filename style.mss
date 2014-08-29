@@ -67,26 +67,30 @@ Map {
 /*
  *  Draw EEZs for Canada and US only
  */
-#worldeezv82014[Sovereign='Canada'],
-#worldeezv82014[Sovereign='United States'] {
+#world_eezs[Sovereign='Canada'],
+#world_eezs[Sovereign='United States'] {
   ::glow_wide {
     line-width:20;
     line-color:#168;
     line-opacity:0.05;
+    line-join: round;
   }
   ::glow_middle {
     line-width:10;
     line-color:#168;
     line-opacity:0.1;
+    line-join: round;
   }
   ::glow {
     line-width:4;
     line-color:lighten(#168,10%);
     line-opacity:0.2;
+    line-join: round;
   }
   line-width:0;
   line-color:#168;
   line-opacity:0.8;
+  line-join: round;
   polygon-fill: @eez_water;
 }
 

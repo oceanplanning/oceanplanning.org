@@ -65,15 +65,15 @@
     {
       "geometry": "polygon",
       "extent": [
-        null,
-        null,
-        null,
-        null
+        -5.620698388100448,
+        -28.19639489617505,
+        171.70092393087836,
+        54.58333423876736
       ],
-      "id": "worldeezv82014",
+      "id": "world_eezs",
       "class": "",
       "Datasource": {
-        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea.shp",
+        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea_usa_canada.shp",
         "id": "worldeezv82014",
         "project": "moore",
         "srs": ""
@@ -82,7 +82,7 @@
       "srs-name": "autodetect",
       "srs": "",
       "advanced": {},
-      "name": "worldeezv82014"
+      "name": "world_eezs"
     },
     {
       "geometry": "polygon",
