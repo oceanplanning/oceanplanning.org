@@ -1,8 +1,13 @@
 @non_eez_water: lighten(#e6eeee,5%);
 @eez_water: white;
+@background: white;
 
 Map {
-  background-color: @non_eez_water;
+  background-color: @background;
+  [zoom > 5] {
+    // By this point, nobody should pan over to the edge of the globe
+    background-color: @non_eez_water;
+  }
 }
 
 @non_na_land: #e4e4e4;
@@ -40,6 +45,9 @@ Map {
   }
 }
 
+/*
+ *  Draw States and provinces for Canada and US only
+ */
 #states_provinces[iso_a2="US"],
 #states_provinces[iso_a2="CA"]{
   polygon-fill: @na_land;
@@ -56,6 +64,9 @@ Map {
   }
 }
 
+/*
+ *  Draw EEZs for Canada and US only
+ */
 #worldeezv82014[Sovereign='Canada'],
 #worldeezv82014[Sovereign='United States'] {
   ::glow_wide {
@@ -79,6 +90,9 @@ Map {
   polygon-fill: @eez_water;
 }
 
+/*
+ *  City labels
+ */
 #populated_places[SCALERANK<2][zoom>=4],
 #populated_places[SCALERANK<4][zoom>=6] {
   marker-width:6;
@@ -102,7 +116,9 @@ Map {
   }
 }
 
-
+/*
+ *  Labels for marine features (currenly ocean only)
+ */
 #ne10mgeographymarine[featurecla="ocean"] {
   text-name:[name];
   text-face-name: 'Arial Bold';
@@ -112,4 +128,19 @@ Map {
   text-halo-fill: #fff;
   text-placement-type: simple;
   text-avoid-edges: true;
+}
+
+/*
+ *  Actually, use this point+radius to draw the disc of the earth
+ *  (There's got to be a better way)
+ */
+#centerpoint[zoom<=5] {
+  // Guessed theses through trial-and-error
+  marker-width: 650;
+  [zoom=3] { marker-width: 1300; }
+  [zoom=4] { marker-width: 2600; }
+  [zoom=5] { marker-width: 5200; }
+  marker-fill: @non_eez_water;
+  marker-line-color:#813;
+  marker-line-width:0;
 }

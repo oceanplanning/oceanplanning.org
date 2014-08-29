@@ -20,17 +20,37 @@
   ],
   "Layer": [
     {
+      "geometry": "point",
+      "extent": [
+        -105,
+        40,
+        -105,
+        40
+      ],
+      "id": "centerpoint",
+      "class": "",
+      "Datasource": {
+        "file": "centerpoint.geojson",
+        "layer": "OGRGeoJSON"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "centerpoint"
+    },
+    {
       "geometry": "linestring",
       "extent": [
-        -179.9999893871037,
-        -85.051,
-        180,
-        85.051
+        null,
+        null,
+        null,
+        null
       ],
       "id": "ne10mgraticules10",
       "class": "",
       "Datasource": {
-        "file": "data/ne_10m_graticules_10.shp"
+        "file": "data/ne_10m_graticules_10_laea.shp"
       },
       "layer": null,
       "srs-name": "autodetect",
@@ -63,15 +83,15 @@
     {
       "geometry": "polygon",
       "extent": [
-        -179.9999999999999,
-        -85.051,
-        180,
-        83.63410065300008
+        null,
+        null,
+        null,
+        null
       ],
       "id": "land",
       "class": "",
       "Datasource": {
-        "file": "data/ne_10m_land_scale_rank.shp"
+        "file": "data/ne_10m_land_scale_rank_laea.shp"
       },
       "layer": null,
       "srs-name": "autodetect",
@@ -82,15 +102,15 @@
     {
       "geometry": "polygon",
       "extent": [
-        -165.96558168829336,
-        -50.66966651748362,
-        177.1543791606897,
-        81.95520786930868
+        null,
+        null,
+        null,
+        null
       ],
       "id": "lakes",
       "class": "",
       "Datasource": {
-        "file": "/Users/alan/github/moore/data/ne_10m_lakes.shp",
+        "file": "/Users/alan/github/moore/data/ne_10m_lakes_laea.shp",
         "id": "lakes",
         "project": "moore",
         "srs": ""
@@ -107,17 +127,17 @@
       "srs": "",
       "geometry": "polygon",
       "Datasource": {
-        "file": "data/ne_10m_admin_1_states_provinces_lakes.shp",
+        "file": "data/ne_10m_admin_1_states_provinces_lakes_laea.shp",
         "type": "shape",
         "id": "states_provinces",
         "project": "moore",
         "srs": ""
       },
       "extent": [
-        -179.9999999999999,
-        -85.051,
-        180,
-        83.63410065300016
+        null,
+        null,
+        null,
+        null
       ],
       "class": "",
       "layer": null,
@@ -127,15 +147,15 @@
     {
       "geometry": "point",
       "extent": [
-        -179.58997888396897,
-        -85.051,
-        179.38330358817018,
-        82.48332318035943
+        null,
+        null,
+        null,
+        null
       ],
       "id": "populated_places",
       "class": "",
       "Datasource": {
-        "file": "data/ne_10m_populated_places.shp",
+        "file": "data/ne_10m_populated_places_laea.shp",
         "id": "populated_places",
         "project": "moore",
         "srs": ""
@@ -149,15 +169,15 @@
     {
       "geometry": "polygon",
       "extent": [
-        -180,
-        -85.051,
-        179.9998970889459,
-        85.051
+        null,
+        null,
+        null,
+        null
       ],
       "id": "ne10mgeographymarine",
       "class": "",
       "Datasource": {
-        "file": "data/ne_10m_geography_marine_polys.shp",
+        "file": "data/ne_10m_geography_marine_polys_laea.shp",
         "id": "ne10mgeographymarine",
         "project": "moore",
         "srs": ""

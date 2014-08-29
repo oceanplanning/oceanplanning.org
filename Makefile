@@ -27,7 +27,7 @@ jsondir:
 
 # The unchanging base data for context:
 
-basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp
+basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ne_10m_lakes.shp $(DATADIR)/ne_10m_graticules_10.shp
 
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
@@ -70,6 +70,26 @@ $(DATADIR)/ne_10m_ocean.zip:
 $(DATADIR)/ne_10m_ocean.shp: $(DATADIR)/ne_10m_ocean.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
+
+$(DATADIR)/ne_10m_lakes.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_lakes.zip -o $@
+
+$(DATADIR)/ne_10m_lakes.shp: $(DATADIR)/ne_10m_lakes.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+$(DATADIR)/ne_10m_graticules_10.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_graticules_10.zip -o $@
+
+$(DATADIR)/ne_10m_graticules_10.shp: $(DATADIR)/ne_10m_graticules_10.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+# rule to project any shapefile into Lambert Azimuthal Equal Area
+%_laea.shp: %.shp
+	ogr2ogr --config SHAPE_ENCODING WINDOWS-1252 --config OGR_ENABLE_PARTIAL_REPROJECTION TRUE -t_srs '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs' $@ $<
+
+basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp $(DATADIR)/ne_10m_land_scale_rank_laea.shp $(DATADIR)/ne_10m_populated_places_laea.shp $(DATADIR)/ne_10m_geography_marine_polys_laea.shp $(DATADIR)/ne_10m_ocean_laea.shp $(DATADIR)/ne_10m_lakes_laea.shp $(DATADIR)/ne_10m_graticules_10_laea.shp
 
 # The EEZ and protected area data:
 
