@@ -27,7 +27,7 @@ jsondir:
 
 # The unchanging base data for context:
 
-basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp
+basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp
 
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
@@ -61,6 +61,13 @@ $(DATADIR)/ne_10m_geography_marine_polys.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_geography_marine_polys.zip -o $@
 
 $(DATADIR)/ne_10m_geography_marine_polys.shp: $(DATADIR)/ne_10m_geography_marine_polys.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+$(DATADIR)/ne_10m_ocean.zip:
+	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_ocean.zip -o $@
+
+$(DATADIR)/ne_10m_ocean.shp: $(DATADIR)/ne_10m_ocean.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
@@ -100,11 +107,15 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceR
 
 ### British Columbia MaPP_subregions
 $(JSONDIR)/bc_mapp_subregions.geojson: $(DATADIR)/MaPP_subregions/mapp_subregions_jan2013.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia MaPP Subregions" as name, * FROM mapp_subregions_jan2013' $@ $<
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/bc_mapp_subregions_4326.shp $< && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/bc_mapp_subregions_clipped.shp $(DATADIR)/bc_mapp_subregions_4326.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia MaPP Subregions" as name, * FROM bc_mapp_subregions_clipped' $@ $(DATADIR)/bc_mapp_subregions_clipped.shp
 
 ### British Columbia West Coast Vancouver Island
 $(JSONDIR)/bc_wcvi.geojson: $(DATADIR)/WCVI_AMB_Boundary_Union/AMB_Boundary_Union.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia West Coast Vancouver Island" as name, * FROM AMB_Boundary_Union' $@ $<
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/bc_wcvi_4326.shp $< && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/bc_wcvi_clipped.shp $(DATADIR)/bc_wcvi_4326.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia West Coast Vancouver Island" as name, * FROM bc_wcvi_clipped' $@ $(DATADIR)/bc_wcvi_clipped.shp
 
 ### British Columbia PNCIMA
 $(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
@@ -120,7 +131,9 @@ $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp: $(DATADIR)/ma-coastal-zone-bound
 	touch $@
 
 $(JSONDIR)/ma_coastalzone.geojson: $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Massachusetts" as name, * FROM ma_coastal_zone' $@ $<
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/ma_coastalzone_4326.shp $< && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ma_coastalzone_clipped.shp $(DATADIR)/ma_coastalzone_4326.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Massachusetts" as name, * FROM ma_coastalzone_clipped' $@ $(DATADIR)/ma_coastalzone_clipped.shp
 
 ### Rhode Island
 $(DATADIR)/mbounds_samp.zip:
