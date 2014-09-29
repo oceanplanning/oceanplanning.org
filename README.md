@@ -1,7 +1,7 @@
 # Moore Foundation Ocean Maps
 
 ![image](screenshot.png)
-This project will map a variety of ocean protection areas ranging from thousands of square miles in the Pacific to a few square miles off Massachusetts. The maps will likely use an equal-area projection to reduce distortion, but one of the design challenges will be making that projection intelligible even when the zoom is very close, like in the Cape Cod example.
+This project will map a variety of ocean protection areas ranging from thousands of square miles in the Pacific to a few square miles off Massachusetts. The maps use an equal-area projection (specifically a [Lambert Azimuthal Equal Area](http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection) centered on 105ºW, 40ºN) to reduce distortion, but one of the design challenges will be making that projection intelligible even when the zoom is very close, like in the Cape Cod example.
 
 Another key priority of the client is that  updates are easy. Updates will be of a couple forms:
 
@@ -10,27 +10,19 @@ Another key priority of the client is that  updates are easy. Updates will be of
 
 In the case of #1, as much non-geo data as possible should be accessed from CSV files that can be edited in any spreadsheet program or text editor. for #2, geo data should be assumed to come as shapefiles with a documented standard format but no programmatic effort to transform non-compliant files to that format. Ideally, such data would be read directly from the filesystem, with no intervening database.
 
+The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process. 
+
 ## Branches (if appropriate)
 
-* List, describe, and link
-
-To clone a specific branch (to prevent having to switch branches when working
-on different components), use:
-
-```bash
-git clone git@github.com:stamen/repo-name.git -b <branch> repo-name-<branch>
-```
+Currently only `master`
 
 ## Heroku Apps (if appropriate)
 
-* List, describe, and link
+Currently no heroku apps.
 
 ## Installation
 
-```bash
-npm install
-...
-```
+TBD
 
 ## Usage + Configuration (specifically for libraries)
 
@@ -38,19 +30,13 @@ npm install
 // this is some sample code showing how things are used
 ```
 
-## Environment Variables (if appropriate)
-
-This can be configured using the following environment variables:
-
-* `ENV_VAR_1` - Purpose of this variable. Defaults to _x_.
-
 ## Dependencies
 
 ### Software
 
 _(These are implicit dependencies beyond what gets installed during the [installation](#Installation) step.)_
 
-Postgres? Javascript libraries? SASS? List 'em!
+Postgres? Javascript libraries? SASS? List 'em!``
 
 ### Data
 
@@ -62,10 +48,11 @@ Postgres? Javascript libraries? SASS? List 'em!
 
 * Location and (basic) description of images, existing CSS, HTML, etc.
 
-## How do I test it other than locally?
+## How do I test it?
 
-Are we using [prosthetic](https://github.com/stamen/prosthetic) or are there any other special methods required for testing? Describe those here if so.
+Test locally by typing `python -m SimpleHTTPServer` in the root directory.
 
 ## Deployment
 
+TBD. 
 If this is a live thing in the world, how do we push changes to the live thing?
