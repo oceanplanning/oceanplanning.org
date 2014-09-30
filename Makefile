@@ -86,7 +86,24 @@ basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp
 
 # The EEZ and protected area data:
 
-geojson: jsondir data $(JSONDIR)/us_eez.geojson $(JSONDIR)/canada_eez.geojson $(JSONDIR)/ma_coastalzone.geojson $(JSONDIR)/ri_coastalzone.geojson $(JSONDIR)/bc_mapp_subregions.geojson $(JSONDIR)/bc_wcvi.geojson $(JSONDIR)/bc_pncima.geojson $(JSONDIR)/hi_humpback_sanctuary.geojson
+geojson: jsondir data \
+$(JSONDIR)/us_eez.geojson \
+$(JSONDIR)/canada_eez.geojson \
+$(JSONDIR)/ma_coastalzone.geojson \
+$(JSONDIR)/ri_coastalzone.geojson \
+$(JSONDIR)/bc_mapp_subregions.geojson \
+$(JSONDIR)/bc_wcvi.geojson \
+$(JSONDIR)/bc_pncima.geojson \
+$(JSONDIR)/hi_humpback_sanctuary.geojson \
+$(JSONDIR)/LOMA_Beaufort_Sea.geojson \
+$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson \
+$(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson \
+$(JSONDIR)/LOMA_Pacific_North_Coast.geojson \
+$(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson \
+$(JSONDIR)/florida_keys.geojson \
+$(JSONDIR)/oregon.geojson \
+
+
 
 data: datadir $(DATADIR)/USMaritimeLimitsNBoundaries.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp $(DATADIR)/mbounds_samp.shp
 
@@ -175,6 +192,56 @@ $(JSONDIR)/canada_eez.geojson: $(DATADIR)/canada_eez.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 # TODO: source for Canadian EEZ. I downloaded from here: http://www.marineregions.org/gazetteer.php?p=details&id=8493
+
+### Beaufort Sea
+### Data comes from LOMA_Shapefiles.zip (Canada)
+$(JSONDIR)/LOMA_Beaufort_Sea.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Eastern Scotian Shelf (TODO: get replacement file. This was defective from Mary)
+### Data comes from LOMA_Shapefiles.zip (Canada)
+$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Eastern_Scotian_Shelf.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Gulf of Saint Lawrence
+### Data comes from LOMA_Shapefiles.zip (Canada)
+$(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Gulf_of_Saint_Lawrence.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Pacific North Coast
+### Data comes from LOMA_Shapefiles.zip (Canada)
+$(JSONDIR)/LOMA_Pacific_North_Coast.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Pacific_North_Coast.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Placentia Bay / Grand Banks
+### Data comes from LOMA_Shapefiles.zip (Canada)
+$(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Placentia_Bay___Grand_Banks.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Florida keys
+$(DATADIR)/fknms_py2.zip:
+	curl -sL http://sanctuaries.noaa.gov/library/imast/fknms_py2.zip -o $@
+
+$(DATADIR)/fknms_py.shp: $(DATADIR)/fknms_py2.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+$(JSONDIR)/florida_keys.geojson: $(DATADIR)/fknms_py.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Florida Keys" as name, * FROM fknms_py' $@ $<
+
+### Oregon
+$(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.zip:
+	curl -sL 'http://www.oregonocean.info/index.php?option=com_docman&task=doc_download&gid=819&Itemid=19' -o $@
+
+$(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp: $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+# TODO: will need to fix an erroneous projection here... maybe
+$(JSONDIR)/oregon.geojson: $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Oregon" as name, * FROM BASE_Territorial_Sea_Polygon_ESIshoreline' $@ $<
+
+
 
 # This would only work if all zip files had the same internal directory structure
 #$(DATADIR)/%.shp: $(DATADIR)/%.zip
