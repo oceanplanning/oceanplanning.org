@@ -127,6 +127,7 @@ Map {
 
 /*
  *  Labels for marine features (currenly ocean only)
+ *  (This needs a lot of help)
  */
 #ne10mgeographymarine[featurecla="ocean"] {
   text-name:[name];
@@ -138,6 +139,12 @@ Map {
   text-placement-type: simple;
   text-avoid-edges: true;
   text-allow-overlap: true;
+  [zoom<=3] {
+    text-size: 12;
+  }
+  [zoom<=2] {
+    text-size: 8;
+  }
 }
 
 /*
