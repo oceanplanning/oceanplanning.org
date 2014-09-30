@@ -20,9 +20,27 @@ Currently only `master`
 
 Currently no heroku apps.
 
+## Data preparation
+
+Processing the input shapefiles into raster tiles and GeoJSON vector overlays needs to happen before deployment of the site. Once the data has been processed, these files will not need to change unless the underlying data changes (if new planning areas are added, or their shapes change, etc.) 
+
+Currently the data preparation is done using a Makefile. **Note, the specific commands are subject to change!**
+
+To download and process the base data that is necessary for the raster basemap, run `make basedata`. To convert it into Lambert Azimuthal Equal-Area, run `make basedatalaea`.
+
+To download and process the geojson data, run `make geojson`.
+
+## Working on the basemap style
+
+To modify the basemap style, you need to link the TileMill project into your local tilemill directory. Do this with the following command:
+
+`make install`
+
+You will now have a TileMill project called "Moore".
+
 ## Installation
 
-TBD
+TBD. But it should be very simple.
 
 ## Usage + Configuration (specifically for libraries)
 
@@ -36,7 +54,7 @@ TBD
 
 _(These are implicit dependencies beyond what gets installed during the [installation](#Installation) step.)_
 
-Postgres? Javascript libraries? SASS? List 'em!``
+Postgres? Javascript libraries?
 
 ### Data
 
