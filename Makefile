@@ -198,9 +198,9 @@ $(JSONDIR)/canada_eez.geojson: $(DATADIR)/canada_eez.shp
 $(JSONDIR)/LOMA_Beaufort_Sea.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
-### Eastern Scotian Shelf (TODO: get replacement file. This was defective from Mary)
+### Eastern Scotian Shelf
 ### Data comes from LOMA_Shapefiles.zip (Canada)
-$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Eastern_Scotian_Shelf.shp
+$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Eastern_Scotian_Shelf_Updated.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Gulf of Saint Lawrence
