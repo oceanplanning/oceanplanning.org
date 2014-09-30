@@ -64,31 +64,82 @@ var map = L.map('map', {
     .addLayer(mapboxTiles)
     .setView([35, -105], 3);
 
-queue()
-  .defer(d3.csv, "csv/data.csv")
-  .defer(d3.json, "geojson/ma_coastalzone.geojson")
-  .defer(d3.json, "geojson/ri_coastalzone.geojson")
-  .defer(d3.json, "geojson/bc_mapp_subregions.geojson")
-  .defer(d3.json, "geojson/bc_wcvi.geojson")
-//  .defer(d3.json, "geojson/bc_pncima.geojson")
-  .defer(d3.json, "geojson/hi_humpback_sanctuary.geojson")
-  .await(function(error,
-    csvdata,
-    ma_coastalzone_geojson,
-    ri_coastalzone_geojson,
-    bc_mapp_subregions_geojson,
-    bc_wcvi_geojson,
-//    bc_pncima_geojson,
-    hi_humpback_sanctuary_geojson
-  ) {
+// This is awkward! Eventually we should store these geojson links in the csv
+var tasks = [
+  {
+    "file": "geojson/ma_coastalzone.geojson",
+    "label": "Massachusetts",
+    "csv_id": 3
+  }, {
+    "file": "geojson/ri_coastalzone.geojson",
+    "label": "Rhode Island",
+    "csv_id": 10
+  }, {
+    "file": "geojson/bc_mapp_subregions.geojson",
+    "label": "BC MAPP",
+    "csv_id": 22
+  }, {
+    "file": "geojson/bc_wcvi.geojson",
+    "label": "BC WCVI",
+    "csv_id": 23
+  }, {
+    "file": "geojson/bc_pncima.geojson",
+    "label": "BC PNCIMA",
+    "csv_id": 1
+  }, {
+    "file": "geojson/hi_humpback_sanctuary.geojson",
+    "label": "Hawaii",
+    "csv_id": 19
+  }, {
+    "file": "geojson/LOMA_Beaufort_Sea.geojson",
+    "label": "Beaufort Sea",
+    "csv_id": 19
+  }, {
+    "file": "geojson/LOMA_Eastern_Scotian_Shelf.geojson",
+    "label": "Eastern Scotian Shelf",
+    "csv_id": 19
+  }, {
+    "file": "geojson/LOMA_Gulf_of_Saint_Lawrence.geojson",
+    "label": "Gulf of Saint Lawrence",
+    "csv_id": 19
+  }, {
+    "file": "geojson/LOMA_Pacific_North_Coast.geojson",
+    "label": "Pacific North Coast",
+    "csv_id": 19
+  }, {
+    "file": "geojson/LOMA_Placentia_Bay___Grand_Banks.geojson",
+    "label": "Placentia Bay / Grand Banks",
+    "csv_id": 19
+  }, {
+    "file": "geojson/oregon.geojson",
+    "label": "Oregon",
+    "csv_id": 19
+  }, {
+    "file": "geojson/florida_keys.geojson",
+    "label": "Florida Keys",
+    "csv_id": 19
+  }
+];
+
+d3.csv("csv/data.csv", function(csvdata) {
+  var q = queue();
+  tasks.forEach(function(t) { q.defer(d3.json, t.file); });
+  q.awaitAll(function(error, results) {
+
+    // Apply the geojson objects to the tasks array
+    for(var i = 0; i < results.length; i++) {
+      tasks[i].geojson = results[i];
+    }
 
     var overlayMaps = {};
 
+    // Create a popup function that we'll add to each layer
     function popUp(feature, layer) {
         var html = feature.properties.Location;
         layer.bindPopup(html);
     }
 
+    // Create our marker style for layers represented only as points
     var geojsonMarkerOptions = {
         radius: 8,
         fillColor: "steelblue",
@@ -98,6 +149,7 @@ queue()
         fillOpacity: 0.3
     };
 
+    // Create point map layers for any rows that have lat & lon
     csvdata.forEach(function(row) {
       if (row.Latitude && row.Longitude) {
         var layer = L.geoJson({
@@ -118,21 +170,10 @@ queue()
       }
     });
 
-    // TODO: do this less stupidly
-    ma_coastalzone_geojson.features.forEach(function(feature){
-      feature.properties = csvdata[3];
-    });
-    ri_coastalzone_geojson.features.forEach(function(feature){
-      feature.properties = csvdata[10];
-    });
-    bc_mapp_subregions_geojson.features.forEach(function(feature){
-      feature.properties = csvdata[22];
-    });
-    bc_wcvi_geojson.features.forEach(function(feature){
-      feature.properties = csvdata[23];
-    });
-    hi_humpback_sanctuary_geojson.features.forEach(function(feature) {
-      feature.properties = csvdata[19];
+    tasks.forEach(function(task) {
+      task.geojson.features.forEach(function(feature){
+        feature.properties = csvdata[task.csv_id];
+      });
     });
 
     function geojsonStyle(feature) {
@@ -145,30 +186,11 @@ queue()
       };
     }
 
-    var ma_layer = new L.GeoJSON(ma_coastalzone_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    map.addLayer(ma_layer);
-
-    var ri_layer = new L.GeoJSON(ri_coastalzone_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    map.addLayer(ri_layer);
-
-    var bc_mapp_layer = new L.GeoJSON(bc_mapp_subregions_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    map.addLayer(bc_mapp_layer);
-
-    var bc_wcvi_layer = new L.GeoJSON(bc_wcvi_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    map.addLayer(bc_wcvi_layer);
-
-    //var bc_pncima_layer = new L.GeoJSON(bc_pncima_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    //map.addLayer(bc_pncima_layer);
-
-    var hi_layer = new L.GeoJSON(hi_humpback_sanctuary_geojson, {style:geojsonStyle, onEachFeature:popUp});
-    map.addLayer(hi_layer);
-
-    overlayMaps["Massachusetts"] = ma_layer;
-    overlayMaps["Rhode Island"] = ri_layer;
-    overlayMaps["BC MAPP"] = bc_mapp_layer;
-    overlayMaps["BC WCVI"] = bc_wcvi_layer;
-    //overlayMaps["BC PNCIMA"] = bc_pncima_layer;
-    overlayMaps["Hawaii"] = hi_layer;
+    tasks.forEach(function(task) {
+      task.layer = new L.GeoJSON(task.geojson, {style:geojsonStyle, onEachFeature:popUp});
+      map.addLayer(task.layer);
+      overlayMaps[task.label] = task.layer;
+    });
 
     var options = {
       collapsed: false
@@ -176,6 +198,7 @@ queue()
 
     L.control.layers(null, overlayMaps, options).addTo(map);
 
+  });
 });
 
 </script>
