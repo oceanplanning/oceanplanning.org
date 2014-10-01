@@ -138,7 +138,7 @@ d3.csv("csv/data.csv", function(csvdata) {
     // Create a popup function that we'll add to each layer
     function popUp(feature, layer) {
         if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
-          var html = feature.properties.Location;
+          var html = feature.properties.Location + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
         } else {
           var html = "Location not found";
         }
