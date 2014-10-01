@@ -103,6 +103,7 @@ $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson \
 $(JSONDIR)/NLUP_Boundary.geojson \
 $(JSONDIR)/florida_keys.geojson \
 $(JSONDIR)/oregon.geojson \
+$(JSONDIR)/great_lakes.geojson \
 
 
 
@@ -153,13 +154,13 @@ $(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia PNCIMA" as name, * FROM pncimabndy_inlets071031' $@ $<
 
 ### Massachusetts
-$(DATADIR)/ma-coastal-zone-boundary-2012.zip:
-	curl -sL http://www.mass.gov/eea/docs/czm/fcr-regs/ma-coastal-zone-boundary-2012.zip -o $@
+#$(DATADIR)/ma-coastal-zone-boundary-2012.zip:
+	#curl -sL http://www.mass.gov/eea/docs/czm/fcr-regs/ma-coastal-zone-boundary-2012.zip -o $@
 
 # The unzip generates an error, prepend a '-' to ignore it
-$(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp: $(DATADIR)/ma-coastal-zone-boundary-2012.zip
-	-unzip $< -d $(DATADIR) && \
-	touch $@
+#$(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp: $(DATADIR)/ma-coastal-zone-boundary-2012.zip
+	#-unzip $< -d $(DATADIR) && \
+	#touch $@
 
 $(JSONDIR)/ma_coastalzone.geojson: $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp
 	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/ma_coastalzone_4326.shp $< && \
@@ -221,7 +222,7 @@ $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson: $(DATADIR)/LOMA_Shapefiles/
 
 ### Nunavut
 ### NOTE, this data does not come from LOMA_Shapefiles.zip. From NLUP_Boundary.zip (Canada)
-$(JSONDIR)/NLUP_Boundary.geojson: $(DATADIR)/NLUP_Boundary/NLUP_Boundary.shp
+$(JSONDIR)/NLUP_Boundary.geojson: $(DATADIR)/NLUP_Boundary/NLUP_Boundary.shp $(DATADIR)/ne_10m_lakes.shp
 	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp $< && \
 	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp
@@ -248,6 +249,13 @@ $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp: $(DATADIR)/BASE_Territ
 # TODO: will need to fix an erroneous projection here... maybe
 $(JSONDIR)/oregon.geojson: $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Oregon" as name, * FROM BASE_Territorial_Sea_Polygon_ESIshoreline' $@ $<
+
+### Great Lakes
+$(JSONDIR)/great_lakes.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/ne_10m_lakes.shp
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $< && \
+	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/ne_10m_lakes.shp -dialect sqlite -sql "SELECT ST_union(Geometry),name_alt from ne_10m_lakes where name_alt = 'Great Lakes' group by name_alt" && \
+	ogr2ogr -clipsrc $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp -clipdstwhere "Region = Northeast" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp -skipfailures && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp
 
 
 
