@@ -67,57 +67,55 @@ var map = L.map('map', {
 // This is awkward! Eventually we should store these geojson links in the csv
 var tasks = [
   {
-    "file": "geojson/ma_coastalzone.geojson",
-    "label": "Massachusetts",
-    "csv_id": 3
-  }, {
-    "file": "geojson/ri_coastalzone.geojson",
-    "label": "Rhode Island",
-    "csv_id": 10
-  }, {
-    "file": "geojson/bc_mapp_subregions.geojson",
-    "label": "BC MAPP",
-    "csv_id": 22
-  }, {
-    "file": "geojson/bc_wcvi.geojson",
-    "label": "BC WCVI",
-    "csv_id": 23
-  }, {
-    "file": "geojson/bc_pncima.geojson",
-    "label": "BC PNCIMA",
-    "csv_id": 1
-  }, {
-    "file": "geojson/hi_humpback_sanctuary.geojson",
-    "label": "Hawaii",
-    "csv_id": 19
-  }, {
     "file": "geojson/LOMA_Beaufort_Sea.geojson",
     "label": "Beaufort Sea",
-    "csv_id": 19
+    "csv_id": 1
   }, {
     "file": "geojson/LOMA_Eastern_Scotian_Shelf.geojson",
     "label": "Eastern Scotian Shelf",
-    "csv_id": 19
+    "csv_id": 2
   }, {
-    "file": "geojson/LOMA_Gulf_of_Saint_Lawrence.geojson",
-    "label": "Gulf of Saint Lawrence",
-    "csv_id": 19
+    "file": "geojson/bc_mapp_subregions.geojson",
+    "label": "BC MAPP",
+    "csv_id": 3
   }, {
     "file": "geojson/LOMA_Pacific_North_Coast.geojson",
     "label": "Pacific North Coast",
-    "csv_id": 19
+    "file2": "geojson/bc_pncima.geojson",
+    "label2": "BC PNCIMA",
+    "csv_id": 4
+  }, {
+    "file": "geojson/bc_wcvi.geojson",
+    "label": "BC WCVI",
+    "csv_id": 5
   }, {
     "file": "geojson/LOMA_Placentia_Bay___Grand_Banks.geojson",
     "label": "Placentia Bay / Grand Banks",
-    "csv_id": 19
-  }, {
-    "file": "geojson/oregon.geojson",
-    "label": "Oregon",
-    "csv_id": 19
+    "csv_id": 6
   }, {
     "file": "geojson/florida_keys.geojson",
     "label": "Florida Keys",
-    "csv_id": 19
+    "csv_id": 18
+  }, {
+    "file": "geojson/ma_coastalzone.geojson",
+    "label": "Massachusetts",
+    "csv_id": 22
+  }, {
+    "file": "geojson/oregon.geojson",
+    "label": "Oregon",
+    "csv_id": 24
+  }, {
+    "file": "geojson/ri_coastalzone.geojson",
+    "label": "Rhode Island",
+    "csv_id": 25
+  }, {
+    "file": "geojson/hi_humpback_sanctuary.geojson",
+    "label": "Hawaii Humpback Whale National Marine Sanctuary",
+    "csv_id": 32
+  }, {
+    "file": "geojson/LOMA_Gulf_of_Saint_Lawrence.geojson",
+    "label": "Gulf of Saint Lawrence",
+    "csv_id": 39
   }
 ];
 
@@ -135,9 +133,38 @@ d3.csv("csv/data.csv", function(csvdata) {
 
     // Create a popup function that we'll add to each layer
     function popUp(feature, layer) {
-        var html = feature.properties.Location;
+        if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
+          var html = feature.properties.Location;
+        } else {
+          var html = "Location not found";
+        }
         layer.bindPopup(html);
     }
+
+
+    tasks.forEach(function(task) {
+      task.geojson.features.forEach(function(feature){
+        feature.properties = csvdata[task.csv_id-1]; // TODO: don't use index, use lookup
+      });
+    });
+
+    function geojsonStyle(feature) {
+      return {
+        color: '#f09',
+        opacity: 0.8,
+        fillColor: '#f09',
+        fillOpacity: 0.3,
+        weight:2
+      };
+    }
+
+    tasks.sort(function(a, b) { return d3.ascending(a.csv_id, b.csv_id);}).forEach(function(task) {
+      task.layer = new L.GeoJSON(task.geojson, {style:geojsonStyle, onEachFeature:popUp});
+      map.addLayer(task.layer);
+      var label = task.geojson.features[0].properties.Location;
+      if (!label) label = "no shape";
+      overlayMaps[task.csv_id + ": " + label] = task.layer;
+    });
 
     // Create our marker style for layers represented only as points
     var geojsonMarkerOptions = {
@@ -150,7 +177,7 @@ d3.csv("csv/data.csv", function(csvdata) {
     };
 
     // Create point map layers for any rows that have lat & lon
-    csvdata.forEach(function(row) {
+    csvdata.sort(function(a,b) { return d3.ascending(a.ID, b.ID);}).forEach(function(row) {
       if (row.Latitude && row.Longitude) {
         var layer = L.geoJson({
           "type": "Feature",
@@ -166,30 +193,8 @@ d3.csv("csv/data.csv", function(csvdata) {
           onEachFeature: popUp
         });
         map.addLayer(layer);
-        overlayMaps[row.Location] = layer;
+        overlayMaps[row.ID + ": " + row.Location] = layer;
       }
-    });
-
-    tasks.forEach(function(task) {
-      task.geojson.features.forEach(function(feature){
-        feature.properties = csvdata[task.csv_id];
-      });
-    });
-
-    function geojsonStyle(feature) {
-      return {
-        color: '#f09',
-        opacity: 0.8,
-        fillColor: '#f09',
-        fillOpacity: 0.3,
-        weight:2
-      };
-    }
-
-    tasks.forEach(function(task) {
-      task.layer = new L.GeoJSON(task.geojson, {style:geojsonStyle, onEachFeature:popUp});
-      map.addLayer(task.layer);
-      overlayMaps[task.label] = task.layer;
     });
 
     var options = {
