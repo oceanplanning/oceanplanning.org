@@ -100,6 +100,7 @@ $(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson \
 $(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson \
 $(JSONDIR)/LOMA_Pacific_North_Coast.geojson \
 $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson \
+$(JSONDIR)/NLUP_Boundary.geojson \
 $(JSONDIR)/florida_keys.geojson \
 $(JSONDIR)/oregon.geojson \
 
@@ -217,6 +218,13 @@ $(JSONDIR)/LOMA_Pacific_North_Coast.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Pac
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Placentia_Bay___Grand_Banks.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+
+### Nunavut
+### NOTE, this data does not come from LOMA_Shapefiles.zip. From NLUP_Boundary.zip (Canada)
+$(JSONDIR)/NLUP_Boundary.geojson: $(DATADIR)/NLUP_Boundary/NLUP_Boundary.shp
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp $< && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp
 
 ### Florida keys
 $(DATADIR)/fknms_py2.zip:
