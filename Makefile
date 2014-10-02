@@ -27,7 +27,7 @@ jsondir:
 
 # The unchanging base data for context:
 
-basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ne_10m_lakes.shp $(DATADIR)/ne_10m_graticules_10.shp
+basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ne_10m_lakes.shp $(DATADIR)/ne_10m_graticules_10.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
 
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
@@ -104,6 +104,9 @@ $(JSONDIR)/NLUP_Boundary.geojson \
 $(JSONDIR)/florida_keys.geojson \
 $(JSONDIR)/oregon.geojson \
 $(JSONDIR)/great_lakes.geojson \
+$(JSONDIR)/pacific_islands.geojson \
+$(JSONDIR)/us_caribbean.geojson \
+$(JSONDIR)/us_west_coast.geojson \
 
 
 
@@ -136,6 +139,10 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions.zip:
 $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp: $(DATADIR)/NationalMarineFisheriesServiceRegions.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
+
+$(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp
+	ogr2ogr -t_srs "EPSG:4326" $@ $< && \
+
 
 ### British Columbia MaPP_subregions
 $(JSONDIR)/bc_mapp_subregions.geojson: $(DATADIR)/MaPP_subregions/mapp_subregions_jan2013.shp
@@ -246,20 +253,27 @@ $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp: $(DATADIR)/BASE_Territ
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
-# TODO: will need to fix an erroneous projection here... maybe
 $(JSONDIR)/oregon.geojson: $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Oregon" as name, * FROM BASE_Territorial_Sea_Polygon_ESIshoreline' $@ $<
 
 ### Great Lakes
-$(JSONDIR)/great_lakes.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/ne_10m_lakes.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $< && \
+$(JSONDIR)/great_lakes.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/ne_10m_lakes.shp
 	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/ne_10m_lakes.shp -dialect sqlite -sql "SELECT ST_union(Geometry),name_alt from ne_10m_lakes where name_alt = 'Great Lakes' group by name_alt" && \
-	ogr2ogr -clipsrc $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp -clipdstwhere "Region = Northeast" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp -skipfailures && \
+	ogr2ogr -clipsrc $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp -clipdstwhere "Region = Northeast" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp
 
+### Pacific Islands
+$(JSONDIR)/pacific_islands.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
+	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Wake Island' or Country = 'Northern Mariana Islands and Guam' or Country = 'Johnston Atoll' or Country = 'Howland Island and Baker Island' or Country = 'Palmyra Atoll' or Country = 'Jarvis Island' or Country = 'American Samoa' or Country = 'Hawaii' group by Sovereign" && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp
 
+### US Caribbean
+$(JSONDIR)/us_caribbean.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
+	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Puerto Rico' or Country = 'Virgin Islands of the United States' group by Sovereign" && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp
 
-# This would only work if all zip files had the same internal directory structure
-#$(DATADIR)/%.shp: $(DATADIR)/%.zip
-#	unzip $< -d $(DATADIR) && \
-#	touch $@
+### US West Coast
+$(JSONDIR)/us_west_coast.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/ne_10m_ocean.shp
+	ogr2ogr -clipsrc -130 25 -115 50 $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp && \
+	ogr2ogr -where "EEZ_ID='163'" $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp
