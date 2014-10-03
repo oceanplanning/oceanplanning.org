@@ -190,7 +190,7 @@ d3.csv("csv/data.csv", function(csvdata) {
       };
     }
 
-    tasks.sort(function(a, b) { return d3.ascending(a.csv_id, b.csv_id);}).forEach(function(task) {
+    tasks.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);}).forEach(function(task) {
       task.layer = new L.GeoJSON(task.geojson, {style:geojsonStyle, onEachFeature:popUp});
       map.addLayer(task.layer);
       var label = task.geojson.features[0].properties.Location;
@@ -209,7 +209,7 @@ d3.csv("csv/data.csv", function(csvdata) {
     };
 
     // Create point map layers for any rows that have lat & lon
-    csvdata.sort(function(a,b) { return d3.ascending(a.ID, b.ID);}).forEach(function(row) {
+    csvdata.sort(function(a,b) { return d3.ascending(+a.ID, +b.ID);}).forEach(function(row) {
       if (row.Latitude && row.Longitude) {
         var layer = L.geoJson({
           "type": "Feature",
