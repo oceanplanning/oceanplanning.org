@@ -91,7 +91,10 @@ $(JSONDIR)/us_eez.geojson \
 $(JSONDIR)/canada_eez.geojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
-$(JSONDIR)/bc_mapp_subregions.geojson \
+$(JSONDIR)/bc_mapp_haida_gwaii.geojson \
+$(JSONDIR)/bc_mapp_north_coast.geojson \
+$(JSONDIR)/bc_mapp_central_coast.geojson \
+$(JSONDIR)/bc_mapp_north_vancouver_island.geojson \
 $(JSONDIR)/bc_wcvi.geojson \
 $(JSONDIR)/bc_pncima.geojson \
 $(JSONDIR)/hi_humpback_sanctuary.geojson \
@@ -145,10 +148,28 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceR
 
 
 ### British Columbia MaPP_subregions
-$(JSONDIR)/bc_mapp_subregions.geojson: $(DATADIR)/MaPP_subregions/mapp_subregions_jan2013.shp
+$(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp: $(DATADIR)/MaPP_subregions/mapp_subregions_jan2013.shp
 	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/bc_mapp_subregions_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/bc_mapp_subregions_clipped.shp $(DATADIR)/bc_mapp_subregions_4326.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia MaPP Subregions" as name, * FROM bc_mapp_subregions_clipped' $@ $(DATADIR)/bc_mapp_subregions_clipped.shp
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $@ $(DATADIR)/bc_mapp_subregions_4326.shp
+
+$(JSONDIR)/bc_mapp_subregions.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia MaPP Subregions" as name, * FROM bc_mapp_subregions_clipped' $@ $<
+
+### Haida Gwaii (extracted from MaPP)
+$(JSONDIR)/bc_mapp_haida_gwaii.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Haida Gwaii - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "Haida Gwaii"' $@ $<
+
+### BC North Coast (extracted from MaPP)
+$(JSONDIR)/bc_mapp_north_coast.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Coast - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "North Coast"' $@ $<
+
+### BC Central Coast (extracted from MaPP)
+$(JSONDIR)/bc_mapp_central_coast.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Central Coast - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "Central Coast"' $@ $<
+
+### BC North Vancouver Island (extracted from MaPP)
+$(JSONDIR)/bc_mapp_north_vancouver_island.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Vancouver Island - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "North Vancouver Island"' $@ $<
 
 ### British Columbia West Coast Vancouver Island
 $(JSONDIR)/bc_wcvi.geojson: $(DATADIR)/WCVI_AMB_Boundary_Union/AMB_Boundary_Union.shp
