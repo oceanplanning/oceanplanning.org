@@ -110,6 +110,7 @@ $(JSONDIR)/great_lakes.geojson \
 $(JSONDIR)/pacific_islands.geojson \
 $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
+$(JSONDIR)/washington_state.geojson \
 
 
 
@@ -299,3 +300,8 @@ $(JSONDIR)/us_west_coast.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegio
 	ogr2ogr -clipsrc -130 25 -115 50 $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp && \
 	ogr2ogr -where "EEZ_ID='163'" $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp
+
+### Washington State
+$(JSONDIR)/washington_state.geojson: $(DATADIR)/WA_state_MSP/WA_state_MSP.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Washington State" as name, * FROM WA_state_MSP' $@ $<
+
