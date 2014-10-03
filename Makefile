@@ -252,7 +252,8 @@ $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson: $(DATADIR)/LOMA_Shapefiles/
 ### NOTE, this data does not come from LOMA_Shapefiles.zip. From NLUP_Boundary.zip (Canada)
 $(JSONDIR)/NLUP_Boundary.geojson: $(DATADIR)/NLUP_Boundary/NLUP_Boundary.shp $(DATADIR)/ne_10m_lakes.shp
 	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp && \
+	ogr2ogr $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp -dialect sqlite -sql "SELECT ST_union(Geometry),'Nunavut' as name from NLUP_Boundary_4326 group by name" && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp
 
 ### Florida keys
