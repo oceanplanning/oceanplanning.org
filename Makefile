@@ -78,6 +78,10 @@ $(DATADIR)/ne_10m_graticules_10.shp: $(DATADIR)/ne_10m_graticules_10.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
+#$(DATADIR)/disputed_dixon_entrance.shp: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp 
+
+#$(DATADIR)/disputed_beaufort_sea.shp: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp 
+
 # rule to project any shapefile into Lambert Azimuthal Equal Area
 %_laea.shp: %.shp
 	ogr2ogr --config SHAPE_ENCODING WINDOWS-1252 --config OGR_ENABLE_PARTIAL_REPROJECTION TRUE -t_srs '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs' $@ $<
