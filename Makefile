@@ -111,6 +111,7 @@ $(JSONDIR)/pacific_islands.geojson \
 $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
 $(JSONDIR)/washington_state.geojson \
+$(JSONDIR)/south_atlantic.geojson \
 
 
 
@@ -304,4 +305,17 @@ $(JSONDIR)/us_west_coast.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegio
 ### Washington State
 $(JSONDIR)/washington_state.geojson: $(DATADIR)/WA_state_MSP/WA_state_MSP.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Washington State" as name, * FROM WA_state_MSP' $@ $<
+
+### South Atlantic
+$(DATADIR)/sa_eez_off_states.zip:
+	curl -sL 'http://sero.nmfs.noaa.gov/maps_gis_data/fisheries/s_atlantic/geodata/sa_eez_off_states.zip' -o $@
+
+$(DATADIR)/SA_EEZ_off_states.shp: $(DATADIR)/sa_eez_off_states.zip
+	unzip $< -d $(DATADIR) && \
+	touch $@
+
+# Note, here we add a buffer of 0.001 degrees so our union doesn't have slivers
+$(JSONDIR)/south_atlantic.geojson: $(DATADIR)/SA_EEZ_off_states.shp
+	ogr2ogr $(DATADIR)/sa_eez_off_states_dissolved.shp $(DATADIR)/SA_EEZ_off_states.shp -dialect sqlite -sql "SELECT ST_union(ST_buffer(Geometry,0.001)),'South Atlantic' as name from SA_EEZ_off_states group by name" && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT * FROM sa_eez_off_states_dissolved' $@ $(DATADIR)/sa_eez_off_states_dissolved.shp
 
