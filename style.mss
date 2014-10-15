@@ -130,14 +130,23 @@ Map {
  *  (This needs a lot of help)
  */
 #ne10mgeographymarine[featurecla="ocean"] {
-  text-name:[name];
+  text-name:"";
+  [name="NORTH PACIFIC OCEAN"] {
+    text-name:"PACIFIC\nOCEAN" + [namealt]; // we know namealt is empty
+  }
+  [name="NORTH ATLANTIC OCEAN"] {
+    text-name:"ATLANTIC\nOCEAN" + [namealt];  // we know namealt is empty
+  }
+  [name="ARCTIC OCEAN"] {
+    text-name:"ARCTIC\nOCEAN" + [namealt];  // we know namealt is empty
+  }
   text-face-name: 'Arial Bold';
   text-size: 20;
   text-fill: #666;
   text-halo-radius: 2;
   text-halo-fill: #fff;
   text-placement-type: simple;
-  text-avoid-edges: true;
+  text-avoid-edges: false;
   text-allow-overlap: true;
   [zoom<=3] {
     text-size: 12;
