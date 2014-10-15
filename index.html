@@ -21,6 +21,11 @@
 
 <script>
 
+function getRadiusByZoom(zoom) {
+  //return (Math.pow(2,zoom))/2; // base 2 keeps them same geographical size. Dividing by 2 makes that size smaller
+  return (Math.pow(1.7,zoom))/2; // base < 2 means they get bigger as you zoom, but not as big as the geography does
+}
+
 var crs = new L.Proj.CRS(
     'EPSG:2163',  // Guessing
     //'EPSG:3408', 
@@ -170,6 +175,7 @@ d3.csv("csv/data.csv", function(csvdata) {
     }
 
     var overlayMaps = {};
+    var markerList = []; // so we can iterate and change size
 
     // Create a popup function that we'll add to each layer
     function popUp(feature, layer) {
@@ -208,7 +214,7 @@ d3.csv("csv/data.csv", function(csvdata) {
 
     // Create our marker style for layers represented only as points
     var geojsonMarkerOptions = {
-        radius: 8,
+        radius: getRadiusByZoom(3),
         fillColor: "#126063",
         color: "#126063",
         weight: 2,
@@ -228,7 +234,9 @@ d3.csv("csv/data.csv", function(csvdata) {
           }
         }, {
           pointToLayer: function(feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
+            var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+            markerList.push(circleMarker);
+            return circleMarker;
           },
           onEachFeature: popUp
         });
@@ -242,6 +250,14 @@ d3.csv("csv/data.csv", function(csvdata) {
     };
 
     L.control.layers(null, overlayMaps, options).addTo(map);
+
+    map.on('zoomend', function() {
+      var currentZoom = map.getZoom();
+      markerList.forEach(function(marker) {
+        marker.setRadius(getRadiusByZoom(currentZoom));
+        console.log(currentZoom, getRadiusByZoom(currentZoom));
+      });
+    });
 
   });
 });
