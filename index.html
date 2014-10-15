@@ -61,13 +61,14 @@ var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore/{z}/
     attribution: ''
 });
 
+var startZoom = 3;
 var map = L.map('map', { 
       crs: crs,
       continuousWorld: false,
       worldCopyJump: false
     })
     .addLayer(mapboxTiles)
-    .setView([35, -105], 3);
+    .setView([35, -105], startZoom);
 
 // This is awkward! Eventually we should store these geojson links in the csv
 var tasks = [
@@ -194,19 +195,34 @@ d3.csv("csv/data.csv", function(csvdata) {
       });
     });
 
+    var geojsonPolyStyle = {
+      color: '#126063',
+      opacity: 0.6,
+      fillColor: '#126063',
+      fillOpacity: 0.3,
+      weight:1
+    };
+    var geojsonPolyHighlighted = {
+      color: '#0ff',
+      opacity: 0.6,
+      fillColor: '#0ff',
+      fillOpacity: 0.3,
+      weight:1
+    };
+
     function geojsonStyle(feature) {
-      return {
-        color: '#126063',
-        opacity: 0.6,
-        fillColor: '#126063',
-        fillOpacity: 0.3,
-        weight:1
-      };
+      return geojsonPolyStyle;
     }
 
     tasks.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);}).forEach(function(task) {
       task.layer = new L.GeoJSON(task.geojson, {style:geojsonStyle, onEachFeature:popUp});
       map.addLayer(task.layer);
+      task.layer.on("mouseover", function (e) {
+        task.layer.setStyle(geojsonPolyHighlighted);
+      });
+      task.layer.on("mouseout", function (e) {
+        task.layer.setStyle(geojsonPolyStyle);
+      });
       var label = task.geojson.features[0].properties.Location;
       if (!label) label = "no shape";
       overlayMaps[task.csv_id + ": " + label] = task.layer;
@@ -214,9 +230,15 @@ d3.csv("csv/data.csv", function(csvdata) {
 
     // Create our marker style for layers represented only as points
     var geojsonMarkerOptions = {
-        radius: getRadiusByZoom(3),
         fillColor: "#126063",
         color: "#126063",
+        weight: 2,
+        opacity: 0.6,
+        fillOpacity: 0.3
+    };
+    var geojsonMarkerHighlighted = {
+        fillColor: "#0ff",
+        color: "#0ff",
         weight: 2,
         opacity: 0.6,
         fillOpacity: 0.3
@@ -236,11 +258,18 @@ d3.csv("csv/data.csv", function(csvdata) {
           pointToLayer: function(feature, latlng) {
             var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
             markerList.push(circleMarker);
+            circleMarker.setRadius(getRadiusByZoom(startZoom));
             return circleMarker;
           },
           onEachFeature: popUp
         });
         map.addLayer(layer);
+        layer.on("mouseover", function (e) {
+          layer.setStyle(geojsonMarkerHighlighted);
+        });
+        layer.on("mouseout", function (e) {
+          layer.setStyle(geojsonMarkerOptions);
+        });
         overlayMaps[row.ID + ": " + row.Location] = layer;
       }
     });
