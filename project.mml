@@ -191,6 +191,44 @@
       "srs": "",
       "advanced": {},
       "name": "ne10mgeographymarine"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -141.00059139614513,
+        69.64620230920164,
+        -137.568888889,
+        73.39877033889837
+      ],
+      "id": "disputedbeaufortsea",
+      "class": "disputed",
+      "Datasource": {
+        "file": "data/disputed_beaufort_sea.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "disputedbeaufortsea"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -133.28394923039224,
+        54.36416666700006,
+        -129.96859578699997,
+        55.89810115486141
+      ],
+      "id": "disputeddixonentranc",
+      "class": "disputed",
+      "Datasource": {
+        "file": "data/disputed_dixon_entrance.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "disputeddixonentranc"
     }
   ],
   "scale": 1,

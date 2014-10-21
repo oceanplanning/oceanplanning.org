@@ -90,12 +90,37 @@ Map {
     line-join: round;
     line-cap: round;
   }
-  line-width:0;
-  line-color:#168;
+  line-width:2;
+  line-color:lighten(#168,10%);
   line-opacity:0.8;
   line-join: round;
   line-cap: round;
   polygon-fill: @eez_water;
+}
+
+.disputed {
+  line-width:3;
+  //line-color:lighten(#168,10%);
+  line-color: #999;
+  polygon-opacity:0.2;
+  polygon-pattern-file: url("images/whitestripes_24.png");
+  [zoom<=5] {
+    line-width:2;
+    polygon-pattern-file: url("images/whitestripes_18.png");
+  }
+  //polygon-fill: #168;
+  polygon-fill: gray;
+  
+  ::overlay {
+    polygon-fill: transparent;
+    polygon-opacity: 0;
+    line-width:3;
+    line-color: #999;
+    [zoom<=5] {
+      line-width:2;
+    }
+  }
+  
 }
 
 /*
@@ -218,3 +243,4 @@ Map {
   marker-line-width:0;
   marker-allow-overlap: true;
 }
+
