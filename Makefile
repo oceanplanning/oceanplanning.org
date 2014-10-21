@@ -1,5 +1,6 @@
 DATADIR := data
 JSONDIR := geojson
+TOPOJSON := /usr/local/bin/topojson
 SHELL := /bin/bash
 DATED=$(shell date '+%Y-%m-%d')
 
@@ -122,6 +123,35 @@ $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
 $(JSONDIR)/washington_state.geojson \
 $(JSONDIR)/south_atlantic.geojson \
+
+# Create topojson file. -q is quantization, -p means preserve all properties
+
+topojson: geojson
+	$(TOPOJSON) -q 10000 -p -o $(JSONDIR)/planning_areas.topojson \
+$(JSONDIR)/ma_coastalzone.geojson \
+$(JSONDIR)/ri_coastalzone.geojson \
+$(JSONDIR)/bc_mapp_haida_gwaii.geojson \
+$(JSONDIR)/bc_mapp_north_coast.geojson \
+$(JSONDIR)/bc_mapp_central_coast.geojson \
+$(JSONDIR)/bc_mapp_north_vancouver_island.geojson \
+$(JSONDIR)/bc_wcvi.geojson \
+$(JSONDIR)/bc_pncima.geojson \
+$(JSONDIR)/hi_humpback_sanctuary.geojson \
+$(JSONDIR)/LOMA_Beaufort_Sea.geojson \
+$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson \
+$(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson \
+$(JSONDIR)/LOMA_Pacific_North_Coast.geojson \
+$(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson \
+$(JSONDIR)/NLUP_Boundary.geojson \
+$(JSONDIR)/florida_keys.geojson \
+$(JSONDIR)/oregon.geojson \
+$(JSONDIR)/great_lakes.geojson \
+$(JSONDIR)/pacific_islands.geojson \
+$(JSONDIR)/us_caribbean.geojson \
+$(JSONDIR)/us_west_coast.geojson \
+$(JSONDIR)/washington_state.geojson \
+$(JSONDIR)/south_atlantic.geojson \
+
 
 
 
