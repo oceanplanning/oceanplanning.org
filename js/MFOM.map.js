@@ -22,7 +22,8 @@
         var map = L.map(selector, {
                 crs: MFOM.config.map.crs,
                 continuousWorld: false,
-                worldCopyJump: false
+                worldCopyJump: false,
+                scrollWheelZoom: false
             })
             .addLayer(MFOM.config.map.mapboxTiles)
             .setView([35, -105], MFOM.config.map.startZoom);
@@ -33,7 +34,7 @@
             var currentZoom = map.getZoom();
             markerList.forEach(function(marker) {
                 marker.setRadius(getRadiusByZoom(currentZoom));
-                console.log(currentZoom, getRadiusByZoom(currentZoom));
+                //console.log(currentZoom, getRadiusByZoom(currentZoom));
             });
         });
 

@@ -1,3 +1,234 @@
 
-body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
+/* base layout */
+html,
+body,
+.container,
+.main {
+    height: 100%;
+}
+
+body,
+.container,
+.main {
+    margin:0;
+    padding:0;
+}
+
+.nav {
+    padding: 1.2em 1.875em;
+    width: 100%;
+}
+.nav div {
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+}
+.nav div:first-child {
+    width: 70%;
+}
+.nav div:last-child {
+    width: 29%;
+    text-align: right;
+}
+
+#map {
+    position:relative;
+    width:100%;
+    height: 100%;
+}
+
+.panel {
+    position: absolute;
+}
+
+.panel.filters {
+    bottom: 1.5%;
+    left: 1.2em;
+}
+
+
+
+/* typography */
+.heading {
+    margin: 0;
+    font-size: 1.6em;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.sub-heading {
+    font-size: 1.15em;
+    margin: 0;
+    font-weight: 300;
+    line-height: 1;
+    padding-top: 5px;
+}
+
+.txt-copy {
+    font-size: 0.75em;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+
+
+/* base styles */
+
+button.link {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+button.link:hover {
+    text-decoration: underline;
+}
+button.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+button.disabled:hover {
+    text-decoration: none;
+}
+
+.modal {
+    background: #fff;
+}
+
+.filters p.txt-copy {
+    margin: 0 0 10px 3px;
+}
+.filter-row {
+    margin-bottom: 5px;
+}
+.filter-row:last-child {
+    margin-bottom: 0;
+}
+
+.filter-row ul {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    zoom: 1;
+}
+
+.filter-row li {
+    float: left;
+    margin: 0 2px 0 0;
+}
+
+.filter-row li:last-child {
+    margin-right: 0;
+}
+
+.filter-row button {
+    background: #bdbdbd;
+    line-height: 40px;
+    padding: 0 6px;
+    font-size: 0.65em;
+}
+.filter-row li:first-child button {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.filter-row li:last-child button {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.filter-row button.disabled {
+    background: #e5e5e5;
+}
+
+/* tabs */
+.tabs {
+    position: relative;
+    width: 100%;
+}
+.tabs .filter-row {
+    margin-bottom: 0;
+}
+.tabs .filter-row ul {
+    width: 100%;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.tabs .filter-row li:first-child {
+    width: 19%;
+}
+.tabs .filter-row li:last-child {
+    width: 80%;
+}
+
+.tabs .filter-row li:first-child button {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 0px;
+}
+.tabs .filter-row li:last-child button {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 0px;
+    text-align: left;
+}
+.tabs .filter-row button {
+    line-height: 20px;
+    width: 100%;
+}
+.tabs .tabs-inner {
+    position: relative;
+    margin: -5px 0 0 0;
+    background: #e5e5e5;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 2px solid #fff;
+    width: 100%;
+
+}
+.tab {
+    padding: 0px 5px;
+
+}
+.tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.tab li {
+    font-size: 0.75em;
+    line-height: 2.2;
+    border-bottom: 1px dashed white;
+}
+.tab li:last-child {
+    border-bottom: none;
+}
+
+.tab .key {
+
+}
+.tab .value {
+    font-weight: 300;
+    margin-left: 5px;
+}
+
+
+/* Clearfix */
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+
+
+

@@ -11,10 +11,60 @@
 
 </head>
   <body>
-    <div class="container block">
-      <header class="nav block"></header>
+    <div class="container block-group">
+      <header class="nav block">
+        <div>
+          <h1 class="heading">Ocean Planning</h1>
+          <p class="sub-heading">United States and Canada</p>
+        </div>
+        <div>
+          <button class="link">ABOUT</button>
+        </div>
+
+      </header>
       <section class="main block">
         <div id='map'></div>
+        <div class="panel filters">
+          <!-- filter by -->
+          <p class='txt-copy'>Filter by:</p>
+          <div class="filter-row">
+            <ul class="clearfix">
+              <li><button class="link disabled" disabled>Status</button></li>
+              <li><button class="link">Completed</button></li>
+              <li><button class="link">Underway</button></li>
+              <li><button class="link">Pre-planning</button></li>
+              <li><button class="link">Stalled</button></li>
+            </ul>
+          </div>
+          <div class="filter-row">
+            <ul class="clearfix">
+              <li><button class="link disabled" disabled>Country</button></li>
+              <li><button class="link">United States</button></li>
+              <li><button class="link">Canada</button></li>
+            </ul>
+          </div>
+          <div class="tabs">
+            <div class="filter-row">
+              <ul class="clearfix">
+                <li><button class="link">Details</button></li>
+                <li><button class="link">Description</button></li>
+              </ul>
+            </div>
+            <div class="tabs-inner">
+              <div class="tab" data-tab="details">
+                <ul>
+                  <li><span class="key">Plan Name:</span><span class="value">Oregon</span></li>
+                  <li><span class="key">Status:</span><span class="value">Plan implemented</span></li>
+                  <li><span class="key">Date Planning Initiated:</span><span class="value">2009</span></li>
+                  <li><span class="key">Lead Institution:</span><span class="value">Department of Land Conservation</span></li>
+                </ul>
+              </div>
+              <div class="tab" data-tab="description">
+              </div>
+            </div>
+          </div>
+
+        </div>
       </section>
     </div>
 
