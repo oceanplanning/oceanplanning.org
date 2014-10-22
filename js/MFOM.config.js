@@ -28,8 +28,8 @@
             weight:1
         },
         geojsonPolyStylePreplanning: {
-            color: '#9bb',
-            opacity: 0.5,
+            color: '#126063',
+            opacity: 0.6,
             fillColor: '#9bb',
             fillOpacity: 0.2,
             weight:1
