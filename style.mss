@@ -204,16 +204,17 @@ Map {
 #ne10mgeographymarine[featurecla="ocean"] {
   text-name:"";
   [name="NORTH PACIFIC OCEAN"] {
-    text-name:"PACIFIC\nOCEAN" + [namealt]; // we know namealt is empty
+    text-name:"Pacific\nOcean" + [namealt]; // we know namealt is empty
   }
   [name="NORTH ATLANTIC OCEAN"] {
-    text-name:"ATLANTIC\nOCEAN" + [namealt];  // we know namealt is empty
+    text-name:"Atlantic\nOcean" + [namealt];  // we know namealt is empty
   }
   [name="ARCTIC OCEAN"] {
-    text-name:"ARCTIC\nOCEAN" + [namealt];  // we know namealt is empty
+    text-name:"Arctic\nOcean" + [namealt];  // we know namealt is empty
   }
-  text-face-name: 'Arial Bold';
-  text-size: 20;
+  text-face-name: 'Nueva Std Italic';
+  text-character-spacing: 4;
+  text-size: 24;
   text-fill: #666;
   text-halo-radius: 2;
   text-halo-fill: #fff;
