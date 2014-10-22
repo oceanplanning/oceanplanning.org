@@ -27,6 +27,13 @@
             fillOpacity: 0.3,
             weight:1
         },
+        geojsonPolyStylePreplanning: {
+            color: '#9bb',
+            opacity: 0.5,
+            fillColor: '#9bb',
+            fillOpacity: 0.2,
+            weight:1
+        },
         geojsonPolyHighlighted: {
             color: '#0ff',
             opacity: 0.6,

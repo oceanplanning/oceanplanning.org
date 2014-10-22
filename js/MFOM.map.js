@@ -39,12 +39,12 @@
         });
 
         function geojsonStyle(feature) {
-            return MFOM.config.styles.geojsonPolyStyle;
+            return feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
             if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
-                var html = feature.properties.Location + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
+                var html = feature.properties.Location + "<br>" + feature.properties.Status + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
             } else {
                 var html = "Location not found";
             }
@@ -65,7 +65,7 @@
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                     });
                     lyr.layer.on("mouseout", function (e) {
-                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     var label = lyr.geojson.features[0].properties.Location;
