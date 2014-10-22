@@ -99,25 +99,25 @@ Map {
 }
 
 .disputed {
-  line-width:3;
-  //line-color:lighten(#168,10%);
-  line-color: #999;
+  line-width:4.5;
+  line-opacity: 0.7;
+  line-color: white; // halo
   polygon-opacity:0.2;
-  polygon-pattern-file: url("images/whitestripes_24.png");
+  polygon-pattern-file: url("images/whitestripes_18.png");
   [zoom<=5] {
-    line-width:2;
-    polygon-pattern-file: url("images/whitestripes_18.png");
+    line-width:3.5;
+    polygon-pattern-file: url("images/whitestripes_12.png");
   }
-  //polygon-fill: #168;
-  polygon-fill: gray;
+  polygon-fill: lightgray;
   
   ::overlay {
     polygon-fill: transparent;
     polygon-opacity: 0;
-    line-width:3;
-    line-color: #999;
+    line-width:1.5;
+    line-color: darken(#168,10%);
+    line-opacity:0.6;
     [zoom<=5] {
-      line-width:2;
+      line-width:1;
     }
   }
   
