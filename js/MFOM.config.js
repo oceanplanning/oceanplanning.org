@@ -48,6 +48,13 @@
             opacity: 0.6,
             fillOpacity: 0.3
         },
+        geojsonMarkerOptionsPreplanning: {
+            fillColor: "#9bb",
+            color: "#126063",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.2
+        },
         geojsonMarkerHighlighted: {
             fillColor: "#0ff",
             color: "#0ff",

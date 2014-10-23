@@ -89,7 +89,7 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var circleMarker = L.circleMarker(latlng, MFOM.config.styles.geojsonMarkerOptions);
+                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                                 markerList.push(circleMarker);
                                 circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
                                 return circleMarker;
@@ -102,7 +102,7 @@
                         layer.setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
                     });
                     layer.on("mouseout", function (e) {
-                        layer.setStyle(MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
                     overlayMaps[row.ID + ": " + row.Location] = layer;
 
