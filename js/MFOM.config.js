@@ -27,6 +27,13 @@
             fillOpacity: 0.3,
             weight:1
         },
+        geojsonPolyStylePreplanning: {
+            color: '#126063',
+            opacity: 0.6,
+            fillColor: '#9bb',
+            fillOpacity: 0.2,
+            weight:1
+        },
         geojsonPolyHighlighted: {
             color: '#0ff',
             opacity: 0.6,
@@ -40,6 +47,13 @@
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
+        },
+        geojsonMarkerOptionsPreplanning: {
+            fillColor: "#9bb",
+            color: "#126063",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.2
         },
         geojsonMarkerHighlighted: {
             fillColor: "#0ff",

@@ -49,12 +49,12 @@
         };
 
         function geojsonStyle(feature) {
-            return MFOM.config.styles.geojsonPolyStyle;
+            return feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
             if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
-                var html = feature.properties.Location + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
+                var html = feature.properties.Location + "<br>" + feature.properties.Status + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
             } else {
                 var html = "Location not found";
             }
@@ -77,7 +77,7 @@
                     });
                     lyr.layer.on("mouseout", function (e) {
                         if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     lyr.layer.on('click', function(e){
@@ -110,7 +110,7 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var circleMarker = L.circleMarker(latlng, MFOM.config.styles.geojsonMarkerOptions);
+                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                                 markerList.push(circleMarker);
                                 circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
                                 return circleMarker;
@@ -125,7 +125,7 @@
                     });
 
                     layer.on("mouseout", function (e) {
-                        layer.setStyle(MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
                     layer.on('click', function(e){

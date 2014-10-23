@@ -1,5 +1,5 @@
 DATADIR := data
-JSONDIR := geojson
+JSONDIR := assets/geojson
 TOPOJSON := /usr/local/bin/topojson
 SHELL := /bin/bash
 DATED=$(shell date '+%Y-%m-%d')
@@ -126,8 +126,8 @@ $(JSONDIR)/south_atlantic.geojson \
 
 # Create topojson file. -q is quantization, -p means preserve all properties
 
-topojson: geojson
-	$(TOPOJSON) -q 10000 -p -o $(JSONDIR)/planning_areas.topojson \
+topojson: 
+	$(TOPOJSON) -q 60000 --simplify-proportion 0.7 -p -o $(JSONDIR)/planning_areas.topojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
 $(JSONDIR)/bc_mapp_haida_gwaii.geojson \

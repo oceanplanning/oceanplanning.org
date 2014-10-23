@@ -1,6 +1,6 @@
 @non_eez_water: lighten(#e6eeee,5%);
 @eez_water: white;
-@background: white;
+@background: @non_eez_water;
 
 Map {
   background-color: @background;
@@ -99,25 +99,25 @@ Map {
 }
 
 .disputed {
-  line-width:3;
-  //line-color:lighten(#168,10%);
-  line-color: #999;
+  line-width:4.5;
+  line-opacity: 0.7;
+  line-color: white; // halo
   polygon-opacity:0.2;
-  polygon-pattern-file: url("images/whitestripes_24.png");
+  polygon-pattern-file: url("images/whitestripes_18.png");
   [zoom<=5] {
-    line-width:2;
-    polygon-pattern-file: url("images/whitestripes_18.png");
+    line-width:3.5;
+    polygon-pattern-file: url("images/whitestripes_12.png");
   }
-  //polygon-fill: #168;
-  polygon-fill: gray;
+  polygon-fill: lightgray;
   
   ::overlay {
     polygon-fill: transparent;
     polygon-opacity: 0;
-    line-width:3;
-    line-color: #999;
+    line-width:1.5;
+    line-color: darken(#168,10%);
+    line-opacity:0.6;
     [zoom<=5] {
-      line-width:2;
+      line-width:1;
     }
   }
   
@@ -204,16 +204,17 @@ Map {
 #ne10mgeographymarine[featurecla="ocean"] {
   text-name:"";
   [name="NORTH PACIFIC OCEAN"] {
-    text-name:"PACIFIC\nOCEAN" + [namealt]; // we know namealt is empty
+    text-name:"Pacific\nOcean" + [namealt]; // we know namealt is empty
   }
   [name="NORTH ATLANTIC OCEAN"] {
-    text-name:"ATLANTIC\nOCEAN" + [namealt];  // we know namealt is empty
+    text-name:"Atlantic\nOcean" + [namealt];  // we know namealt is empty
   }
   [name="ARCTIC OCEAN"] {
-    text-name:"ARCTIC\nOCEAN" + [namealt];  // we know namealt is empty
+    text-name:"Arctic\nOcean" + [namealt];  // we know namealt is empty
   }
-  text-face-name: 'Arial Bold';
-  text-size: 20;
+  text-face-name: 'Nueva Std Italic';
+  text-character-spacing: 4;
+  text-size: 24;
   text-fill: #666;
   text-halo-radius: 2;
   text-halo-fill: #fff;
@@ -227,20 +228,3 @@ Map {
     text-size: 8;
   }
 }
-
-/*
- *  Actually, use this point+radius to draw the disc of the earth
- *  (There's got to be a better way)
- */
-#centerpoint[zoom<=5] {
-  // Guessed theses through trial-and-error
-  marker-width: 650;
-  [zoom=3] { marker-width: 1300; }
-  [zoom=4] { marker-width: 2600; }
-  [zoom=5] { marker-width: 5200; }
-  marker-fill: @non_eez_water;
-  marker-line-color:#813;
-  marker-line-width:0;
-  marker-allow-overlap: true;
-}
-
