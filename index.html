@@ -4,21 +4,43 @@
 <meta charset=utf-8 />
 <title>Moore Foundation map prototype by Stamen Design</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic,300italic,300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/normalize.css">
 <link rel="stylesheet" type="text/css" href="css/pocketgrid.min.css">
-<link rel="stylesheet" type="text/css" href="css/leaflet.css">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/main.css">
 
 </head>
   <body>
     <div class="container block-group">
+      <div id="about" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content">
+            <p>Test</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="embed" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content">
+            <p>Embed</p>
+          </div>
+        </div>
+      </div>
+
       <header class="nav block">
         <div>
           <h1 class="heading">Ocean Planning</h1>
           <p class="sub-heading">United States and Canada</p>
         </div>
         <div>
-          <p>About Ocean Planning:<button class="link">U.S.</button><span>|</span><button class="link">CANADA</button>
+          <p>About Ocean Planning:<button id="about-us" class="link">U.S.</button><span>|</span><button id="about-canada" class="link">CANADA</button>
         </div>
 
       </header>
@@ -90,6 +112,7 @@
     <script type="text/javascript" src='js/MFOM.data.js'></script>
     <script type="text/javascript" src='js/MFOM.map.js'></script>
     <script type="text/javascript" src='js/MOFM.filterPanel.js'></script>
+    <script type="text/javascript" src='js/MFOM.modal.js'></script>
     <script type="text/javascript" src='js/MFOM.main.js'></script>
 
     <script type="text/javascript">

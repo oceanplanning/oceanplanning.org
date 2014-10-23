@@ -20,6 +20,18 @@
         var map = new MFOM.map('map');
         var filterPanel = new MFOM.filterpanel();
 
+        var aboutModal = new MFOM.modal('#about');
+        var embedModal = new MFOM.modal('#embed');
+
+        d3.select('#about-us')
+            .on('click', function(){
+                aboutModal.toggle();
+            });
+        d3.select('#about-canada')
+            .on('click', function(){
+                aboutModal.toggle();
+            });
+
         __.onData = function(layers, eezs) {
             map.onData(layers, eezs);
         };

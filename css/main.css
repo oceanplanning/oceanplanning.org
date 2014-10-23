@@ -49,8 +49,12 @@ body,
 
 
 /* typography */
+.roboto {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .heading {
     margin: 0;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.6em;
     font-weight: 400;
     text-transform: uppercase;
@@ -58,6 +62,7 @@ body,
 }
 
 .sub-heading {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.15em;
     margin: 0;
     font-weight: 300;
@@ -66,10 +71,14 @@ body,
 }
 
 .txt-copy {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.75em;
     margin: 0;
     padding: 0;
     line-height: 1.5;
+}
+button, .tabs {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 
@@ -77,6 +86,7 @@ body,
 /* base styles */
 
 button.link {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: none;
     border: none;
     outline: none;
@@ -103,9 +113,6 @@ button.selected {
     */
 }
 
-.modal {
-    background: #fff;
-}
 .scroller {
     height: auto;
     max-height: 50px;
@@ -249,6 +256,41 @@ button.selected {
 .tab:first-child ul {
     max-height: 250px;
     overflow: auto;
+}
+
+/* modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999999;
+}
+.modal-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 0;
+}
+.modal-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: auto;
+    background: #fff;
+    z-index: 1;
+}
+.modal-content {
+    margin: 10px;
+}
+.modal-close {
+    position: absolute;
+    top: 0;
+    right: 5px;
 }
 
 /* Clearfix */
