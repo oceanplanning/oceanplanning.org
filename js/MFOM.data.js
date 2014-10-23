@@ -36,7 +36,6 @@
         load: function(callback) {
             if (layers) return;
             layers = extend([],MFOM.config.map.layers);
-            console.log(layers)
             d3.csv(MFOM.config.files.csvBase + MFOM.config.files.eez, function(csvdata) {
                 eezs = csvdata;
 
@@ -66,6 +65,18 @@
         },
         eezs: function() {
             return eezs || [];
+        },
+        getLayerForID: function(id) {
+            if (!eezs) return [];
+            return eezs.filter(function(item){
+                return item['ID'] === id;
+            });
+        },
+        filterOn: function(key, value) {
+            if (!eezs) return [];
+            return eezs.filter(function(item){
+                return item[key] === value;
+            });
         }
     };
 

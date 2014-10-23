@@ -18,7 +18,7 @@
           <p class="sub-heading">United States and Canada</p>
         </div>
         <div>
-          <button class="link">ABOUT</button>
+          <p>About Ocean Planning:<button class="link">U.S.</button><span>|</span><button class="link">CANADA</button>
         </div>
 
       </header>
@@ -27,39 +27,43 @@
         <div class="panel filters">
           <!-- filter by -->
           <p class='txt-copy'>Filter by:</p>
-          <div class="filter-row">
+          <div class="filter-row status-filters">
             <ul class="clearfix">
               <li><button class="link disabled" disabled>Status</button></li>
-              <li><button class="link">Completed</button></li>
-              <li><button class="link">Underway</button></li>
-              <li><button class="link">Pre-planning</button></li>
-              <li><button class="link">Stalled</button></li>
+              <li><button class="link filter-btn">Completed</button></li>
+              <li><button class="link filter-btn">Underway</button></li>
+              <li><button class="link filter-btn">Pre-planning</button></li>
+              <li><button class="link filter-btn">Stalled</button></li>
             </ul>
           </div>
-          <div class="filter-row">
+          <div class="filter-row country-filters">
             <ul class="clearfix">
               <li><button class="link disabled" disabled>Country</button></li>
-              <li><button class="link">United States</button></li>
-              <li><button class="link">Canada</button></li>
+              <li><button class="link filter-btn" data-key="Country" data-value="US">United States</button></li>
+              <li><button class="link filter-btn" data-key="Country" data-value="CA">Canada</button></li>
             </ul>
           </div>
           <div class="tabs">
             <div class="filter-row">
               <ul class="clearfix">
-                <li><button class="link">Details</button></li>
-                <li><button class="link">Description</button></li>
+                <li><button class="link" data-target="details">Details</button></li>
+                <li><button class="link selected" data-target="description">Description</button></li>
               </ul>
             </div>
             <div class="tabs-inner">
-              <div class="tab" data-tab="details">
+              <div class="tab hide" data-tab="details">
                 <ul>
-                  <li><span class="key">Plan Name:</span><span class="value">Oregon</span></li>
-                  <li><span class="key">Status:</span><span class="value">Plan implemented</span></li>
-                  <li><span class="key">Date Planning Initiated:</span><span class="value">2009</span></li>
-                  <li><span class="key">Lead Institution:</span><span class="value">Department of Land Conservation</span></li>
+                  <li data-key="Location"><span class="key">Plan Name:</span><span class="value"></span></li>
+                  <li data-key="Status"><span class="key">Status:</span><span class="value"></span></li>
+                  <li data-key="Date planning initiated"><span class="key">Date Planning Initiated:</span><span class="value"></span></li>
+                  <li data-key="Date plan completed"><span class="key">Date Completed:</span><span class="value"></span></li>
+                  <li data-key="Ocean uses covered"><span class="key">Ocean uses covered:</span><span class="value scroller"></span></li>
+                  <li data-key="Lead institution"><span class="key">Lead institution:</span><span class="value"></span></li>
+                  <li data-key="Website"><span class="key">Website:</span><span class="value"><a href=""></a></span></li>
                 </ul>
               </div>
               <div class="tab" data-tab="description">
+                <p class="txt-copy">Select a ????...</p>
               </div>
             </div>
           </div>
@@ -77,10 +81,15 @@
     <script type="text/javascript" src='js/vendor/proj4-compressed.js'></script>
     <script type="text/javascript" src='js/vendor/proj4leaflet.js'></script>
     <script type="text/javascript" src='js/vendor/topojson.v1.min.js'></script>
+    <script type="text/javascript" src='js/vendor/signals.js'></script>
+    <script type="text/javascript" src='js/vendor/hasher.js'></script>
+
+    <script type="text/javascript" src="js/stamen/stamen.hasher.js"></script>
 
     <script type="text/javascript" src='js/MFOM.config.js'></script>
     <script type="text/javascript" src='js/MFOM.data.js'></script>
     <script type="text/javascript" src='js/MFOM.map.js'></script>
+    <script type="text/javascript" src='js/MOFM.filterPanel.js'></script>
     <script type="text/javascript" src='js/MFOM.main.js'></script>
 
     <script type="text/javascript">

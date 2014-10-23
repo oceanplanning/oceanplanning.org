@@ -37,6 +37,16 @@
                 //console.log(currentZoom, getRadiusByZoom(currentZoom));
             });
         });
+        map.on('moveend', onMoveEndHandler, self);
+
+        function onMoveEndHandler(e) {
+            var center = map.getCenter(),
+                zoom = map.getZoom();
+            var h = STA.hasher.get();
+
+            if (h.intro) return;
+            STA.hasher.setMapState(center, zoom);
+        };
 
         function geojsonStyle(feature) {
             return MFOM.config.styles.geojsonPolyStyle;
@@ -62,15 +72,26 @@
                     map.addLayer(lyr.layer);
 
                     lyr.layer.on("mouseover", function (e) {
+                        if (lyr.layer.selected) return;
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                     });
                     lyr.layer.on("mouseout", function (e) {
+                        if (lyr.layer.selected) return;
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyStyle);
+                    });
+
+                    lyr.layer.on('click', function(e){
+                        var props = lyr.layer.properties;
+                        var h = STA.hasher.get();
+                        h.id = props['ID'];
+                        STA.hasher.set(h);
                     });
 
                     var label = lyr.geojson.features[0].properties.Location;
                     if (!label) label = "no shape";
+                    lyr.layer.properties = lyr.geojson.features[0].properties;
                     overlayMaps[lyr.csv_id + ": " + label] = lyr.layer;
+
                 });
         }
 
@@ -98,12 +119,23 @@
                         });
 
                     map.addLayer(layer);
+
                     layer.on("mouseover", function (e) {
                         layer.setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
                     });
+
                     layer.on("mouseout", function (e) {
                         layer.setStyle(MFOM.config.styles.geojsonMarkerOptions);
                     });
+
+                    layer.on('click', function(e){
+                        var props = layer.properties;
+                        var h = STA.hasher.get();
+                        h.id = props['ID'];
+                        STA.hasher.set(h);
+                    });
+
+                    layer.properties = row;
                     overlayMaps[row.ID + ": " + row.Location] = layer;
 
                 });
@@ -113,12 +145,57 @@
             L.control.layers(null, overlayMaps, {collapsed: true}).addTo(map);
         }
 
+        onMoveEndHandler();
+
+        __.highlightOverlay = function(data) {
+            var id = data['ID'] || null;
+            for(var overlay in overlayMaps) {
+                var props = overlayMaps[overlay].properties;
+
+                if (props['ID'] === id) {
+                    console.log(id, props['ID'])
+                    overlayMaps[overlay].selected = true;
+                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                } else {
+                    overlayMaps[overlay].selected = false;
+                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyStyle);
+                }
+
+            }
+        };
+
+        __.filterOn = function(key, value) {
+            for(var overlay in overlayMaps) {
+                var props = overlayMaps[overlay].properties;
+                if (typeof key === 'string') {
+                    if (props[key] === value) {
+                        if (!map.hasLayer()) map.addLayer(overlayMaps[overlay]);
+                    } else {
+                        map.removeLayer(overlayMaps[overlay]);
+                    }
+                } else {
+                    var valid = true;
+                    key.forEach(function(k) {
+                        if (k.value && props[k.key] !== k.value) {
+                            valid = false;
+                        }
+                    });
+                    if (valid) {
+                        if (!map.hasLayer()) map.addLayer(overlayMaps[overlay]);
+                    } else {
+                        map.removeLayer(overlayMaps[overlay]);
+                    }
+                }
+
+            }
+        };
 
         __.onData = function(layers, eezs) {
             overlayMaps = {};
             markerList = [];
             drawOverlays(layers);
             drawPoints(eezs);
+
             addOverlayControl();
         };
 

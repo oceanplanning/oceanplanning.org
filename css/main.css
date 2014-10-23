@@ -88,15 +88,39 @@ button.link:hover {
 button.disabled {
     pointer-events: none;
     cursor: not-allowed;
+    text-decoration: none;
 }
 button.disabled:hover {
     text-decoration: none;
 }
 
+button.selected {
+    background: #e5e5e5 !important;
+    /*
+    pointer-events: none;
+    cursor: not-allowed;
+    text-decoration: none !important;
+    */
+}
+
 .modal {
     background: #fff;
 }
+.scroller {
+    height: auto;
+    max-height: 50px;
+    overflow: auto;
+}
 
+/* nav */
+.nav div:last-child p button:first-child {
+    margin-left: 5px;
+}
+.nav div:last-child span{
+    margin: 0 5px;
+}
+
+/* filters */
 .filters p.txt-copy {
     margin: 0 0 10px 3px;
 }
@@ -150,6 +174,7 @@ button.disabled:hover {
 .tabs {
     position: relative;
     width: 100%;
+    max-width: 300px;
 }
 .tabs .filter-row {
     margin-bottom: 0;
@@ -192,7 +217,6 @@ button.disabled:hover {
 }
 .tab {
     padding: 0px 5px;
-
 }
 .tab ul {
     margin: 0;
@@ -209,13 +233,18 @@ button.disabled:hover {
 }
 
 .tab .key {
-
+    display: inline-block;
+    *zoom: 1;
 }
 .tab .value {
+    display: inline-block;
     font-weight: 300;
     margin-left: 5px;
+    *zoom: 1;
 }
-
+.tab:last-child p{
+    margin: 5px 0;
+}
 
 /* Clearfix */
 .clearfix {
@@ -228,6 +257,10 @@ button.disabled:hover {
 }
 .clearfix:after {
   clear: both;
+}
+
+.hide {
+    display: none;
 }
 
 
