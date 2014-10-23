@@ -19,6 +19,13 @@
         planningAreas: 'planning_areas.topojson'
     };
 
+    MFOM.config.statusLookup = {
+        'completed': 'Plan completed',
+        'pre-planning': 'Pre-planning phase',
+        'underway': 'Planning underway',
+        'stalled': new RegExp('stall', 'gi')
+    };
+
     MFOM.config.styles = {
         geojsonPolyStyle: {
             color: '#126063',

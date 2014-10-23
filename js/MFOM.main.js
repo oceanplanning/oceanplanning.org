@@ -37,8 +37,9 @@
         };
 
         __.onFilterChange = function(filters) {
-            map.filterOn(filters);
             filterPanel.onFilterChange(filters);
+            map.filterOn(filters);
+
         };
 
         return __;
@@ -60,6 +61,7 @@
             dirty = true;
         }
         if (currentStatus || currentStatus !== h.Status) {
+            //currentStatus = (h.Status) ?  MFOM.config.statusLookup[h.Status] : null;
             currentStatus = h.Status || null;
             f.push({key:'Status', value: currentStatus });
             dirty = true;

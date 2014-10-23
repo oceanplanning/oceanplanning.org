@@ -27,6 +27,17 @@
             })
             .addLayer(MFOM.config.map.mapboxTiles)
             .setView([35, -105], MFOM.config.map.startZoom);
+        var popup = L.popup({
+            closeButton: false,
+            offset: [0, -6]
+        }),
+        popupOpen = false;
+
+        map.on('mousemove', function(e){
+            if (popupOpen) {
+                popup.setLatLng(e.latlng);
+            }
+        })
 
         map.on('zoomend', function() {
             if (!markerList) return;
@@ -53,12 +64,32 @@
         }
 
         function onEachFeature(feature, layer) {
+
+            return;
             if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
                 var html = feature.properties.Location + "<br>" + feature.properties.Status + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
             } else {
                 var html = "Location not found";
             }
             layer.bindPopup(html);
+        }
+
+        function showTip(e) {
+            var props = e.target.properties || null;
+            var html = "Location not found";
+            if (props && props.hasOwnProperty("Location")) {
+                html = props.Location;
+            }
+            popup
+                .setContent(html)
+                .setLatLng(e.latlng)
+                .openOn(map);
+            popupOpen = true;
+        }
+
+        function hideTip(e) {
+            popupOpen = false;
+            map.closePopup(popup);
         }
 
         function drawOverlays(layers) {
@@ -73,14 +104,17 @@
 
                     lyr.layer.on("mouseover", function (e) {
                         if (lyr.layer.selected) return;
+                        showTip(e);
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                     });
                     lyr.layer.on("mouseout", function (e) {
+                        hideTip(e);
                         if (lyr.layer.selected) return;
                         lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     lyr.layer.on('click', function(e){
+                        hideTip();
                         var props = lyr.layer.properties;
                         var h = STA.hasher.get();
                         h.id = props['ID'];
@@ -121,14 +155,19 @@
                     map.addLayer(layer);
 
                     layer.on("mouseover", function (e) {
+                        if (layer.selected) return;
+                        showTip(e);
                         layer.setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
                     });
 
                     layer.on("mouseout", function (e) {
+                        hideTip(e);
+                        if (layer.selected) return;
                         layer.setStyle(e.layer.feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
                     layer.on('click', function(e){
+                        hideTip();
                         var props = layer.properties;
                         var h = STA.hasher.get();
                         h.id = props['ID'];
@@ -153,7 +192,6 @@
                 var props = overlayMaps[overlay].properties;
 
                 if (props['ID'] === id) {
-                    console.log(id, props['ID'])
                     overlayMaps[overlay].selected = true;
                     overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                 } else {
@@ -176,10 +214,22 @@
                 } else {
                     var valid = true;
                     key.forEach(function(k) {
-                        if (k.value && props[k.key] !== k.value) {
-                            valid = false;
+
+                        if (k.value) {
+                            value = k.value
+                            if (k.key === 'Status') {
+                                value = MFOM.config.statusLookup[k.value] || null;
+                            }
+
+                            if (value instanceof RegExp) {
+                                if (!value.test(props[k.key])) valid = false;
+                            } else {
+                                if (props[k.key] !== value) valid = false;
+                            }
                         }
+
                     });
+
                     if (valid) {
                         if (!map.hasLayer()) map.addLayer(overlayMaps[overlay]);
                     } else {

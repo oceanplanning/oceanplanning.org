@@ -246,6 +246,11 @@ button.selected {
     margin: 5px 0;
 }
 
+.tab:first-child ul {
+    max-height: 250px;
+    overflow: auto;
+}
+
 /* Clearfix */
 .clearfix {
   *zoom: 1;
