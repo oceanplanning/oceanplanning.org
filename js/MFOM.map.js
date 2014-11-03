@@ -181,7 +181,8 @@
         }
 
         function addOverlayControl() {
-            L.control.layers(null, overlayMaps, {collapsed: true}).addTo(map);
+            //L.control.layers(null, overlayMaps, {collapsed: true}).addTo(map);
+            return;
         }
 
         onMoveEndHandler();
