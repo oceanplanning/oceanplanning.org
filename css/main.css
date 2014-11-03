@@ -105,7 +105,7 @@ button.disabled:hover {
 }
 
 button.selected {
-    background: #e5e5e5 !important;
+    background: #bdbdbd !important;
     /*
     pointer-events: none;
     cursor: not-allowed;
@@ -160,7 +160,7 @@ button.selected {
 }
 
 .filter-row button {
-    background: #bdbdbd;
+    background: #e5e5e5;
     line-height: 40px;
     padding: 0 6px;
     font-size: 0.65em;
