@@ -60,7 +60,7 @@
         };
 
         function geojsonStyle(feature) {
-            return feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
+            return feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
@@ -110,7 +110,7 @@
                     lyr.layer.on("mouseout", function (e) {
                         hideTip(e);
                         if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     lyr.layer.on('click', function(e){
@@ -147,7 +147,7 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                                 markerList.push(circleMarker);
                                 circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
                                 return circleMarker;
@@ -166,7 +166,7 @@
                     layer.on("mouseout", function (e) {
                         hideTip(e);
                         if (layer.selected) return;
-                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
                     layer.on('click', function(e){

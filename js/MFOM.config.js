@@ -20,9 +20,9 @@
     };
 
     MFOM.config.statusLookup = {
-        'completed': 'Plan completed',
-        'pre-planning': 'Pre-planning phase',
-        'underway': 'Planning underway',
+        'completed': 'Implemented',
+        'pre-planning': 'Pre-planning',
+        'underway': 'Underway',
         'stalled': new RegExp('stall', 'gi')
     };
 
