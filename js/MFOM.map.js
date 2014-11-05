@@ -200,7 +200,7 @@
                     overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                 } else {
                     overlayMaps[overlay].selected = false;
-                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyStyle);
+                    overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                 }
 
             }
