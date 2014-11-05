@@ -77,8 +77,8 @@
             fillOpacity: 0.3
         },
         geojsonMarkerMouseover: {
-            fillColor: "#126063",
-            color: "#fd0",
+            fillColor: "#fd0",
+            color: "#126063",
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
