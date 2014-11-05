@@ -135,6 +135,9 @@
                 .forEach(function(row) {
                     if (!row.Latitude || !row.Longitude) return;
 
+                    var overlayKey = row.ID + ": " + row.Location;
+                    if (overlayKey in overlayMaps) return; // Skip if this area already has a shape loaded
+
                     var layer = L.geoJson({
                             "type": "Feature",
                             "properties": row,
@@ -175,7 +178,7 @@
                     });
 
                     layer.properties = row;
-                    overlayMaps[row.ID + ": " + row.Location] = layer;
+                    overlayMaps[overlayKey] = layer;
 
                 });
         }
