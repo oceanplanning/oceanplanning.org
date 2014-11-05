@@ -197,10 +197,16 @@
 
                 if (props['ID'] === id) {
                     overlayMaps[overlay].selected = true;
-                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
+                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
+                    else
+                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                 } else {
                     overlayMaps[overlay].selected = false;
-                    overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
+                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                    else
+                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                 }
 
             }
