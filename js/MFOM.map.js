@@ -105,7 +105,7 @@
                     lyr.layer.on("mouseover", function (e) {
                         if (lyr.layer.selected) return;
                         showTip(e);
-                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyMouseover);
                     });
                     lyr.layer.on("mouseout", function (e) {
                         hideTip(e);
@@ -157,7 +157,7 @@
                     layer.on("mouseover", function (e) {
                         if (layer.selected) return;
                         showTip(e);
-                        layer.setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
+                        layer.setStyle(MFOM.config.styles.geojsonMarkerMouseover);
                     });
 
                     layer.on("mouseout", function (e) {

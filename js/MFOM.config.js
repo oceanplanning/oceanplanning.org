@@ -48,6 +48,13 @@
             fillOpacity: 0.3,
             weight:1
         },
+        geojsonPolyMouseover: {
+            color: '#126063',
+            opacity: 0.6,
+            fillColor: '#fd0',
+            fillOpacity: 0.3,
+            weight:1
+        },
         geojsonMarkerOptions: {
             fillColor: "#126063",
             color: "#126063",
@@ -65,6 +72,13 @@
         geojsonMarkerHighlighted: {
             fillColor: "#0ff",
             color: "#0ff",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.3
+        },
+        geojsonMarkerMouseover: {
+            fillColor: "#126063",
+            color: "#fd0",
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
