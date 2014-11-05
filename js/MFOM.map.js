@@ -50,6 +50,15 @@
         });
         map.on('moveend', onMoveEndHandler, self);
 
+        map.on('click', function(e) {
+          // This click event only fires if the user clicks somewhere not on a feature.
+          // Reset selections so that nothing is selected.
+          hideTip();
+          var h = STA.hasher.get();
+          h.id = null;
+          STA.hasher.set(h);
+        });
+
         function onMoveEndHandler(e) {
             var center = map.getCenter(),
                 zoom = map.getZoom();
@@ -117,7 +126,11 @@
                         hideTip();
                         var props = lyr.layer.properties;
                         var h = STA.hasher.get();
-                        h.id = props['ID'];
+                        // If current ID is already selected, reset selections to nothing
+                        if (h.id == props['ID'])
+                          h.id = null;
+                        else
+                          h.id = props['ID'];
                         STA.hasher.set(h);
                     });
 
@@ -173,7 +186,11 @@
                         hideTip();
                         var props = layer.properties;
                         var h = STA.hasher.get();
-                        h.id = props['ID'];
+                        // If current ID is already selected, reset selections to nothing
+                        if (h.id == props['ID'])
+                          h.id = null;
+                        else
+                          h.id = props['ID'];
                         STA.hasher.set(h);
                     });
 
