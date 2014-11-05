@@ -151,6 +151,25 @@
     {
       "geometry": "point",
       "extent": [
+        -132.189,
+        42.616,
+        -70.662,
+        54.337
+      ],
+      "id": "extracities",
+      "class": "",
+      "Datasource": {
+        "file": "data/extra_cities.csv"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "extracities"
+    },
+    {
+      "geometry": "point",
+      "extent": [
         null,
         null,
         null,
