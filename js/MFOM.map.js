@@ -25,7 +25,8 @@
                 worldCopyJump: false,
                 scrollWheelZoom: false
             })
-            .addLayer(MFOM.config.map.mapboxTiles)
+            .addLayer(MFOM.config.map.mapboxTilesLowZoom)
+            .addLayer(MFOM.config.map.mapboxTilesHighZoom)
             .setView([35, -105], MFOM.config.map.startZoom);
         var popup = L.popup({
             closeButton: false,

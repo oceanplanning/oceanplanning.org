@@ -116,7 +116,8 @@
 
                 }
             ),
-        mapboxTiles: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore/{z}/{x}/{y}.png', {attribution: ''}),
+        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: 'Map by Stamen Design'}),
+        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
         startZoom: 4,
         layers: [
                 {
