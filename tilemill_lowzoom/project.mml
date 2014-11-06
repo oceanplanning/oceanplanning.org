@@ -13,35 +13,12 @@
   "format": "png8",
   "interactivity": false,
   "minzoom": 0,
-  "maxzoom": 10,
+  "maxzoom": 5,
   "srs": "+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
   "Stylesheet": [
     "style.mss"
   ],
   "Layer": [
-    {
-      "geometry": "point",
-      "extent": [
-        -105,
-        40,
-        -105,
-        40
-      ],
-      "id": "centerpoint",
-      "class": "",
-      "Datasource": {
-        "file": "centerpoint.geojson",
-        "layer": "OGRGeoJSON",
-        "id": "centerpoint",
-        "project": "moore",
-        "srs": ""
-      },
-      "layer": null,
-      "srs-name": "autodetect",
-      "srs": "",
-      "advanced": {},
-      "name": "centerpoint"
-    },
     {
       "geometry": "linestring",
       "extent": [
@@ -252,7 +229,7 @@
   ],
   "scale": 1,
   "metatile": 2,
-  "name": "Moore Foundation",
+  "name": "Moore Foundation lowzoom",
   "description": "",
   "attribution": ""
 }

@@ -15,7 +15,8 @@ dated-latest:
 # To install the tilemill project
 install:
 	mkdir -p ${HOME}/Documents/MapBox/project
-	ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore
+	cd tilemill_lowzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_lowzoom && ln -sf ../data
+	cd tilemill_highzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_highzoom && ln -sf ../tilemill_lowzoom/style.mss && ln -sf ../tilemill_lowzoom/images && ln -sf ../data
 
 clean:
 	rm -rf $(DATADIR)/*
