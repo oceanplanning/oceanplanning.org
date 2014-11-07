@@ -15,12 +15,44 @@
 </head>
   <body>
     <div class="container block-group">
-      <div id="about" class="panel modal hide">
+
+      <div id="about-modal-all" class="panel modal hide">
         <div class="modal-background modal-close"></div>
         <div class="modal-inner">
           <button class="link modal-close">×</button>
           <div class="modal-content">
-            <p>Test</p>
+            <h3>Ocean planning</h3>
+            <p>Ocean planning – a multi-stakeholder, data-driven process to understand what people want for the future of their oceans and evaluate the trade-offs among their interests in a way that maximizes economic and ecological value - is increasingly being adopted by US and Canadian governments and ocean stakeholders. This map provides a window into the proliferation of this approach to ocean management in the US and Canada, the individual planning efforts underway and completed, and information about each effort.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="about-modal-us" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content">
+            <h3>United States</h3>
+            <p>US oceans are home to a magnificent diversity of ecosystems, including the incredibly productive Gulf of Maine, California kelp forests, and the coral reefs of Hawaii. Nearly matching this diversity is the array of activities carried out in the ocean by fishermen, shipping vessels, tourism businesses, recreational boaters, conservationists and wildlife advocates, scientists, energy industries, harbormasters, undersea cable companies, and all others who want to enjoy and use the oceans.</p>
+
+            <p>The current approach to managing activities in the ocean usually deals with this variety of demands on ocean space and resources one by one, which can lead to colliding interests, a lack of certainty for ocean industries, and fails to optimize ecological, social, and economic value. In 2010, the US released its first National Ocean Policy to address this very issue via a process called ocean planning and improve the long-term stewardship of America’s oceans, coasts and the Great Lakes.</p>
+
+            <p>The practice of ocean planning, also known as coastal and marine spatial planning or by other similar names, has grown in use across the planet in the last decade and notably in the last year. By any name, ocean planning is a tool which can be used to improve decision-making and management, reduce user conflict, protect and conserve ocean wildlife, and increase efficiency in the use of public resources such as tax dollars, agency staff time and better operations. Ocean planning has great benefits for those businesses and industries who use the oceans and coasts who want attractive and healthy seascapes, a more certain regulatory framework, and reduced conflicts with other ocean users.</p>
+
+            <p>In the US, the federal government manages activities in US ocean waters between 3 and 200nm from shore. Planning for this large area (11.3 million km2, or 1.5 times the size of the continental US) is designed to occur in nine separate regions to address the management and stewardship issues most important to the ocean users and stakeholders in those regions. Though federal waters are distinct from state waters (0 – 3nm), by design, federal and state agency coordination is a vital part of US ocean planning.</p>
+
+            <p>In addition, some of the individual US states such as Oregon, Massachusetts and Rhode Island have developed comprehensive ocean plans for their state waters. The experience and practices of these state-based plans greatly inspired and informed the development of the regional ocean planning process in the National Ocean Policy.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="about-modal-ca" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content">
+            <h3>Canada</h3>
+            <p>Text to come....</p>
           </div>
         </div>
       </div>
@@ -38,10 +70,14 @@
       <header class="nav block">
         <div>
           <h1 class="heading">Ocean Planning</h1>
-          <p class="sub-heading">United States and Canada</p>
+          <!--<p class="sub-heading">United States and Canada</p>-->
         </div>
         <div>
-          <p>About Ocean Planning:<button id="about-us" class="link">U.S.</button><span>|</span><button id="about-canada" class="link">CANADA</button>
+          <ul id="country-selector" class="horizontal-list">
+          <li><button class="link country-btn" data-country="all">ALL</button><button id="about-all" class="link about">?</button></li>
+          <li><button class="link country-btn" data-country="us">U.S.</button><button id="about-us" class="link about">?</button></li>
+          <li><button class="link country-btn" data-country="ca">CANADA</button><button id="about-canada" class="link about">?</button></li>
+          </ul>
         </div>
 
       </header>
@@ -59,6 +95,7 @@
               <li><button class="link filter-btn" data-key="Status" data-value="stalled">Stalled</button></li>
             </ul>
           </div>
+          <!--
           <div class="filter-row country-filters">
             <ul class="clearfix">
               <li><button class="link disabled" disabled>Country</button></li>
@@ -66,6 +103,7 @@
               <li><button class="link filter-btn" data-key="Country" data-value="CA">Canada</button></li>
             </ul>
           </div>
+          -->
           <div class="tabs">
             <div class="filter-row">
               <ul class="clearfix">

@@ -113,6 +113,24 @@ button.selected {
     */
 }
 
+button.about {
+    position: relative;
+    display: inline-block;
+    top: 0;
+    margin: 2px;
+    font-size: 0.75em;
+    background: #eee;
+    border-radius: 50%;
+    vertical-align: top;
+    padding: 3px 6px;
+    line-height: 1;
+    text-decoration: none;
+}
+button.about:hover {
+    background: #aaa;
+    text-decoration: none;
+}
+
 .scroller {
     height: auto;
     max-height: 50px;
@@ -281,7 +299,9 @@ button.selected {
     transform: translate(-50%, -50%);
     width: 40%;
     height: auto;
+    max-height: 70%;
     background: #fff;
+    overflow: auto;
     z-index: 1;
 }
 .modal-content {
@@ -291,6 +311,14 @@ button.selected {
     position: absolute;
     top: 0;
     right: 5px;
+}
+
+/* horizontal-list */
+.horizontal-list {
+
+}
+.horizontal-list li {
+    display: inline-block;
 }
 
 /* Clearfix */

@@ -13,7 +13,7 @@
 
         var root = d3.select('.filters'),
             statusFilters = root.select('.status-filters').selectAll('button'),
-            countryFilters = root.select('.country-filters').selectAll('button'),
+            //countryFilters = root.select('.country-filters').selectAll('button'),
             filterBtns = root.selectAll('.filter-btn'),
             tabs = root.select('.tabs'),
             tabBtns = tabs.select('.filter-row').selectAll('button'),
@@ -31,9 +31,11 @@
             setTabs(this);
         });
 
+        /*
         countryFilters.on('click', function(){
             setFilter(this, countryFilters, 'country');
         });
+        */
 
         statusFilters.on('click', function(){
             setFilter(this,statusFilters, 'status');

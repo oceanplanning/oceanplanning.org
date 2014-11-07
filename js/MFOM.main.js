@@ -20,17 +20,54 @@
         var map = new MFOM.map('map');
         var filterPanel = new MFOM.filterpanel();
 
-        var aboutModal = new MFOM.modal('#about');
+        var aboutCanadaModal = new MFOM.modal('#about-modal-ca');
+        var aboutUSModal = new MFOM.modal('#about-modal-us');
+        var aboutAllModal = new MFOM.modal('#about-modal-all');
+
         var embedModal = new MFOM.modal('#embed');
+
+        d3.select('#about-all')
+            .on('click', function(){
+                aboutAllModal.toggle();
+            });
 
         d3.select('#about-us')
             .on('click', function(){
-                aboutModal.toggle();
+                aboutUSModal.toggle();
             });
         d3.select('#about-canada')
             .on('click', function(){
-                aboutModal.toggle();
+                aboutCanadaModal.toggle();
             });
+
+        var selectedCountry = 'all';
+        var countryFilters = d3.selectAll('.country-btn');
+        countryFilters.on('click', function(){
+                var country = d3.select(this).attr('data-country');
+                if (country === selectedCountry) return;
+                selectedCountry = country;
+
+                handleCountryChange(this, country)
+            });
+
+        function handleCountryChange(elm, country) {
+            countryFilters.classed('selected', false)
+                .filter(function(){
+                    return this === elm;
+                })
+                .classed('selected', true);
+
+            var hash = STA.hasher.get();
+
+            if (country === 'all') {
+                hash['Country'] = null;
+            } else {
+                hash['Country'] = country.toUpperCase();
+            }
+
+            STA.hasher.set(hash);
+        }
+        handleCountryChange(null, selectedCountry);
 
         __.onData = function(layers, eezs) {
             map.onData(layers, eezs);
