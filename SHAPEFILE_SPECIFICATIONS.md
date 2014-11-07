@@ -37,10 +37,10 @@ Requirement 2: Closed polygons
 Shapefiles can include either points, lines, or polygons. We are only interested in poilygon shapefiles. Please confirm that the shapefile you are sending includes closed area features. Use a GIS program like [ArcGIS Explorer Desktop](http://www.esri.com/software/arcgis/explorer) or [QGIS](http://www.qgis.org/) to view the shapefile before sending.
 
 Here is a planning area represented as a line, not a closed polygon. **NOT** what we want:
-![outline](screenshot_ma_outline.png)
+<img align="center" src="screenshot_ma_outline.png" width="50%">
 
 Here is the same planning area represented as a closed polygon. This **IS** what we want:
-![polygon](screenshot_ma_polygon.png)
+<img align="center" src="screenshot_ma_polygon.png" width="50%">
 
 
 Requirement 3: One feature per file
@@ -50,11 +50,11 @@ Because we are discarding the attribute data attached to each feature in the sha
 
 Here is a shapefile that includes multiple features. **NOT** what we want:
 
-![several_polygons](screenshot_bc_several_polygons.png)
+<img align="center" src="screenshot_bc_several_polygons.png" width="50%">
 
 You can tell they are separate polygons when you click on them:
 
-![several_polygons_selected](screenshot_bc_several_polygons_selected.png)
+<img align="center" src="screenshot_bc_several_polygons_selected.png" width="50%">
 
 In this shapefile, we can see that there are multiple polygons that are all part of the same feature, because they are all highlighted when we select them. This **IS** what we want:
-![ma_selected](screenshot_ma_selected.png)
+<img align="center" src="screenshot_ma_selected.png" width="50%">
