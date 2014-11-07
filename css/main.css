@@ -259,11 +259,17 @@ button.about:hover {
     padding: 0;
     list-style: none;
 }
+
 .tab li {
     font-size: 0.75em;
     line-height: 2.2;
     border-bottom: 1px dashed white;
 }
+
+.tab li span {
+    vertical-align: middle;
+}
+
 .tab li:last-child {
     border-bottom: none;
 }
