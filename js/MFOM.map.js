@@ -25,7 +25,8 @@
                 worldCopyJump: false,
                 scrollWheelZoom: false
             })
-            .addLayer(MFOM.config.map.mapboxTiles)
+            .addLayer(MFOM.config.map.mapboxTilesLowZoom)
+            .addLayer(MFOM.config.map.mapboxTilesHighZoom)
             .setView([35, -105], MFOM.config.map.startZoom);
         var popup = L.popup({
             closeButton: false,
@@ -50,6 +51,15 @@
         });
         map.on('moveend', onMoveEndHandler, self);
 
+        map.on('click', function(e) {
+          // This click event only fires if the user clicks somewhere not on a feature.
+          // Reset selections so that nothing is selected.
+          hideTip();
+          var h = STA.hasher.get();
+          h.id = null;
+          STA.hasher.set(h);
+        });
+
         function onMoveEndHandler(e) {
             var center = map.getCenter(),
                 zoom = map.getZoom();
@@ -60,7 +70,7 @@
         };
 
         function geojsonStyle(feature) {
-            return feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
+            return feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
@@ -105,19 +115,23 @@
                     lyr.layer.on("mouseover", function (e) {
                         if (lyr.layer.selected) return;
                         showTip(e);
-                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyMouseover);
                     });
                     lyr.layer.on("mouseout", function (e) {
                         hideTip(e);
                         if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     lyr.layer.on('click', function(e){
                         hideTip();
                         var props = lyr.layer.properties;
                         var h = STA.hasher.get();
-                        h.id = props['ID'];
+                        // If current ID is already selected, reset selections to nothing
+                        if (h.id == props['ID'])
+                          h.id = null;
+                        else
+                          h.id = props['ID'];
                         STA.hasher.set(h);
                     });
 
@@ -135,6 +149,9 @@
                 .forEach(function(row) {
                     if (!row.Latitude || !row.Longitude) return;
 
+                    var overlayKey = row.ID + ": " + row.Location;
+                    if (overlayKey in overlayMaps) return; // Skip if this area already has a shape loaded
+
                     var layer = L.geoJson({
                             "type": "Feature",
                             "properties": row,
@@ -144,7 +161,7 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                                 markerList.push(circleMarker);
                                 circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
                                 return circleMarker;
@@ -157,31 +174,36 @@
                     layer.on("mouseover", function (e) {
                         if (layer.selected) return;
                         showTip(e);
-                        layer.setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
+                        layer.setStyle(MFOM.config.styles.geojsonMarkerMouseover);
                     });
 
                     layer.on("mouseout", function (e) {
                         hideTip(e);
                         if (layer.selected) return;
-                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning phase" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
                     layer.on('click', function(e){
                         hideTip();
                         var props = layer.properties;
                         var h = STA.hasher.get();
-                        h.id = props['ID'];
+                        // If current ID is already selected, reset selections to nothing
+                        if (h.id == props['ID'])
+                          h.id = null;
+                        else
+                          h.id = props['ID'];
                         STA.hasher.set(h);
                     });
 
                     layer.properties = row;
-                    overlayMaps[row.ID + ": " + row.Location] = layer;
+                    overlayMaps[overlayKey] = layer;
 
                 });
         }
 
         function addOverlayControl() {
-            L.control.layers(null, overlayMaps, {collapsed: true}).addTo(map);
+            //L.control.layers(null, overlayMaps, {collapsed: true}).addTo(map);
+            return;
         }
 
         onMoveEndHandler();
@@ -193,10 +215,16 @@
 
                 if (props['ID'] === id) {
                     overlayMaps[overlay].selected = true;
-                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
+                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
+                    else
+                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
                 } else {
                     overlayMaps[overlay].selected = false;
-                    overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyStyle);
+                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
+                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                    else
+                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                 }
 
             }

@@ -15,7 +15,8 @@ dated-latest:
 # To install the tilemill project
 install:
 	mkdir -p ${HOME}/Documents/MapBox/project
-	ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore
+	cd tilemill_lowzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_lowzoom && ln -sf ../data
+	cd tilemill_highzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_highzoom && ln -sf ../tilemill_lowzoom/style.mss && ln -sf ../tilemill_lowzoom/images && ln -sf ../data
 
 clean:
 	rm -rf $(DATADIR)/*
@@ -98,8 +99,6 @@ basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp
 # The EEZ and protected area data:
 
 geojson: jsondir data \
-$(JSONDIR)/us_eez.geojson \
-$(JSONDIR)/canada_eez.geojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
 $(JSONDIR)/bc_mapp_haida_gwaii.geojson \
@@ -126,7 +125,7 @@ $(JSONDIR)/south_atlantic.geojson \
 
 # Create topojson file. -q is quantization, -p means preserve all properties
 
-topojson: 
+topojson: geojson
 	$(TOPOJSON) -q 60000 --simplify-proportion 0.7 -p -o $(JSONDIR)/planning_areas.topojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \

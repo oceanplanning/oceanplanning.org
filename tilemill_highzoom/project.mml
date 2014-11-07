@@ -1,0 +1,235 @@
+{
+  "bounds": [
+    -86.5723,
+    -41.8368,
+    47.373,
+    46.0123
+  ],
+  "center": [
+    -16.1719,
+    1.2304,
+    6
+  ],
+  "format": "png8",
+  "interactivity": false,
+  "minzoom": 6,
+  "maxzoom": 10,
+  "srs": "+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
+  "Stylesheet": [
+    "style.mss"
+  ],
+  "Layer": [
+    {
+      "geometry": "linestring",
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "id": "ne10mgraticules10",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_graticules_10_laea.geojson",
+        "id": "ne10mgraticules10",
+        "project": "moore",
+        "srs": "",
+        "layer": "OGRGeoJSON"
+      },
+      "layer": null,
+      "srs-name": "custom",
+      "srs": "+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
+      "advanced": {},
+      "name": "ne10mgraticules10"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -5.620698388100448,
+        -28.19639489617505,
+        171.70092393087836,
+        54.58333423876736
+      ],
+      "id": "world_eez",
+      "class": "",
+      "Datasource": {
+        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea_usa_canada.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "world_eez"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "id": "land",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_land_scale_rank_laea.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "land"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "id": "lakes",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_lakes_laea.shp",
+        "id": "lakes",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "lakes"
+    },
+    {
+      "id": "states_provinces",
+      "name": "states_provinces",
+      "srs": "",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "data/ne_10m_admin_1_states_provinces_lakes_laea.shp",
+        "type": "shape",
+        "id": "states_provinces",
+        "project": "moore",
+        "srs": ""
+      },
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "class": "",
+      "layer": null,
+      "srs-name": "autodetect",
+      "advanced": {}
+    },
+    {
+      "geometry": "point",
+      "extent": [
+        -132.189,
+        42.616,
+        -70.662,
+        54.337
+      ],
+      "id": "extracities",
+      "class": "",
+      "Datasource": {
+        "file": "data/extra_cities.csv"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "extracities"
+    },
+    {
+      "geometry": "point",
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "id": "populated_places",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_populated_places_laea.shp",
+        "id": "populated_places",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "populated_places"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "id": "ne10mgeographymarine",
+      "class": "",
+      "Datasource": {
+        "file": "data/ne_10m_geography_marine_polys_laea.shp",
+        "id": "ne10mgeographymarine",
+        "project": "moore",
+        "srs": ""
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "ne10mgeographymarine"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -141.00059139614513,
+        69.64620230920164,
+        -137.568888889,
+        73.39877033889837
+      ],
+      "id": "disputedbeaufortsea",
+      "class": "disputed",
+      "Datasource": {
+        "file": "data/disputed_beaufort_sea.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "disputedbeaufortsea"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -133.28394923039224,
+        54.36416666700006,
+        -129.96859578699997,
+        55.89810115486141
+      ],
+      "id": "disputeddixonentranc",
+      "class": "disputed",
+      "Datasource": {
+        "file": "data/disputed_dixon_entrance.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "disputeddixonentranc"
+    }
+  ],
+  "scale": 1,
+  "metatile": 2,
+  "name": "Moore Foundation highzoom",
+  "description": "",
+  "attribution": "Map by Stamen Design"
+}

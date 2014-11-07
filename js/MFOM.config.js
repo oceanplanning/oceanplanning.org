@@ -20,9 +20,9 @@
     };
 
     MFOM.config.statusLookup = {
-        'completed': 'Plan completed',
-        'pre-planning': 'Pre-planning phase',
-        'underway': 'Planning underway',
+        'completed': 'Implemented',
+        'pre-planning': 'Pre-planning',
+        'underway': 'Underway',
         'stalled': new RegExp('stall', 'gi')
     };
 
@@ -48,6 +48,13 @@
             fillOpacity: 0.3,
             weight:1
         },
+        geojsonPolyMouseover: {
+            color: '#126063',
+            opacity: 0.6,
+            fillColor: '#fd0',
+            fillOpacity: 0.3,
+            weight:1
+        },
         geojsonMarkerOptions: {
             fillColor: "#126063",
             color: "#126063",
@@ -65,6 +72,13 @@
         geojsonMarkerHighlighted: {
             fillColor: "#0ff",
             color: "#0ff",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.3
+        },
+        geojsonMarkerMouseover: {
+            fillColor: "#fd0",
+            color: "#126063",
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
@@ -102,7 +116,8 @@
 
                 }
             ),
-        mapboxTiles: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore/{z}/{x}/{y}.png', {attribution: ''}),
+        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: 'Map by Stamen Design'}),
+        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
         startZoom: 4,
         layers: [
                 {
