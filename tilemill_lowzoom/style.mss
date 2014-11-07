@@ -67,8 +67,9 @@ Map {
 /*
  *  Draw EEZs for Canada and US only
  */
-#world_eez[Sovereign='Canada'],
-#world_eez[Sovereign='United States'] {
+//#world_eez[Sovereign='Canada'],
+//#world_eez[Sovereign='United States'] {
+#world_eez {
   ::glow_wide {
     line-width:20;
     line-color:#168;

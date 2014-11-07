@@ -45,15 +45,15 @@
     {
       "geometry": "polygon",
       "extent": [
-        -5.620698388100448,
-        -28.19639489617505,
-        171.70092393087836,
-        54.58333423876736
+        -5.620490751892475,
+        -28.196535222249036,
+        171.70077139548962,
+        54.58324857402918
       ],
       "id": "world_eez",
       "class": "",
       "Datasource": {
-        "file": "data/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea_usa_canada.shp"
+        "file": "data/dissolved_eezs.shp"
       },
       "layer": null,
       "srs-name": "autodetect",
