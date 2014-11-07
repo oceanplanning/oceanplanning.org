@@ -108,6 +108,7 @@
                 tabs.classed('open', false);
                 return;
             }
+            console.log(data)
             tabs.classed('open', true);
             descriptionTxt.text(data.Narrative);
             detailItems.each(function(){
