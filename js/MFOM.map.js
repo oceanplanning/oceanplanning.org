@@ -28,17 +28,26 @@
             .addLayer(MFOM.config.map.mapboxTilesLowZoom)
             .addLayer(MFOM.config.map.mapboxTilesHighZoom)
             .setView([35, -105], MFOM.config.map.startZoom);
+
+        /*
         var popup = L.popup({
             closeButton: false,
             offset: [0, -6]
         }),
         popupOpen = false;
 
+        */
+
+        //var popup = new L.Rrose({ offset: new L.Point(0,-10), closeButton: false, autoPan: false });
+        //var popupOpen = false;
+
+        /*
         map.on('mousemove', function(e){
             if (popupOpen) {
                 popup.setLatLng(e.latlng);
             }
         })
+        */
 
         map.on('zoomend', function() {
             if (!markerList) return;
@@ -54,7 +63,7 @@
         map.on('click', function(e) {
           // This click event only fires if the user clicks somewhere not on a feature.
           // Reset selections so that nothing is selected.
-          hideTip();
+          map.closePopup();
           var h = STA.hasher.get();
           h.id = null;
           STA.hasher.set(h);
@@ -74,7 +83,6 @@
         }
 
         function onEachFeature(feature, layer) {
-
             return;
             if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
                 var html = feature.properties.Location + "<br>" + feature.properties.Status + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
@@ -90,16 +98,17 @@
             if (props && props.hasOwnProperty("Location")) {
                 html = props.Location;
             }
-            popup
-                .setContent(html)
-                .setLatLng(e.latlng)
-                .openOn(map);
-            popupOpen = true;
+
+            var hover_bubble = new L.Rrose({ offset: new L.Point(0,-10), closeButton: false, autoPan: false })
+              .setContent(html)
+              .setLatLng(e.latlng)
+              .openOn(map);
+            //popupOpen = true;
         }
 
-        function hideTip(e) {
-            popupOpen = false;
-            map.closePopup(popup);
+        function hideTip() {
+            //popupOpen = false;
+            map.closePopup();
         }
 
         function drawOverlays(layers) {
@@ -112,13 +121,15 @@
 
                     map.addLayer(lyr.layer);
 
-                    lyr.layer.on("mouseover", function (e) {
+                    lyr.layer.on('mouseover mousemove', function(e){
                         if (lyr.layer.selected) return;
                         showTip(e);
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyMouseover);
+
                     });
-                    lyr.layer.on("mouseout", function (e) {
-                        hideTip(e);
+
+                    lyr.layer.on('mouseout', function(e){
+                        hideTip();
                         if (lyr.layer.selected) return;
                         lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
@@ -134,6 +145,7 @@
                           h.id = props['ID'];
                         STA.hasher.set(h);
                     });
+
 
                     var label = lyr.geojson.features[0].properties.Location;
                     if (!label) label = "no shape";
@@ -171,6 +183,7 @@
 
                     map.addLayer(layer);
 
+
                     layer.on("mouseover", function (e) {
                         if (layer.selected) return;
                         showTip(e);
@@ -194,6 +207,7 @@
                           h.id = props['ID'];
                         STA.hasher.set(h);
                     });
+
 
                     layer.properties = row;
                     overlayMaps[overlayKey] = layer;
