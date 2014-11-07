@@ -19,6 +19,11 @@
 
         var overlayMaps,markerList;
 
+        var hash = STA.hasher.getMapState(STA.hasher.get());
+
+        var initialLocation = (hash && hash[0]) ? hash[0] : [35, -105],
+            initialZoom = (hash && hash[1]) ? hash[1] : MFOM.config.map.startZoom;
+
         var map = L.map(selector, {
                 crs: MFOM.config.map.crs,
                 continuousWorld: false,
@@ -27,7 +32,7 @@
             })
             .addLayer(MFOM.config.map.mapboxTilesLowZoom)
             .addLayer(MFOM.config.map.mapboxTilesHighZoom)
-            .setView([35, -105], MFOM.config.map.startZoom);
+            .setView(initialLocation, initialZoom);
 
         /*
         var popup = L.popup({

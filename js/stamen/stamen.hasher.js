@@ -90,7 +90,7 @@
         __.getMapState = function(hashObj) {
             if (!hashObj || !hashObj.c) return null;
             var parts = hashObj.c.split(':'),
-                coords = new L.LatLng(parts[1],parts[2]),
+                coords = [parts[1],parts[2]],
                 zoom = parts[0];
 
             return [coords, zoom];
