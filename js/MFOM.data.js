@@ -36,7 +36,18 @@
         load: function(callback) {
             if (layers) return;
             layers = extend([],MFOM.config.map.layers);
-            d3.csv(MFOM.config.files.csvBase + MFOM.config.files.eez, function(csvdata) {
+            d3.csv(MFOM.config.files.csvBase + MFOM.config.files.eez,
+                function(d){
+
+                    // remove crazy key...
+                    if (d.hasOwnProperty('Narrative (250, no formatting or links)')) {
+                        d.Narrative = d['Narrative (250, no formatting or links)'];
+                        delete d['Narrative (250, no formatting or links)'];
+                    }
+
+                    return d;
+                },
+                function(csvdata) {
                 eezs = csvdata;
 
                 d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planning_areas_topojson) {

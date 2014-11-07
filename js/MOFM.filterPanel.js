@@ -104,7 +104,11 @@
         };
 
         __.update = function(data) {
-            if (!data || data.length) return;
+            if (!data || !data.ID) {
+                tabs.classed('open', false);
+                return;
+            }
+            tabs.classed('open', true);
             descriptionTxt.text(data.Narrative);
             detailItems.each(function(){
                 var el = d3.select(this),

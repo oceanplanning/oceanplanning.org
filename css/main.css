@@ -15,7 +15,7 @@ body,
 }
 
 .nav {
-    padding: 1.2em 1.875em;
+    padding: 0 1.875em;
     width: 100%;
 }
 .nav div {
@@ -198,8 +198,12 @@ button.about:hover {
 /* tabs */
 .tabs {
     position: relative;
+    display: none;
     width: 100%;
     max-width: 300px;
+}
+.tabs.open {
+    display: block;
 }
 .tabs .filter-row {
     margin-bottom: 0;

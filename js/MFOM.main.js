@@ -98,7 +98,7 @@
         var h = STA.hasher.get();
         if (currentId !== h.id) {
             currentId = h.id;
-            view.onIDChange( MFOM.data.getLayerForID(currentId)[0] || [] );
+            view.onIDChange( MFOM.data.getLayerForID(currentId)[0] || {} );
         }
 
         var f = [],
@@ -115,6 +115,7 @@
             f.push({key:'Status', value: currentStatus });
             dirty = true;
         }
+
         if (dirty) view.onFilterChange( f );
 
 
