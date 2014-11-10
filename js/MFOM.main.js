@@ -47,27 +47,42 @@
                 if (country === selectedCountry) return;
                 selectedCountry = country;
 
-                handleCountryChange(this, country)
+                handleCountryChange(country)
             });
 
-        function handleCountryChange(elm, country) {
+        function setCountryList(country) {
+            if (!country) country = 'all';
             countryFilters.classed('selected', false)
                 .filter(function(){
-                    return this === elm;
+                    var c = this.getAttribute('data-country');
+                    return c === country;
                 })
                 .classed('selected', true);
+        }
+
+        setCountryList(selectedCountry);
+
+        function handleCountryChange(country) {
+            setCountryList(country)
 
             var hash = STA.hasher.get();
+
+            for(var key in hash) {
+                if (key !== 'Country' && key !== 'c' ) {
+                    hash[key] = null;
+                }
+            }
 
             if (country === 'all') {
                 hash['Country'] = null;
             } else {
-                hash['Country'] = country.toUpperCase();
+                hash['Country'] = country;
             }
 
             STA.hasher.set(hash);
         }
-        handleCountryChange(null, selectedCountry);
+
+        //handleCountryChange(null, selectedCountry);
 
         __.onData = function(layers, eezs) {
             map.onData(layers, eezs);
@@ -88,7 +103,13 @@
         __.onFilterChange = function(filters) {
             filterPanel.onFilterChange(filters);
             map.filterOn(filters);
+        };
 
+        __.onCountryChange = function(country) {
+            __.onFilterChange([]);
+            map.countryChange(MFOM.config.expand.countries[country]);
+            selectedCountry = country || 'all';
+            setCountryList(selectedCountry);
         };
 
         return __;
@@ -96,28 +117,20 @@
 
     function processHash() {
         var h = STA.hasher.get();
+
         if (currentId !== h.id) {
             currentId = h.id;
             view.onIDChange( MFOM.data.getLayerForID(currentId)[0] || {} );
         }
 
-        var f = [],
-            dirty = false;
-
-        if (currentCountry || currentCountry !== h.Country) {
+        // don't look for filter change on country change
+        if (currentCountry !== h.Country) {
             currentCountry = h.Country || null;
-            f.push({key:'Country', value: currentCountry});
-            dirty = true;
-        }
-        if (currentStatus || currentStatus !== h.Status) {
-            //currentStatus = (h.Status) ?  MFOM.config.statusLookup[h.Status] : null;
+            view.onCountryChange(currentCountry);
+        } else if (currentStatus || currentStatus !== h.Status) {
             currentStatus = h.Status || null;
-            f.push({key:'Status', value: currentStatus });
-            dirty = true;
+            view.onFilterChange( [{key:'Status', value: currentStatus }] );
         }
-
-        if (dirty) view.onFilterChange( f );
-
 
     }
 
@@ -130,6 +143,7 @@
     // set up view and listeners
     function onInitialHash() {
         window.onload = null;
+
         view = new MFOM.view();
 
         MFOM.data.load(function(layers, eezs){

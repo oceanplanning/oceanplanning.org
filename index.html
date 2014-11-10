@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/rrose.css">
+<link rel="stylesheet" type="text/css" href="css/leaflet.groupedlayercontrol.css">
 
 </head>
   <body>
@@ -20,7 +21,7 @@
         <div class="modal-background modal-close"></div>
         <div class="modal-inner">
           <button class="link modal-close">×</button>
-          <div class="modal-content">
+          <div class="modal-content txt-copy">
             <h3>Ocean planning</h3>
             <p>Ocean planning – a multi-stakeholder, data-driven process to understand what people want for the future of their oceans and evaluate the trade-offs among their interests in a way that maximizes economic and ecological value - is increasingly being adopted by US and Canadian governments and ocean stakeholders. This map provides a window into the proliferation of this approach to ocean management in the US and Canada, the individual planning efforts underway and completed, and information about each effort.</p>
           </div>
@@ -31,7 +32,7 @@
         <div class="modal-background modal-close"></div>
         <div class="modal-inner">
           <button class="link modal-close">×</button>
-          <div class="modal-content">
+          <div class="modal-content txt-copy">
             <h3>United States</h3>
             <p>US oceans are home to a magnificent diversity of ecosystems, including the incredibly productive Gulf of Maine, California kelp forests, and the coral reefs of Hawaii. Nearly matching this diversity is the array of activities carried out in the ocean by fishermen, shipping vessels, tourism businesses, recreational boaters, conservationists and wildlife advocates, scientists, energy industries, harbormasters, undersea cable companies, and all others who want to enjoy and use the oceans.</p>
 
@@ -50,7 +51,7 @@
         <div class="modal-background modal-close"></div>
         <div class="modal-inner">
           <button class="link modal-close">×</button>
-          <div class="modal-content">
+          <div class="modal-content txt-copy">
             <h3>Canada</h3>
             <p>Text to come....</p>
           </div>
@@ -75,8 +76,8 @@
         <div>
           <ul id="country-selector" class="horizontal-list">
           <li><button class="link country-btn" data-country="all">ALL</button><button id="about-all" class="link about">?</button></li>
-          <li><button class="link country-btn" data-country="us">U.S.</button><button id="about-us" class="link about">?</button></li>
-          <li><button class="link country-btn" data-country="ca">CANADA</button><button id="about-canada" class="link about">?</button></li>
+          <li><button class="link country-btn" data-country="usa">U.S.</button><button id="about-us" class="link about">?</button></li>
+          <li><button class="link country-btn" data-country="can">CANADA</button><button id="about-canada" class="link about">?</button></li>
           </ul>
         </div>
 
@@ -85,7 +86,7 @@
         <div id='map'></div>
         <div class="panel filters">
           <!-- filter by -->
-          <p class='txt-copy panel-headline'>Filter by:</p>
+          <p class='txt-copy panel-headline'>Filter by: <button id="resetButton" class="link"><span class="icon-close">&#x2715;</span> clear</button></p>
           <div class="filter-row status-filters">
             <ul class="clearfix">
               <li><button class="link disabled" disabled>Status</button></li>
@@ -112,7 +113,7 @@
               </ul>
             </div>
             <div class="tabs-inner">
-              <div class="tab hide" data-tab="details">
+              <div class="tab" data-tab="details">
                 <ul>
                   <li data-key="Location"><span class="key">Plan Name:</span><span class="value"></span></li>
                   <li data-key="Status"><span class="key">Status:</span><span class="value"></span></li>
@@ -123,7 +124,7 @@
                   <li data-key="Website"><span class="key">Website:</span><span class="value"><a href=""></a></span></li>
                 </ul>
               </div>
-              <div class="tab" data-tab="description">
+              <div class="tab hide" data-tab="description">
                 <p class="txt-copy">Select a planning area.</p>
               </div>
             </div>
@@ -145,6 +146,7 @@
     <script type="text/javascript" src='js/vendor/signals.js'></script>
     <script type="text/javascript" src='js/vendor/hasher.js'></script>
     <script type="text/javascript" src='js/vendor/rrose-src.js'></script>
+    <script type="text/javascript" src='js/vendor/leaflet.groupedlayercontrol.js'></script>
 
     <script type="text/javascript" src="js/stamen/stamen.hasher.js"></script>
 

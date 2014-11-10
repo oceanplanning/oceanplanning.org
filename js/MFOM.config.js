@@ -26,6 +26,13 @@
         'stalled': new RegExp('stall', 'gi')
     };
 
+    MFOM.config.expand = {
+        countries : {
+            'usa' : "United States",
+            "can" : "Canada"
+        }
+    }
+
     MFOM.config.styles = {
         geojsonPolyStyle: {
             color: '#126063',
