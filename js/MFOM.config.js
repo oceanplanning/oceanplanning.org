@@ -43,10 +43,11 @@
         },
         geojsonPolyStylePreplanning: {
             color: '#126063',
-            opacity: 0.6,
+            opacity: 0.5,
             fillColor: '#9bb',
-            fillOpacity: 0.2,
-            weight:1
+            fillOpacity: 0.05,
+            weight:1.0,
+            dashArray:'3'
         },
         geojsonPolyHighlighted: {
             color: '#0ff',
@@ -72,9 +73,10 @@
         geojsonMarkerOptionsPreplanning: {
             fillColor: "#9bb",
             color: "#126063",
-            weight: 2,
-            opacity: 0.6,
-            fillOpacity: 0.2
+            weight: 1.5,
+            opacity: 0.5,
+            fillOpacity: 0.1,
+            dashArray:'2'
         },
         geojsonMarkerHighlighted: {
             fillColor: "#0ff",
