@@ -15,6 +15,16 @@
 
 </head>
   <body>
+    <svg style="display:none;">
+      <defs>
+
+        <g id="map-layers">
+            <path d="M0 0h24v24h-24z" fill="none"/>
+            <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
+        <g>
+
+      </defs>
+    </svg>
     <div class="container block-group">
 
       <div id="about-modal-all" class="panel modal hide">
@@ -82,14 +92,27 @@
         </div>
 
       </header>
+
+
       <section class="main block">
         <div id='map'></div>
+        <div id="overlaySelectr" class="dropdown">
+          <a href="#" class="icon map-layers">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24h-24z" fill="none"/>
+                <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
+            </svg>
+
+          </a>
+          <div class="inner">
+          </div>
+        </div>
         <div class="panel filters">
           <!-- filter by -->
-          <p class='txt-copy panel-headline'>Filter by: <button id="resetButton" class="link"><span class="icon-close">&#x2715;</span> clear</button></p>
+          <p class='txt-copy panel-headline'>Filter by status: <button id="resetButton" class="link"><span class="icon-close">&#x2715;</span> clear</button></p>
           <div class="filter-row status-filters">
             <ul class="clearfix">
-              <li><button class="link disabled" disabled>Status</button></li>
+              <li><button class="link filter-btn" data-key="Status" data-value="all">All</button></li>
               <li><button class="link filter-btn" data-key="Status" data-value="completed">Completed</button></li>
               <li><button class="link filter-btn" data-key="Status" data-value="underway">Underway</button></li>
               <li><button class="link filter-btn" data-key="Status" data-value="pre-planning">Pre-planning</button></li>

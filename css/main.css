@@ -12,6 +12,7 @@ body,
 .main {
     margin:0;
     padding:0;
+    position: relative;
 }
 
 .nav {
@@ -188,6 +189,7 @@ button.about:hover {
     line-height: 40px;
     padding: 0 6px;
     font-size: 0.65em;
+    min-width: 3.5em;
 }
 .filter-row li:first-child button {
     border-top-left-radius: 10px;
@@ -359,6 +361,130 @@ button.about:hover {
 }
 .horizontal-list li {
     display: inline-block;
+}
+
+ul.plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ul.plain li {
+    margin: 0;
+    padding: 0;
+}
+
+/* dropdown */
+.dropdown {
+}
+
+.dropdown ul,
+.dropdown li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.dropdown li {
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0 5px;
+    cursor: auto;
+    line-height: 1.5;
+}
+.dropdown li.top-level {
+
+}
+
+.dropdown li button {
+    width: 100%;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-align: left;
+    padding: 0 0.5em;
+}
+.dropdown li button:after {
+    content: "⟩";
+    position: relative;
+    float: right;
+}
+
+.open > button {
+    background: #eee;
+}
+.open > button:after {
+    transform: rotate(90deg);
+}
+
+.dropdown li li {
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.dropdown li li li {
+    font-size: 0.75em;
+    font-weight: 400;
+}
+
+.dropdown li > ul {
+    height: 0px;
+    overflow: hidden;
+
+}
+.dropdown li.open > ul {
+    height: auto;
+}
+
+.dropdown label {
+    cursor: default;
+}
+.dropdown input[type="checkbox"] {
+    margin-right: 5px;
+    cursor: auto;
+
+}
+
+
+/* overlaySelectr */
+#overlaySelectr {
+    position: absolute;
+    display: block;
+    top: 1em;
+    right: 1em;
+    padding: 5px;
+    background: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+#overlaySelectr .inner {
+    position: relative;
+    display: none;
+    margin-top: -24px;
+    background: #fff;
+    max-height: 400px;
+    overflow: scroll;
+
+}
+
+#overlaySelectr.expanded .inner {
+    display: block;
+}
+
+#overlaySelectr .map-layers {
+
+}
+#overlaySelectr .map-layers:hover {
+
+}
+
+
+
+/* icons */
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
 }
 
 /* Clearfix */

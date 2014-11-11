@@ -2,7 +2,7 @@
 
 // A layer control which provides for layer groupings.
 // Author: Ishmael Smyrnow
-L.Control.GroupedLayers = L.Control.extend({
+L.Control.NestedLayers = L.Control.extend({
 
   options: {
     collapsed: true,
@@ -10,7 +10,7 @@ L.Control.GroupedLayers = L.Control.extend({
     autoZIndex: true
   },
 
-  initialize: function (baseLayers, groupedOverlays, options) {
+  initialize: function (overlays, options) {
     var i, j;
     L.Util.setOptions(this, options);
 
@@ -162,6 +162,7 @@ L.Control.GroupedLayers = L.Control.extend({
         i, obj;
 
     for (i in this._layers) {
+
       obj = this._layers[i];
       this._addItem(obj);
       overlaysPresent = overlaysPresent || obj.overlay;
@@ -294,6 +295,6 @@ L.Control.GroupedLayers = L.Control.extend({
   }
 });
 
-L.control.groupedLayers = function (baseLayers, groupedOverlays, options) {
-  return new L.Control.GroupedLayers(baseLayers, groupedOverlays, options);
+L.control.nestedLayers = function (baseLayers, groupedOverlays, options) {
+  return new L.Control.NestedLayers(baseLayers, groupedOverlays, options);
 };

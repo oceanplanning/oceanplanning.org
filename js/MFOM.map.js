@@ -61,6 +61,14 @@
             if (currentFilters) __.filterOn(currentFilters);
         });
 
+        function onLayerSelectorChange(key, checked) {
+            if (checked && !map.hasLayer(overlayMaps[key])) map.addLayer(overlayMaps[key]);
+            if (!checked && map.hasLayer(overlayMaps[key])) map.removeLayer(overlayMaps[key]);
+
+            getAvailableGroups();
+            if (currentFilters) __.filterOn(currentFilters);
+        }
+
         function onMoveEndHandler(e) {
             var center = map.getCenter(),
                 zoom = map.getZoom();
@@ -164,33 +172,33 @@
         var availableGroups = {};
         function getAvailableGroups() {
             availableGroups = {};
-            if(!layerControl) return;
-            var root = d3.select('.leaflet-control-layers-overlays');
-            layerControl._groupList.forEach(function(country) {
-                if (!availableGroups.hasOwnProperty(country))availableGroups[country] = {};
+            d3.select("#overlaySelectr")
+                .selectAll('input[type="checkbox"]')
+                .each(function(){
+                    var key = this.getAttribute('data-key');
+                    var checked = this.checked;
 
-                var group = root.select('[data-group="' + country + '"]');
-                group.selectAll('.leaflet-control-layers-selector')
-                    .each(function(){
-                        var value = this.checked,
-                        l = this.getAttribute('data-grouplayer');
-
-                        availableGroups[country][l] = value;
-                    });
-            });
+                    if (checked) availableGroups[key] = 1;
+                })
 
         }
 
 
+        function removeAllLayers() {
+            for (var overlay in overlayMaps) {
+                if (map.hasLayer(overlayMaps[overlay])) map.removeLayer(overlayMaps[overlay]);
+            }
+        }
+
         function groupOverlays() {
             layerControlReset = true;
-            if (layerControl) {
-                layerControl.removeAllLayers();
-                map.removeControl(layerControl);
-            }
-            layerControl = null;
+            var root = d3.select("#overlaySelectr .inner");
+            root.selectAll('ul').remove();
+
+            removeAllLayers();
 
             var o = {};
+            var q = {};
             for (var overlay in overlayMaps) {
                 var lyr = overlayMaps[overlay];
                 var props = lyr.properties;
@@ -200,27 +208,109 @@
                     layerName = lyr.lookupKey;
 
                 if (selectedCountry && country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
+                if (!o.hasOwnProperty(country)) {
+                    o[country] = {};
+                    q[country] = {};
+                }
+                if (!o[country].hasOwnProperty(scale)) o[country][scale] = {};
 
-
-                if (!o.hasOwnProperty(country)) o[country] = {};
-                if (!o[country].hasOwnProperty(scale)) o[country][scale] = new L.LayerGroup();
-
-                overlayMaps[layerName].addTo(o[country][scale]);
+                if (!q[country].hasOwnProperty(layerName))q[country][layerName] = overlayMaps[layerName];
+                o[country][scale][layerName] = {
+                    label: label,
+                    key: layerName
+                };
             }
 
-            // add layers as groups
+            // add layers
             for (var country in o) {
                 for (var scale in o[country]) {
-                    map.addLayer(o[country][scale]);
+                    for (var l in o[country][scale]) {
+                        var key = o[country][scale][l].key;
+                        map.addLayer(overlayMaps[key]);
+                    }
+
                 }
             }
 
+            // make menu
+            var ul = root.append('ul');
+
+            for(var group in o) {
+                var sub = o[group];
+                var parent = ul.append('li')
+                    .attr('class', 'top-level');
+                parent.append('button')
+                    .attr('class', 'link')
+                    .text(group);
+
+                var child = parent.append('ul');
+
+                for (var l in sub) {
+                    var subchild = child.append('li')
+                        .attr('class', 'level-1')
+                    subchild.append('button')
+                        .attr('class', 'link')
+                        .html(l);
+                    var ss = subchild.append('ul');
+                    for (var c in sub[l]) {
+                        var key = sub[l][c].key;
+                        var checked = map.hasLayer(overlayMaps[key]);
+                        var li = ss.append('li');
+                        var label = li.append('label')
+                        label.append('input')
+                            .attr('type', 'checkbox')
+                            .property('checked', checked)
+                            .attr('data-key', key);
+                        label.append('span')
+                            .text(sub[l][c].label);
+                    }
+
+                }
+            }
+
+            root.selectAll('.link')
+                .on('click', function(){
+                    var status = d3.select(this.parentNode).classed('open');
+                    d3.select(this.parentNode).classed('open', !status);
+                });
+            var layerCtrl = d3.select("#overlaySelectr");
+
+            layerCtrl
+                .on('mouseover', function(){
+                    d3.event.preventDefault();
+                    layerCtrl.classed('expanded', true);
+                })
+                .on('mouseout', function(){
+                    d3.event.preventDefault();
+                    layerCtrl.classed('expanded', false);
+                });
+
+            layerCtrl.select('a.map-layers')
+                .on('click', function(){
+                    d3.event.preventDefault();
+                });
+
+
+            root.selectAll('input[type="checkbox"]')
+                .on('change', function(){
+                    d3.event.preventDefault();
+
+                    var key = this.getAttribute('data-key');
+                    var checked = this.checked;
+                    onLayerSelectorChange(key, checked)
+                });
+
+
             // add group control
-            layerControl = L.control.groupedLayers(null, o);
+            /*
+            console.log(q)
+            layerControl = L.control.nestedLayers(null, q);
             map.addControl(layerControl);
+
             layerControlReset = false;
             exports.layerControl = layerControl;
             getAvailableGroups()
+            */
         }
 
         // Create point map layers for any rows that have lat & lon
@@ -320,8 +410,9 @@
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
 
-                if (selectedCountry && !availableGroups.hasOwnProperty(props.Country)) continue;
-                if (!availableGroups[props.Country][props.Scale]) continue;
+                if (!availableGroups.hasOwnProperty(overlay)) continue;
+                //if (selectedCountry && !availableGroups.hasOwnProperty(props.Country)) continue;
+                //if (!availableGroups[props.Country][props.Scale]) continue;
 
                 var valid = true,
                     value;
