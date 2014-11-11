@@ -106,9 +106,7 @@
         };
 
         __.onCountryChange = function(country) {
-            __.onFilterChange([]);
             map.countryChange(MFOM.config.expand.countries[country]);
-
             selectedCountry = country || 'all';
             setCountryList(selectedCountry);
         };
@@ -129,11 +127,21 @@
         }
 
         // don't look for filter change on country change
+        var countryChange;
         if (currentCountry !== h.Country) {
+            countryChange = true;
             currentCountry = h.Country || null;
             currentStatus = null;
             view.onCountryChange(currentCountry);
-        } else if (currentStatus || currentStatus !== h.Status) {
+        }
+
+        if (currentStatus || currentStatus !== h.Status || countryChange) {
+            if (!initial && countryChange) {
+                currentStatus = null;
+                view.onFilterChange([]);
+                return;
+            }
+
             currentStatus = h.Status || null;
             view.onFilterChange( [{key:'Status', value: currentStatus }] );
         }
@@ -154,7 +162,7 @@
 
         MFOM.data.load(function(layers, eezs){
             view.onData(layers, eezs);
-            processHash();
+            processHash(true);
         });
 
         var resizeFn = L.Util.limitExecByInterval(view.onResize, 100);

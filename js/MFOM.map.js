@@ -411,7 +411,7 @@
             currentFilters = filters;
             if (!availableGroups) return;
 
-            console.log("FILTER ON: ", filters);
+            var bds;
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
 
@@ -435,12 +435,22 @@
                 });
 
                 if (valid) {
+                    if (!bds) {
+                        bds = L.latLngBounds(overlayMaps[overlay].getBounds());
+                    } else {
+                        bds.extend(overlayMaps[overlay].getBounds());
+                    }
                     if (!map.hasLayer()) map.addLayer(overlayMaps[overlay]);
                 } else {
                     map.removeLayer(overlayMaps[overlay]);
                 }
 
 
+            }
+
+            // Something weird going on with probably custom projection
+            if (bds && bds.isValid()) {
+               // map.fitBounds(bds, {animate: false, paddingTopLeft:[-150, 0] });
             }
         };
 
