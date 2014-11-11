@@ -169,7 +169,7 @@
         });
         */
 
-        var availableGroups = {};
+        var availableGroups;
         function getAvailableGroups() {
             availableGroups = {};
             d3.select("#overlaySelectr")
@@ -179,7 +179,7 @@
                     var checked = this.checked;
 
                     if (checked) availableGroups[key] = 1;
-                })
+                });
 
         }
 
@@ -300,6 +300,8 @@
                     onLayerSelectorChange(key, checked)
                 });
 
+            getAvailableGroups();
+
 
             // add group control
             /*
@@ -407,12 +409,13 @@
         var currentFilters = null;
         __.filterOn = function(filters) {
             currentFilters = filters;
+            if (!availableGroups) return;
+
+            console.log("FILTER ON: ", filters);
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
 
                 if (!availableGroups.hasOwnProperty(overlay)) continue;
-                //if (selectedCountry && !availableGroups.hasOwnProperty(props.Country)) continue;
-                //if (!availableGroups[props.Country][props.Scale]) continue;
 
                 var valid = true,
                     value;

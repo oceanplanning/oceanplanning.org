@@ -45,7 +45,7 @@
             color: '#126063',
             opacity: 0.5,
             fillColor: '#9bb',
-            fillOpacity: 0.05,
+            fillOpacity: 0.1,
             weight:1.0,
             dashArray:'3'
         },

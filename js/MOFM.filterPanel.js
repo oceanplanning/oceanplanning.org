@@ -13,7 +13,6 @@
 
         var root = d3.select('.filters'),
             statusFilters = root.select('.status-filters').selectAll('button'),
-            //countryFilters = root.select('.country-filters').selectAll('button'),
             filterBtns = root.selectAll('.filter-btn'),
             tabs = root.select('.tabs'),
             tabBtns = tabs.select('.filter-row').selectAll('button'),
@@ -25,28 +24,19 @@
             currentTab;
 
 
+        // reset region button
         resetBtn.on('click', function(){
             var h = STA.hasher.get();
-            for(var k in h) {
-                if (k !== 'c' && k !== 'Country') {
-                    h[k] = null;
-                }
-            }
-
+            h.id = null;
             STA.hasher.set(h);
-        })
+        });
+
         tabBtns.each(function(btn){
             if (d3.select(this).classed('selected')) currentTab = this;
         });
         tabBtns.on('click', function(){
             setTabs(this);
         });
-
-        /*
-        countryFilters.on('click', function(){
-            setFilter(this, countryFilters, 'country');
-        });
-        */
 
         statusFilters.on('click', function(){
             setFilter(this,statusFilters, 'status');
@@ -58,7 +48,8 @@
                 key = elmObj.attr('data-key') || null,
                 value = elmObj.attr('data-value') || null;
 
-            if (elmObj.classed('selected')) {
+
+            if (elmObj.classed('selected') && value !== 'reset') {
                 filters
                 .classed('selected', false);
                 h[key] = null;
@@ -66,10 +57,11 @@
                 filters
                     .classed('selected', false)
                     .filter(function(){
-                        return this === elm;
+                        var v = this.getAttribute('data-value');
+                        return v === value;
                     })
                     .classed('selected', true);
-                h[key] = value;
+                h[key] = (value === 'reset' || value === 'all') ? null : value;
             }
 
             STA.hasher.set(h);
@@ -100,18 +92,30 @@
             });
         }
 
+        function setFilterReset() {
+            statusFilters.classed('selected', false);
+            d3.select(statusFilters[0][0]).classed('selected', true);
+        }
+
         // on a filter change
         __.onFilterChange = function(filters) {
             var showReset = tabs.classed('open');
+
+            if (!filters || !filters.length) {
+                root.classed('selected', false);
+                setFilterReset();
+                return;
+            };
             filterBtns.each(function(){
                 var el = d3.select(this),
                     key = el.attr('data-key'),
                     value = el.attr('data-value');
 
                 var match = false;
-                //console.log(filters);
+
                 filters.forEach(function(f){
-                    if (f.key === key && f.value === value) match = true;
+                    var thisValue = f.value ? f.value : 'reset';
+                    if (f.key === key && thisValue === value) match = true;
                 });
                 el.classed('selected', match);
                 if (match) showReset = true;
@@ -120,10 +124,14 @@
             root.classed('selected', showReset);
         };
 
+
+
         // on a selected region
         __.update = function(data) {
+
             if (!data || !data.ID) {
                 root.classed('selected', false);
+                setFilterReset();
                 tabs.classed('open', false);
                 return;
             }

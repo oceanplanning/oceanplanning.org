@@ -108,6 +108,7 @@
         __.onCountryChange = function(country) {
             __.onFilterChange([]);
             map.countryChange(MFOM.config.expand.countries[country]);
+
             selectedCountry = country || 'all';
             setCountryList(selectedCountry);
         };
@@ -115,8 +116,12 @@
         return __;
     };
 
-    function processHash() {
+    function processHash(initial) {
         var h = STA.hasher.get();
+
+        // TODO: comparing undefines and nulls should be equal
+        h.Country = h.Country || null;
+        h.Status = h.Status || null;
 
         if (currentId !== h.id) {
             currentId = h.id;
@@ -126,6 +131,7 @@
         // don't look for filter change on country change
         if (currentCountry !== h.Country) {
             currentCountry = h.Country || null;
+            currentStatus = null;
             view.onCountryChange(currentCountry);
         } else if (currentStatus || currentStatus !== h.Status) {
             currentStatus = h.Status || null;

@@ -206,10 +206,17 @@ button.about:hover {
 #resetButton {
     float: right;
     display: none;
+    font-size: 12px;
+    text-decoration: underline;
+    color: #666;
 }
 
-.selected #resetButton {
+.open #resetButton {
     display: block;
+}
+
+#resetButton:hover {
+    color: #000;
 }
 
 /* tabs */
@@ -349,10 +356,14 @@ button.about:hover {
     line-height: 1;
     background: #eee;
     border-radius: 50%;
-    padding: 4px 5px 4px 7px;
+    padding: 4px 6px;
     font-size: 10px;
     text-align: center;
     position: relative;
+    text-decoration: none !important;
+}
+button:hover .icon-close {
+    background: #ccc;
 }
 
 /* horizontal-list */
@@ -407,10 +418,10 @@ ul.plain li {
     float: right;
 }
 
-.open > button {
+.dropdown .open > button {
     background: #eee;
 }
-.open > button:after {
+.dropdown .open > button:after {
     transform: rotate(90deg);
 }
 
