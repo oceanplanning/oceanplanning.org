@@ -12,13 +12,9 @@ In the case of #1, as much non-geo data as possible should be accessed from CSV 
 
 The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process. 
 
-## Branches (if appropriate)
+## Branches
 
-Currently only `master`
-
-## Heroku Apps (if appropriate)
-
-Currently no heroku apps.
+Currently only `master`. Potentially moved to `gh-pages` if we decide to host on github.
 
 ## Data preparation
 
@@ -26,17 +22,27 @@ Processing the input shapefiles into raster tiles and GeoJSON vector overlays ne
 
 Currently the data preparation is done using a Makefile. **Note, the specific commands are subject to change!**
 
-To download and process the base data that is necessary for the raster basemap, run `make basedata`. To convert it into Lambert Azimuthal Equal-Area, run `make basedatalaea`.
+To download and process the base data that is necessary for the raster basemap, run `make basedatalaea`. This creates shapefiles that have been reprojected to Lambert Azimuthal Equal-Area.
 
-To download and process the geojson data, run `make geojson`.
+If you want to add new planning areas, we need to have a shapefile that describes the spatial extent of the area. Please read the [Shapefile Specifications](SHAPEFILE_SPECIFICATIONS.md) document first.
+
+To get the new planning areas to show up on the map, you must add a new line to the CSV file, and modify the Makefile. To edit the Makefile, follow the pattern of the other planning areas. You will need to edit the Makefile so that the following steps happen:
+
+1. Download the shapefile from the web (or source it from the repository)
+2. Convert the shapefile to GeoJSON and reproject to EPSG:4326 (usually can be done in one step using `ogr2ogr`)
+3. Compile all the GeoJSON files into one TopoJSON (the `topojson` command)
+
+After modifying the makefile, you run `make topojson` to download and process the interactive overlay data that is drawn on the map. This converts all the shapefiles into GeoJSON, and then compiles them into a single TopoJSON file.
 
 ## Working on the basemap style
 
-To modify the basemap style, you need to link the TileMill project into your local tilemill directory. Do this with the following command:
+The basemap consists of two almost-identical TileMill projects. One is for the low zoom levels and covers the entire world. The other is for higher zoom levels and only covers the extent of the US and Canada's EEZs. They both use the same stylesheets (only the project.mml files are different).
+
+To modify the basemap style, you need to link the TileMill projects into your local tilemill directory. Do this with the following command:
 
 `make install`
 
-You will now have a TileMill project called "Moore".
+You will now have two TileMill projects called "Moore Foundation lowzoom" and "Moore Foundation highzoom". If you adjust the style in one, it should be reflected automatically in the other. (The `make install` step creates symlinks from one style to the other)
 
 ## Installation
 
@@ -54,13 +60,20 @@ TBD. But it should be very simple.
 
 _(These are implicit dependencies beyond what gets installed during the [installation](#Installation) step.)_
 
-Postgres? Javascript libraries?
+Frontend:
+
+* Javascript libraries?
+
+The data preparation makefile has these dependencies:
+
+* **GDAL/OGR**, particularly the command `ogr2ogr`: On OSX, install using [Homebrew](http://brew.sh/) and `brew install gdal`
+* **topojson**: Install Node.js `brew install node`. Then install topojson with `npm install -g topojson`.
 
 ### Data
 
-* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore.
+* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore. Currently we maintain this data in a Google Spreadsheet and periodically export it to the [CSV file](blob/master/assets/csv/data.csv) that is stored in this repository.
+* Shapefiles of ocean protected areas. These are processed into a [topojson file](blob/master/assets/geojson/planning_areas.topojson) for display on the map.
 * This is a static data project with no database backend.
-* At kickoff, it's not known whether we'll need a preprocessor for shapefiles to bake tiles. If so, consider learning from the [EDF project](https://github.com/stamen/edf), which used a Vagrant instance to process data into tiles. Brandon Liu and Eric Gelinas built that system.
 
 ### Static Assets
 
