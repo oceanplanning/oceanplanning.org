@@ -138,7 +138,7 @@
 
             root.classed('selected', true);
             tabs.classed('open', true);
-            descriptionTxt.text(data.Narrative);
+            descriptionTxt.text(data.Narrative || "No description available.");
             detailItems.each(function(){
                 var el = d3.select(this),
                     key = el.attr('data-key'),
