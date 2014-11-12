@@ -21,7 +21,12 @@
             descriptionTab = root.select('[data-tab="description"]'),
             descriptionTxt = descriptionTab.select('p'),
             resetBtn = root.select('#resetButton'),
-            currentTab;
+            currentTab,
+            statusKeys = [];
+
+        statusFilters.each(function(elm){
+            statusKeys.push( this.getAttribute('data-value') );
+        });
 
 
         // reset region button
@@ -124,7 +129,47 @@
             root.classed('selected', showReset);
         };
 
+        /*
+        MFOM.config.statusLookup = {
+        'completed': 'Implemented',
+        'pre-planning': 'Pre-planning',
+        'underway': 'Underway',
+        'stalled': new RegExp('stall', 'gi')
+    };*/
 
+
+        __.updateCounts = function(country) {
+
+            var features = MFOM.data.eezs();
+            var counts = {};
+            statusKeys.forEach(function(key){
+                counts[key] = 0;
+            });
+            var o ={};
+            var total = 0;
+            features.forEach(function(item){
+                var status = item.Status.toLowerCase();
+                if (country && item.Country !== country) return;
+
+                if (!o.hasOwnProperty(status)) o[status] = status;
+
+                if (counts.hasOwnProperty(status)) {
+                    counts[status]++;
+                    total++;
+                }
+            });
+
+
+            statusFilters.each(function(){
+                var el = d3.select(this),
+                    key = this.getAttribute('data-value');
+
+                var txt = (key === 'reset') ? total : (counts[key] || 0);
+                el.select('.counts')
+                    .text( "(" + txt + ")");
+            })
+
+        };
 
         // on a selected region
         __.update = function(data) {

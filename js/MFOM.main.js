@@ -119,6 +119,7 @@
             map.countryChange(MFOM.config.expand.countries[country]);
             selectedCountry = country || 'all';
             setCountryList(selectedCountry);
+            filterPanel.updateCounts(MFOM.config.expand.countries[country]);
         };
 
         return __;

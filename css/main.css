@@ -146,6 +146,12 @@ button.about:hover {
     text-decoration: none;
 }
 
+.counts {
+    margin-left: 5px;
+    font-weight: 300;
+    color: #444;
+}
+
 .scroller {
     height: auto;
     max-height: 50px;

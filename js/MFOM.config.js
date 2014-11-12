@@ -20,10 +20,10 @@
     };
 
     MFOM.config.statusLookup = {
-        'completed': 'Implemented',
+        'implemented': 'Implemented',
         'pre-planning': 'Pre-planning',
         'underway': 'Underway',
-        'stalled': new RegExp('stall', 'gi')
+        'stalled': 'Stalled'
     };
 
     MFOM.config.expand = {
