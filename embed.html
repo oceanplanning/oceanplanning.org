@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Moore Foundation Embed</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic,300italic,300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/normalize.css">
+<link rel="stylesheet" type="text/css" href="css/pocketgrid.min.css">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/rrose.css">
+<link rel="stylesheet" type="text/css" href="css/leaflet.groupedlayercontrol.css">
+
+</head>
+  <body id="embedded">
+    <svg style="display:none;">
+      <defs>
+
+        <g id="map-layers">
+            <path d="M0 0h24v24h-24z" fill="none"/>
+            <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
+        <g>
+
+      </defs>
+    </svg>
+    <div class="container block-group">
+
+
+
+
+
+      <header class="nav block">
+        <div>
+          <h1 class="heading"><a href="/">Ocean Planning</a></h1>
+        </div>
+      </header>
+
+
+      <section class="main block">
+        <div id='map'></div>
+
+
+        <!-- layer controls -->
+        <div id="overlaySelectr" class="dropdown">
+          <a href="#" class="icon map-layers">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24h-24z" fill="none"/>
+                <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
+            </svg>
+
+          </a>
+          <div class="inner"></div>
+        </div>
+        <!-- end layer controls -->
+
+        <!-- filter & details panel -->
+        <div class="panel filters">
+          <!-- filter by -->
+          <p class='txt-copy panel-headline'>Filter by status:</p>
+          <div class="filter-row status-filters">
+            <ul class="clearfix">
+              <li><button class="link filter-btn" data-key="Status" data-value="reset">All</button></li>
+              <li><button class="link filter-btn" data-key="Status" data-value="completed">Completed</button></li>
+              <li><button class="link filter-btn" data-key="Status" data-value="underway">Underway</button></li>
+              <li><button class="link filter-btn" data-key="Status" data-value="pre-planning">Pre-planning</button></li>
+              <li><button class="link filter-btn" data-key="Status" data-value="stalled">Stalled</button></li>
+            </ul>
+          </div>
+
+          <div class="tabs">
+            <button id="resetButton" class="link"><!--<span class="icon-close">&#x2715;</span>--> clear</button>
+            <div class="filter-row">
+              <ul class="clearfix">
+                <li><button class="link" data-target="details">Details</button></li>
+                <li><button class="link selected" data-target="description">Description</button></li>
+              </ul>
+            </div>
+            <div class="tabs-inner">
+              <div class="tab" data-tab="details">
+                <ul>
+                  <li data-key="Location"><span class="key">Plan Name:</span><span class="value"></span></li>
+                  <li data-key="Status"><span class="key">Status:</span><span class="value"></span></li>
+                  <li data-key="Date planning initiated"><span class="key">Date Planning Initiated:</span><span class="value"></span></li>
+                  <li data-key="Date plan completed"><span class="key">Date Completed:</span><span class="value"></span></li>
+                  <li data-key="Ocean activities covered"><span class="key">Ocean Uses Covered:</span><span class="value scroller"></span></li>
+                  <li data-key="Lead institution(s)"><span class="key">Lead Institution(s):</span><span class="value"></span></li>
+                  <li data-key="Website"><span class="key">Website:</span><span class="value"><a href=""></a></span></li>
+                </ul>
+              </div>
+              <div class="tab hide" data-tab="description">
+                <p class="txt-copy">Select a planning area.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end filter & details panel -->
+      </section>
+
+    </div> <!-- end container -->
+
+
+
+    <script type="text/javascript" src="js/vendor/leaflet-0.7.3.js"></script>
+    <script type="text/javascript" src='js/vendor/leaflet.ajax.min.js'></script>
+    <script type="text/javascript" src='js/vendor/d3.v3.min.js'></script>
+    <script type="text/javascript" src='js/vendor/queue.v1.min.js'></script>
+    <script type="text/javascript" src='js/vendor/proj4-compressed.js'></script>
+    <script type="text/javascript" src='js/vendor/proj4leaflet.js'></script>
+    <script type="text/javascript" src='js/vendor/topojson.v1.min.js'></script>
+    <script type="text/javascript" src='js/vendor/signals.js'></script>
+    <script type="text/javascript" src='js/vendor/hasher.js'></script>
+    <script type="text/javascript" src='js/vendor/rrose-src.js'></script>
+    <script type="text/javascript" src='js/vendor/leaflet.groupedlayercontrol.js'></script>
+
+    <script type="text/javascript" src="js/stamen/stamen.utils.js"></script>
+    <script type="text/javascript" src="js/stamen/stamen.hasher.js"></script>
+    <script type="text/javascript" src="js/stamen/stamen.embeddem.js"></script>
+
+    <script type="text/javascript" src='js/MFOM.config.js'></script>
+    <script type="text/javascript" src='js/MFOM.data.js'></script>
+    <script type="text/javascript" src='js/MFOM.map.js'></script>
+    <script type="text/javascript" src='js/MOFM.filterPanel.js'></script>
+    <script type="text/javascript" src='js/MFOM.modal.js'></script>
+    <script type="text/javascript" src='js/MFOM.main.js'></script>
+
+    <script type="text/javascript">
+      STA.Embed.Widget(window.location.search);
+    </script>
+  </body>
+</html>

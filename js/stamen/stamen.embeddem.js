@@ -7,9 +7,9 @@
 
     STA.Embed.config = {
         'page': 'index.html',
-        'showKlass': 'show-modal',
+        'showKlass': 'show-embed',
         'showKlassElement' : 'body',
-        'embedContainer': '#embedpage',
+        'embedContainer': '#embed',
         'iframeContainer': '#embed-iframe'
     };
     var config = STA.Embed.config;
@@ -26,11 +26,6 @@
 
       my.iframeUrl = function() {
         var content_fragment = (loc.search) ? loc.search : "";
-
-        // deal with rewrites :(
-        if (TNC.settings.isCity && TNC.selectedCity) {
-          content_fragment = "?city=" + TNC.selectedCity;
-        }
 
         if (contentTitle) {
           if (content_fragment.indexOf("?") >= 0) {
@@ -81,8 +76,7 @@
       }
 
       function basepath() {
-        //return loc.pathname.substring(0,loc.pathname.lastIndexOf("/")+1).replace('city/', '');
-        var b =  loc.pathname.substring(0,loc.pathname.lastIndexOf("/")+1).replace('city/', '');
+        var b =  loc.pathname.substring(0,loc.pathname.lastIndexOf("/")+1);
         var idx = b.lastIndexOf('/');
         while(b.charAt(idx-1) === '/'){b = b.slice(0,idx);idx--;}
         return b;
@@ -135,7 +129,7 @@
         }
 
         my.disableZoomReset = function() {
-          TNC.settings.isEmbedPreview = true;
+
           d3.select('body')
             .classed('no-zoom-reset', true);
           return my;

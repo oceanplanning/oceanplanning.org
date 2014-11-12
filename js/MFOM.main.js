@@ -23,7 +23,7 @@
         var aboutCanadaModal = new MFOM.modal('#about-modal-ca');
         var aboutUSModal = new MFOM.modal('#about-modal-us');
         var aboutAllModal = new MFOM.modal('#about-modal-all');
-        var embedModal = new MFOM.modal('#embed');
+        //var embedModal = new MFOM.modal('#embed');
 
         d3.select('#about-all')
             .on('click', function(){
@@ -41,8 +41,14 @@
         d3.select('#embed-btn')
             .on('click', function(){
                 console.log('e')
-                embedModal.toggle();
+                STA.Embed.Show();
             });
+        d3.select('#embed')
+            .selectAll('.modal-close')
+            .on('click', function(){
+                d3.event.stopImmediatePropagation();
+                STA.Embed.Hide();
+            })
 
         var selectedCountry = 'all';
         var countryFilters = d3.selectAll('.country-btn');
@@ -177,6 +183,10 @@
     // kick everything off
     window.onload = function() {
         window.onload = null;
+
+        STA.Embed.Index({
+          page: "embed.html"
+        });
 
         STA.hasher.on('initialHash', function(d){
             STA.hasher.on('initialHash', null);
