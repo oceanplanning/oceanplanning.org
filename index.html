@@ -68,15 +68,7 @@
         </div>
       </div>
 
-      <div id="embed" class="panel modal hide">
-        <div class="modal-background modal-close"></div>
-        <div class="modal-inner">
-          <button class="link modal-close">×</button>
-          <div class="modal-content">
-            <p>Embed</p>
-          </div>
-        </div>
-      </div>
+
 
       <header class="nav block">
         <div>
@@ -96,6 +88,10 @@
 
       <section class="main block">
         <div id='map'></div>
+
+        <button id="embed-btn" class="link">Embed</button>
+
+        <!-- layer controls -->
         <div id="overlaySelectr" class="dropdown">
           <a href="#" class="icon map-layers">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -104,9 +100,11 @@
             </svg>
 
           </a>
-          <div class="inner">
-          </div>
+          <div class="inner"></div>
         </div>
+        <!-- end layer controls -->
+
+        <!-- filter & details panel -->
         <div class="panel filters">
           <!-- filter by -->
           <p class='txt-copy panel-headline'>Filter by status:</p>
@@ -153,10 +151,40 @@
               </div>
             </div>
           </div>
-
         </div>
+        <!-- end filter & details panel -->
+
       </section>
-    </div>
+
+      <!-- embed -->
+      <div id="embed" class="modal hide">
+        <div class="modal-background modal-close"></div>
+          <div class="modal-inner">
+            <button class="link modal-close">×</button>
+            <div class="modal-content">
+              <div class="header modal-row">
+                <h1>Embed This Map</h1>
+                <button class="link close-button close-modal">&times;</button>
+              </div>
+
+              <div class="embed-iframe-wrap modal-row">
+                <p class="instructional-step">1. Preview</p>
+                <div class="mouse-blocker"></div>
+                <div id="embed-iframe"></div>
+              </div>
+
+              <div class="modal-row">
+                <p class="instructional-step">2. Copy and paste the code below for your website</p>
+                <textarea cols="100" rows="3" id="copypastethis"></textarea>
+                <p class="tip">This embedded map inherits the position and data layers from the big version. If you'd like it to show another data layer, or a different place, just close this and change the big version to how you want it, then hit EMBED THIS MAP again.</p>
+              </div>
+              <p class="close"><button class="link close-modal">Close this pop-up</button></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- end container -->
 
 
 
@@ -173,6 +201,7 @@
     <script type="text/javascript" src='js/vendor/leaflet.groupedlayercontrol.js'></script>
 
     <script type="text/javascript" src="js/stamen/stamen.hasher.js"></script>
+    <script type="text/javascript" src="js/stamen/stamen.embeddem.js"></script>
 
     <script type="text/javascript" src='js/MFOM.config.js'></script>
     <script type="text/javascript" src='js/MFOM.data.js'></script>

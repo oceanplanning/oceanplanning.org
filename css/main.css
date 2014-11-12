@@ -488,6 +488,24 @@ ul.plain li {
 
 }
 
+/* embed */
+#embed-btn {
+    position: absolute;
+    bottom: 2em;
+    right: 1em;
+    z-index: 9999;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+#embed {
+
+}
+
 
 
 /* icons */

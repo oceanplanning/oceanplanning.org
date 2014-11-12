@@ -14,7 +14,6 @@
             close = panel.selectAll('.modal-close');
 
         close.on('click', function(){
-            console.log('CLOSE');
             d3.event.stopImmediatePropagation();
             __.hide();
         });

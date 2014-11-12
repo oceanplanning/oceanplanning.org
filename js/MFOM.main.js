@@ -23,7 +23,6 @@
         var aboutCanadaModal = new MFOM.modal('#about-modal-ca');
         var aboutUSModal = new MFOM.modal('#about-modal-us');
         var aboutAllModal = new MFOM.modal('#about-modal-all');
-
         var embedModal = new MFOM.modal('#embed');
 
         d3.select('#about-all')
@@ -38,6 +37,11 @@
         d3.select('#about-canada')
             .on('click', function(){
                 aboutCanadaModal.toggle();
+            });
+        d3.select('#embed-btn')
+            .on('click', function(){
+                console.log('e')
+                embedModal.toggle();
             });
 
         var selectedCountry = 'all';
