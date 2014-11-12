@@ -30,6 +30,13 @@
         return consumer;
     };
 
+    function findID(data, id) {
+        return data.filter(function(item){
+            return item.ID == id;
+        });
+
+    }
+
     var layers, eezs;
     MFOM.data = {
 
@@ -48,28 +55,36 @@
                     return d;
                 },
                 function(csvdata) {
-                eezs = csvdata;
+                    eezs = csvdata;
 
-                d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planning_areas_topojson) {
+                    d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planning_areas_topojson) {
 
-                    // Apply the geojson objects to the tasks array
-                    layers.forEach(function(lyr) {
-                        var topolyr = lyr.topojson_layer
-                        lyr.geojson = topojson.feature(planning_areas_topojson, planning_areas_topojson.objects[lyr.topojson_layer]);
-                    });
 
-                    layers.forEach(function(lyr) {
-                        lyr.geojson.features.forEach(function(feature){
-                            feature.properties = csvdata[lyr.csv_id - 1]; // TODO: don't use index, use lookup
+
+                        // Apply the geojson objects to the tasks array
+                        layers.forEach(function(lyr) {
+                            var topolyr = lyr.topojson_layer
+                            lyr.geojson = topojson.feature(planning_areas_topojson, planning_areas_topojson.objects[lyr.topojson_layer]);
                         });
+
+                        // assign csv data to each feature
+                        // also remove layers w/o csv data
+                        var temp = [];
+                        layers.forEach(function(lyr) {
+                            lyr.geojson.features.forEach(function(feature){
+                                var f = findID(csvdata, lyr.csv_id);
+                                if (f.length) {
+                                    feature.properties = f[0];
+                                    temp.push(lyr);
+                                }
+                            });
+                        });
+                        layers = temp;
+
+                        callback(layers, eezs);
                     });
-
-                    callback(layers, eezs);
-                });
-
-
-
-            });
+                }
+            );
         },
         layers: function() {
             return layers || [];
