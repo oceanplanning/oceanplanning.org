@@ -553,7 +553,8 @@ ul.plain li {
     margin-top: -24px;
     background: #fff;
     max-height: 400px;
-    overflow: scroll;
+    overflow: auto;
+    overflow-x: hidden;
 
 }
 
