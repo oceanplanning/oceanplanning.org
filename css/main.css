@@ -15,7 +15,9 @@ body,
     position: relative;
 }
 .container * {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .nav {
@@ -48,6 +50,7 @@ body,
     position:relative;
     width:100%;
     height: 100%;
+    z-index: 1;
 }
 
 .panel {
@@ -59,7 +62,9 @@ body,
     left: 1.2em;
     background: rgba(255,255,255,0.8);
     padding: 10px;
-    border-radius: 10px;
+    -webkit-border-radius: 10px;
+            border-radius: 10px;
+    z-index: 9999;
 }
 
 
@@ -135,7 +140,8 @@ button.about {
     margin: 2px;
     font-size: 0.75em;
     background: #eee;
-    border-radius: 50%;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
     vertical-align: top;
     padding: 3px 6px;
     line-height: 1;
@@ -200,7 +206,8 @@ button.about:hover {
     list-style: none;
     background: #fff;
     border: 2px solid #fff;
-    border-radius: 10px;
+    -webkit-border-radius: 10px;
+            border-radius: 10px;
     zoom: 1;
 }
 
@@ -221,12 +228,16 @@ button.about:hover {
     min-width: 3.5em;
 }
 .filter-row li:first-child button {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+            border-top-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+            border-bottom-left-radius: 10px;
 }
 .filter-row li:last-child button {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+            border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+            border-bottom-right-radius: 10px;
 }
 .filter-row button.disabled {
     background: #e5e5e5;
@@ -263,8 +274,10 @@ button.about:hover {
 }
 .tabs .filter-row ul {
     width: 100%;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+            border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+            border-bottom-left-radius: 0;
 }
 
 .tabs .filter-row li:first-child {
@@ -275,12 +288,16 @@ button.about:hover {
 }
 
 .tabs .filter-row li:first-child button {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 0px;
+    -webkit-border-top-left-radius: 10px;
+            border-top-left-radius: 10px;
+    -webkit-border-bottom-left-radius: 0px;
+            border-bottom-left-radius: 0px;
 }
 .tabs .filter-row li:last-child button {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 10px;
+            border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 0px;
+            border-bottom-right-radius: 0px;
     text-align: left;
 }
 .tabs .filter-row button {
@@ -291,8 +308,10 @@ button.about:hover {
     position: relative;
     margin: -5px 0 0 0;
     background: #e5e5e5;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+            border-bottom-left-radius: 10px;
     border: 2px solid #fff;
     width: 100%;
 
@@ -347,6 +366,7 @@ button.about:hover {
     width: 100%;
     height: 100%;
     z-index: 99999999;
+    zoom: 1;
 }
 .modal-background {
     position: relative;
@@ -359,7 +379,6 @@ button.about:hover {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 40%;
     height: auto;
     max-height: 70%;
@@ -367,10 +386,15 @@ button.about:hover {
     overflow: auto;
     z-index: 1;
     -webkit-box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.35);
-    -moz-box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.35);
     box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.35);
+    zoom: 1;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 }
+
 .modal-content {
+    position: relative;
     margin: 10px;
 }
 .modal-row {position: relative;}
@@ -406,7 +430,8 @@ button.about:hover {
 .icon-close {
     line-height: 1;
     background: #eee;
-    border-radius: 50%;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
     padding: 4px 6px;
     font-size: 10px;
     text-align: center;
@@ -473,7 +498,9 @@ ul.plain li {
     background: #eee;
 }
 .dropdown .open > button:after {
-    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
 }
 
 .dropdown li li {
@@ -513,8 +540,10 @@ ul.plain li {
     right: 1em;
     padding: 5px;
     background: #fff;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
     z-index: 9999;
 }
 
@@ -547,7 +576,8 @@ ul.plain li {
     z-index: 9999;
     background: #fff;
     padding: 10px 20px;
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 1em;
