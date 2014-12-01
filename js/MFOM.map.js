@@ -17,7 +17,7 @@
     MFOM.map = function(selector) {
         var __ = {};
 
-        var overlayMaps,markerList;
+        var overlayMaps, eventOverlays, markerList;
 
         var hash = STA.hasher.getMapState(STA.hasher.get());
 
@@ -29,9 +29,11 @@
                 continuousWorld: false,
                 worldCopyJump: false,
                 scrollWheelZoom: false,
-                layers: [MFOM.config.map.mapboxTilesLowZoom, MFOM.config.map.mapboxTilesHighZoom]
+                layers: [MFOM.config.map.mapboxTilesLowZoom, MFOM.config.map.mapboxTilesHighZoom, MFOM.config.map.mapboxLabels]
             })
             .setView(initialLocation, initialZoom);
+
+
 
         var layerControl;
         var selectedCountry = null;
@@ -112,30 +114,39 @@
         }
 
 
+
+
         function setupOverlays(layers) {
             layers.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);})
                 .forEach(function(lyr) {
                     lyr.layer = new L.GeoJSON(lyr.geojson, {
                         style: geojsonStyle,
-                        onEachFeature: onEachFeature
+                        onEachFeature: onEachFeature,
+                        pathRootName: 'main'
+                    });
+
+                    lyr.eventLayer = new L.GeoJSON(lyr.geojson, {
+                        style: MFOM.config.styles.eventStyle,
+                        onEachFeature: onEachFeature,
+                        pathRootName: 'evts'
                     });
 
                     //map.addLayer(lyr.layer);
 
-                    lyr.layer.on('mouseover mousemove', function(e){
+                    lyr.eventLayer.on('mouseover mousemove', function(e){
                         if (lyr.layer.selected) return;
                         showTip(e);
                         lyr.layer.setStyle(MFOM.config.styles.geojsonPolyMouseover);
 
                     });
 
-                    lyr.layer.on('mouseout', function(e){
+                    lyr.eventLayer.on('mouseout', function(e){
                         hideTip();
                         if (lyr.layer.selected) return;
                         lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
-                    lyr.layer.on('click', function(e){
+                    lyr.eventLayer.on('click', function(e){
                         hideTip();
                         var props = lyr.layer.properties;
                         var h = STA.hasher.get();
@@ -150,11 +161,15 @@
 
                     var label = lyr.geojson.features[0].properties.Location;
                     if (!label) label = "no shape";
+                    lyr.eventLayer.properties = lyr.geojson.features[0].properties;
                     lyr.layer.properties = lyr.geojson.features[0].properties;
                     var overlayKey = lyr.csv_id + ": " + label;
 
-                    lyr.layer.lookupKey = overlayKey
+                    lyr.layer.lookupKey = overlayKey;
+                    lyr.eventLayer.lookupKey = overlayKey;
+
                     overlayMaps[overlayKey] = lyr.layer;
+                    eventOverlays[overlayKey]= lyr.eventLayer;
 
                 });
 
@@ -185,8 +200,13 @@
 
 
         function removeAllLayers() {
-            for (var overlay in overlayMaps) {
+            var overlay;
+            for (overlay in overlayMaps) {
                 if (map.hasLayer(overlayMaps[overlay])) map.removeLayer(overlayMaps[overlay]);
+            }
+
+            for (overlay in eventOverlays) {
+                if (map.hasLayer(eventOverlays[overlay])) map.removeLayer(eventOverlays[overlay]);
             }
         }
 
@@ -227,8 +247,8 @@
                     for (var l in o[country][scale]) {
                         var key = o[country][scale][l].key;
                         map.addLayer(overlayMaps[key]);
+                        map.addLayer(eventOverlays[key]);
                     }
-
                 }
             }
 
@@ -324,7 +344,7 @@
                     var overlayKey = row.ID + ": " + row.Location;
                     if (overlayKey in overlayMaps) return; // Skip if this area already has a shape loaded
 
-                    var layer = L.geoJson({
+                    var layer = new L.GeoJSON({
                             "type": "Feature",
                             "properties": row,
                             "geometry": {
@@ -333,30 +353,50 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var circleMarker = L.circleMarker(latlng, row.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                var opts = L.Util.extend({}, row.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                opts.pathRootName = 'main';
+                                var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
                                 circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
                                 return circleMarker;
                             },
-                            onEachFeature: onEachFeature
+                            onEachFeature: onEachFeature,
+                            pathRootName: 'main'
                         });
 
-                    //map.addLayer(layer);
+                    var eventLayer = new L.GeoJSON({
+                            "type": "Feature",
+                            "properties": row,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [row.Longitude, row.Latitude]
+                            }
+                        }, {
+                            pointToLayer: function(feature, latlng) {
+                                var opts = L.Util.extend({},MFOM.config.styles.eventStyle);
+                                opts.pathRootName = 'evts';
+                                var circleMarker = L.circleMarker(latlng, opts);
+                                markerList.push(circleMarker);
+                                circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
+                                return circleMarker;
+                            },
+                            onEachFeature: onEachFeature,
+                            pathRootName: 'evts'
+                        });
 
-
-                    layer.on("mouseover", function (e) {
+                    eventLayer.on("mouseover", function (e) {
                         if (layer.selected) return;
                         showTip(e);
                         layer.setStyle(MFOM.config.styles.geojsonMarkerMouseover);
                     });
 
-                    layer.on("mouseout", function (e) {
+                    eventLayer.on("mouseout", function (e) {
                         hideTip(e);
                         if (layer.selected) return;
                         layer.setStyle(e.layer.feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
-                    layer.on('click', function(e){
+                    eventLayer.on('click', function(e){
                         hideTip();
                         var props = layer.properties;
                         var h = STA.hasher.get();
@@ -369,9 +409,13 @@
                     });
 
                     layer.lookupKey = overlayKey;
+                    eventLayer.lookupKey = overlayKey;
 
                     layer.properties = row;
+                    eventLayer.properties = row;
+
                     overlayMaps[overlayKey] = layer;
+                    eventOverlays[overlayKey] = eventLayer;
 
                 });
         }
@@ -434,18 +478,25 @@
                     }
                 });
 
-                if (valid) {
+                if (valid &&
+                    overlay in overlayMaps &&
+                    overlay in eventOverlays) {
+
                     if (!bds) {
                         bds = L.latLngBounds(overlayMaps[overlay].getBounds());
                     } else {
                         bds.extend(overlayMaps[overlay].getBounds());
                     }
-                    if (!map.hasLayer()) map.addLayer(overlayMaps[overlay]);
+
+                    if (!map.hasLayer(overlayMaps[overlay])) {
+                         map.addLayer(overlayMaps[overlay]);
+                         map.addLayer(eventOverlays[overlay]);
+                    }
+
                 } else {
-                    map.removeLayer(overlayMaps[overlay]);
+                    if (overlay in overlayMaps) map.removeLayer(overlayMaps[overlay]);
+                    if (overlay in eventOverlays) map.removeLayer(eventOverlays[overlay]);
                 }
-
-
             }
 
             // Something weird going on with probably custom projection
@@ -461,6 +512,7 @@
 
         __.onData = function(layers, eezs) {
             overlayMaps = {};
+            eventOverlays = {};
             markerList = [];
 
             // assign handlers and add to overlayMaps object

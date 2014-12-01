@@ -663,5 +663,16 @@ body.show-embed #embed {
 }
 
 
+/* map overlays */
+.leaflet-sandwich-main {
+    z-index: 1;
+}
 
+.leaflet-sandwich-evts {
+    z-index: 3;
+}
 
+.moore-map-labels {
+    z-index: 2;
+    display: none;
+}
