@@ -129,6 +129,7 @@
 
     function processHash(initial) {
         var h = STA.hasher.get();
+        console.log(h)
 
         // TODO: comparing undefines and nulls should be equal
         h.country = h.country || null;

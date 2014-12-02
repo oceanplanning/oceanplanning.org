@@ -174,7 +174,7 @@
         // on a selected region
         __.update = function(data) {
 
-            if (!data || !data.ID) {
+            if (!data || !data.id) {
                 root.classed('selected', false);
                 setFilterReset();
                 tabs.classed('open', false);

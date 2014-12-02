@@ -151,10 +151,10 @@
                         var props = lyr.layer.properties;
                         var h = STA.hasher.get();
                         // If current ID is already selected, reset selections to nothing
-                        if (h.id == props['ID'])
+                        if (h.id == props['id'])
                           h.id = null;
                         else
-                          h.id = props['ID'];
+                          h.id = props['id'];
                         STA.hasher.set(h);
                     });
 
@@ -337,11 +337,11 @@
 
         // Create point map layers for any rows that have lat & lon
         function setupPoints(eezs) {
-            eezs.sort(function(a,b) { return d3.ascending(+a.ID, +b.ID);})
+            eezs.sort(function(a,b) { return d3.ascending(+a.id, +b.id);})
                 .forEach(function(row) {
                     if (!row.latitude || !row.longitude) return;
 
-                    var overlayKey = row.ID + ": " + row.location;
+                    var overlayKey = row.id + ": " + row.location;
                     if (overlayKey in overlayMaps) return; // Skip if this area already has a shape loaded
 
                     var layer = new L.GeoJSON({
@@ -401,10 +401,10 @@
                         var props = layer.properties;
                         var h = STA.hasher.get();
                         // If current ID is already selected, reset selections to nothing
-                        if (h.id == props['ID'])
+                        if (h.id == props['id'])
                           h.id = null;
                         else
-                          h.id = props['ID'];
+                          h.id = props['id'];
                         STA.hasher.set(h);
                     });
 

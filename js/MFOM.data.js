@@ -87,7 +87,7 @@
         getLayerForID: function(id) {
             if (!eezs) return [];
             return eezs.filter(function(item){
-                return item['ID'] === id;
+                return item['id'] === id;
             });
         },
         filterOn: function(key, value) {
