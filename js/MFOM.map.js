@@ -65,8 +65,14 @@
         });
 
         function onLayerSelectorChange(key, checked) {
-            if (checked && !map.hasLayer(overlayMaps[key])) map.addLayer(overlayMaps[key]);
-            if (!checked && map.hasLayer(overlayMaps[key])) map.removeLayer(overlayMaps[key]);
+            if (checked && !map.hasLayer(overlayMaps[key])) {
+                map.addLayer(overlayMaps[key]);
+                map.addLayer(eventOverlays[key]);
+            }
+            if (!checked && map.hasLayer(overlayMaps[key])) {
+                map.removeLayer(overlayMaps[key]);
+                map.removeLayer(eventOverlays[key]);
+            }
 
             getAvailableGroups();
             if (currentFilters) __.filterOn(currentFilters);
@@ -184,23 +190,14 @@
                 .each(function(){
                     var key = this.getAttribute('data-key');
                     var checked = this.checked;
+                    var forced = overlayMaps[key].forcedOff;
 
-                    if (checked) availableGroups[key] = 1;
+                    if (checked && !forced) availableGroups[key] = 1;
                 });
 
-            //filterLayerController();
         }
 
-        function filterLayerController(){
-            d3.select("#overlaySelectr")
-                .selectAll('input[type="checkbox"]')
-                .each(function(){
-                    var key = this.getAttribute('data-key');
-                    var checked = this.checked;
 
-                    if (checked) availableGroups[key] = 1;
-                });
-        }
 
 
         function removeAllLayers() {
@@ -215,7 +212,7 @@
         }
 
         var layerSelectors;
-        function groupOverlays() {
+        function makeOverlayControl() {
             layerSelectors = {};
             layerControlReset = true;
             var root = d3.select("#overlaySelectr .inner");
@@ -265,9 +262,15 @@
                 var sub = o[group];
                 var parent = ul.append('li')
                     .attr('class', 'top-level');
-                parent.append('button')
+                var parentBtn = parent.append('button')
                     .attr('class', 'link')
                     .text(group);
+
+                parentBtn.append('a')
+                    .attr('href', '#')
+                    .attr('class', 'parent-toggle checkbox-toggler selected')
+                    .html('');
+
 
                 var child = parent.append('ul');
 
@@ -276,7 +279,12 @@
                         .attr('class', 'level-1')
                     subchild.append('button')
                         .attr('class', 'link')
-                        .html(l);
+                        .html(l)
+                        .append('a')
+                        .attr('href', '#')
+                        .attr('class', 'checkbox-toggler selected')
+                        .html('');
+
                     var ss = subchild.append('ul');
                     for (var c in sub[l]) {
                         var key = sub[l][c].key;
@@ -345,6 +353,70 @@
                     var checked = this.checked;
                     onLayerSelectorChange(key, checked)
                 });
+
+
+            function setParentToggle(elm, state) {
+                while(elm) {
+
+                    if (d3.select(elm).classed('top-level')) {
+                        var t = 0;
+                        var toggle = d3.select(elm).select('.parent-toggle');
+                        d3.select(elm).selectAll('input[type="checkbox"]')
+                        .each(function(){
+                            if (!this.checked) t++;
+                        });
+
+                        console.log("t: ", t);
+
+
+                        toggle.classed('selected', (t > 0) ? false : true);
+                        elm = null;
+                    } else {
+                        elm = elm.parentNode;
+                    }
+
+                }
+            }
+            root.selectAll('.checkbox-toggler')
+                .on('click', function(){
+                    d3.event.preventDefault();
+                    d3.event.stopImmediatePropagation();
+
+                    var state = !(d3.select(this).classed('selected'));
+                    d3.select(this).classed('selected', state);
+
+
+                    // parent of button not toggle link
+                    var parentNode = d3.select(this.parentNode.parentNode);
+
+
+
+                    parentNode.select('ul').selectAll('.checkbox-toggler')
+                                .classed('selected', state);
+                    parentNode
+                        .selectAll('input[type="checkbox"]')
+                        .each(function(){
+                            this.checked = state;
+                            this.forcedOff = !state;
+
+                            var key = this.getAttribute('data-key');
+                            overlayMaps[key].forcedOff = !state;
+
+                            if (state && !map.hasLayer(overlayMaps[key])) {
+                                map.addLayer(overlayMaps[key]);
+                                map.addLayer(eventOverlays[key]);
+                            }
+                            if (!state && map.hasLayer(overlayMaps[key])) {
+                                map.removeLayer(overlayMaps[key]);
+                                map.removeLayer(eventOverlays[key]);
+                            }
+
+                        });
+
+                    if (!d3.select(this).classed('parent-toggle')) setParentToggle(this, state);
+                    getAvailableGroups();
+                    if (currentFilters) __.filterOn(currentFilters);
+                })
 
             getAvailableGroups();
 
@@ -448,7 +520,7 @@
 
         function addOverlayControl() {
             // group layers
-            groupOverlays()
+            makeOverlayControl()
         }
 
         // call onMoveEndHandler to set map coordinates to hash
@@ -485,6 +557,7 @@
             var bds;
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
+                var forcedOff = overlayMaps[overlay].forcedOff;
                 if (!availableGroups.hasOwnProperty(overlay)) continue;
 
                 var valid = true,
@@ -503,6 +576,8 @@
                         }
                     }
                 });
+
+                if (forcedOff) valid = false;
 
                 if (valid &&
                     overlay in overlayMaps &&

@@ -534,6 +534,22 @@ ul.plain li {
     display: block;
 
 }
+.checkbox-toggler {
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+    font-weight: 300;
+    margin-left: 10px;
+    text-decoration: underline;
+}
+.checkbox-toggler:after {
+    content: '✓';
+    opacity: 0.4;
+}
+.checkbox-toggler.selected:after {
+    opacity: 1;
+}
+
 
 #country-selector li {
     position: relative;
