@@ -193,6 +193,7 @@
                 if (key === 'website' && value !== 'n/a') {
                     valEl.select('a')
                         .attr('href', value)
+                        .attr('target', '_blank')
                         .text(value);
                 } else {
                     valEl.text(value);
