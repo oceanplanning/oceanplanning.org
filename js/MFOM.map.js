@@ -10,8 +10,8 @@
 
     // Map utilities
     function getRadiusByZoom(zoom) {
-        //return (Math.pow(2,zoom))/2; // base 2 keeps them same geographical size. Dividing by 2 makes that size smaller
-        return (Math.pow(1.7,zoom))/2; // base < 2 means they get bigger as you zoom, but not as big as the geography does
+        var s = Math.round(Math.log(zoom-1) * 4) ;
+        return Math.max(s, 2);
     }
 
     MFOM.map = function(selector) {
@@ -358,7 +358,7 @@
                                 opts.pathRootName = 'main';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
-                                circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
+                                circleMarker.setRadius(getRadiusByZoom(initialZoom));
                                 return circleMarker;
                             },
                             onEachFeature: onEachFeature,
