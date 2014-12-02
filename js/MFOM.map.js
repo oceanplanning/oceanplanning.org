@@ -81,13 +81,13 @@
         };
 
         function geojsonStyle(feature) {
-            return feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
+            return feature.properties.status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
             return;
-            if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("Location")) {
-                var html = feature.properties.Location + "<br>" + feature.properties.Status + "<br>" + feature.properties['Narrative (250, no formatting or links)'];
+            if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("location")) {
+                var html = feature.properties.location + "<br>" + feature.properties.status + "<br>" + feature.properties['narrative'];
             } else {
                 var html = "Location not found";
             }
@@ -97,8 +97,8 @@
         function showTip(e) {
             var props = e.target.properties || null;
             var html = "Location not found";
-            if (props && props.hasOwnProperty("Location")) {
-                html = props.Location;
+            if (props && props.hasOwnProperty("location")) {
+                html = props.location;
             }
 
             var hover_bubble = new L.Rrose({ offset: new L.Point(0,-10), closeButton: false, autoPan: false })
@@ -143,7 +143,7 @@
                     lyr.eventLayer.on('mouseout', function(e){
                         hideTip();
                         if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(lyr.geojson.features[0].properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(lyr.geojson.features[0].properties.status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                     });
 
                     lyr.eventLayer.on('click', function(e){
@@ -159,7 +159,7 @@
                     });
 
 
-                    var label = lyr.geojson.features[0].properties.Location;
+                    var label = lyr.geojson.features[0].properties.location;
                     if (!label) label = "no shape";
                     lyr.eventLayer.properties = lyr.geojson.features[0].properties;
                     lyr.layer.properties = lyr.geojson.features[0].properties;
@@ -222,9 +222,9 @@
             for (var overlay in overlayMaps) {
                 var lyr = overlayMaps[overlay];
                 var props = lyr.properties;
-                var country = props.Country,
-                    scale = props.Scale,
-                    label = props.Location,
+                var country = props.country,
+                    scale = props.scale,
+                    label = props.location,
                     layerName = lyr.lookupKey;
 
                 if (selectedCountry && country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
@@ -339,9 +339,9 @@
         function setupPoints(eezs) {
             eezs.sort(function(a,b) { return d3.ascending(+a.ID, +b.ID);})
                 .forEach(function(row) {
-                    if (!row.Latitude || !row.Longitude) return;
+                    if (!row.latitude || !row.longitude) return;
 
-                    var overlayKey = row.ID + ": " + row.Location;
+                    var overlayKey = row.ID + ": " + row.location;
                     if (overlayKey in overlayMaps) return; // Skip if this area already has a shape loaded
 
                     var layer = new L.GeoJSON({
@@ -349,11 +349,11 @@
                             "properties": row,
                             "geometry": {
                                 "type": "Point",
-                                "coordinates": [row.Longitude, row.Latitude]
+                                "coordinates": [row.longitude, row.latitude]
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var opts = L.Util.extend({}, row.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                var opts = L.Util.extend({}, row.status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                                 opts.pathRootName = 'main';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
@@ -369,7 +369,7 @@
                             "properties": row,
                             "geometry": {
                                 "type": "Point",
-                                "coordinates": [row.Longitude, row.Latitude]
+                                "coordinates": [row.longitude, row.latitude]
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
@@ -393,7 +393,7 @@
                     eventLayer.on("mouseout", function (e) {
                         hideTip(e);
                         if (layer.selected) return;
-                        layer.setStyle(e.layer.feature.properties.Status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(e.layer.feature.properties.status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     });
 
                     eventLayer.on('click', function(e){
@@ -429,11 +429,11 @@
         onMoveEndHandler();
 
         __.highlightOverlay = function(data) {
-            var id = data['ID'] || null;
+            var id = data['id'] || null;
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
 
-                if (props['ID'] === id) {
+                if (props['id'] === id) {
                     overlayMaps[overlay].selected = true;
                     if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
                       overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
@@ -442,9 +442,9 @@
                 } else {
                     overlayMaps[overlay].selected = false;
                     if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
-                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                      overlayMaps[overlay].setStyle(props['status'] == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
                     else
-                      overlayMaps[overlay].setStyle(props['Status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                      overlayMaps[overlay].setStyle(props['status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
                 }
 
             }
@@ -466,7 +466,7 @@
                 filters.forEach(function(k) {
                     if (k.value) {
                         value = k.value
-                        if (k.key === 'Status') {
+                        if (k.key === 'status') {
                             value = MFOM.config.statusLookup[k.value] || null;
                         }
 

@@ -148,8 +148,8 @@
             var o ={};
             var total = 0;
             features.forEach(function(item){
-                var status = item.Status.toLowerCase();
-                if (country && item.Country !== country) return;
+                var status = item.status.toLowerCase();
+                if (country && item.country !== country) return;
 
                 if (!o.hasOwnProperty(status)) o[status] = status;
 
@@ -183,14 +183,14 @@
 
             root.classed('selected', true);
             tabs.classed('open', true);
-            descriptionTxt.text(data.Narrative || "No description available.");
+            descriptionTxt.text(data.narrative || "No description available.");
             detailItems.each(function(){
                 var el = d3.select(this),
                     key = el.attr('data-key'),
                     valEl = el.select('.value'),
                     value = data[key] || 'n/a'
 
-                if (key === 'Website' && value !== 'n/a') {
+                if (key === 'website' && value !== 'n/a') {
                     valEl.select('a')
                         .attr('href', value)
                         .text(value);

@@ -7,7 +7,6 @@
 (function(exports) {
     'use strict';
     var MFOM = exports.MFOM || (exports.MFOM = {});
-
     var view, currentId, currentCountry, currentStatus;
 
     // generic view...
@@ -48,7 +47,7 @@
             .on('click', function(){
                 d3.event.stopImmediatePropagation();
                 STA.Embed.Hide();
-            })
+            });
 
         var selectedCountry = 'all';
         var countryFilters = d3.selectAll('.country-btn');
@@ -78,15 +77,15 @@
             var hash = STA.hasher.get();
 
             for(var key in hash) {
-                if (key !== 'Country' && key !== 'c' ) {
+                if (key !== 'country' && key !== 'c' ) {
                     hash[key] = null;
                 }
             }
 
             if (country === 'all') {
-                hash['Country'] = null;
+                hash['country'] = null;
             } else {
-                hash['Country'] = country;
+                hash['country'] = country;
             }
 
             STA.hasher.set(hash);
@@ -129,8 +128,8 @@
         var h = STA.hasher.get();
 
         // TODO: comparing undefines and nulls should be equal
-        h.Country = h.Country || null;
-        h.Status = h.Status || null;
+        h.country = h.country || null;
+        h.status = h.status || null;
 
         if (currentId !== h.id) {
             currentId = h.id;
@@ -139,22 +138,22 @@
 
         // don't look for filter change on country change
         var countryChange;
-        if (currentCountry !== h.Country) {
+        if (currentCountry !== h.country) {
             countryChange = true;
-            currentCountry = h.Country || null;
+            currentCountry = h.country || null;
             currentStatus = null;
             view.onCountryChange(currentCountry);
         }
 
-        if (currentStatus || currentStatus !== h.Status || countryChange) {
+        if (currentStatus || currentStatus !== h.status || countryChange) {
             if (!initial && countryChange) {
                 currentStatus = null;
                 view.onFilterChange([]);
                 return;
             }
 
-            currentStatus = h.Status || null;
-            view.onFilterChange( [{key:'Status', value: currentStatus }] );
+            currentStatus = h.status || null;
+            view.onFilterChange( [{key:'status', value: currentStatus }] );
         }
 
     }

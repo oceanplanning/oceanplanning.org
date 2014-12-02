@@ -107,7 +107,7 @@
                 //'EPSG:3408',
                 '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
                 {
-                    origin: [60112700,20037600], // I don't understand where these come from
+                    origin: [60112700, 20037600], // I don't understand where these come from
                     resolutions: [
                         null,
                         78271.51696484375,
@@ -134,7 +134,7 @@
             ),
         mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: 'Map by Stamen Design'}),
         mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
-        mapboxLabels: new L.TileLayer.Labels("http://{s}.tile.stamen.com/toner-labels/{z}/{x}/{y}.png", {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
+        mapboxLabels: new L.TileLayer.Labels("https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom_labels/{z}/{x}/{y}.png", {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
         startZoom: 4,
         layers: [
                 {

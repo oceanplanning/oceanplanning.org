@@ -32,7 +32,7 @@
 
     function findID(data, id) {
         return data.filter(function(item){
-            return item.ID == id;
+            return item.id == id;
         });
 
     }
@@ -45,21 +45,13 @@
             layers = extend([],MFOM.config.map.layers);
             d3.csv(MFOM.config.files.csvBase + MFOM.config.files.eez,
                 function(d){
-
-                    // remove crazy key...
-                    if (d.hasOwnProperty('Narrative (250, no formatting or links)')) {
-                        d.Narrative = d['Narrative (250, no formatting or links)'];
-                        delete d['Narrative (250, no formatting or links)'];
-                    }
-
+                    // process incoming rows
                     return d;
                 },
                 function(csvdata) {
                     eezs = csvdata;
 
                     d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planning_areas_topojson) {
-
-
 
                         // Apply the geojson objects to the tasks array
                         layers.forEach(function(lyr) {
