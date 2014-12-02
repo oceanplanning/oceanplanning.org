@@ -17,6 +17,7 @@ install:
 	mkdir -p ${HOME}/Documents/MapBox/project
 	cd tilemill_lowzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_lowzoom && ln -sf ../data
 	cd tilemill_highzoom && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_highzoom && ln -sf ../tilemill_lowzoom/style.mss && ln -sf ../tilemill_lowzoom/images && ln -sf ../data
+	cd tilemill_highzoom_labels && ln -sf "`pwd`" ${HOME}/Documents/MapBox/project/moore_highzoom_labels && ln -sf ../tilemill_lowzoom/images && ln -sf ../data
 
 clean:
 	rm -rf $(DATADIR)/*
