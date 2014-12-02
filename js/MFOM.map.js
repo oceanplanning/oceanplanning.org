@@ -303,6 +303,7 @@
                 });
             var layerCtrl = d3.select("#overlaySelectr");
 
+            /*
             layerCtrl
                 .on('mouseover', function(){
                     d3.event.preventDefault();
@@ -312,11 +313,28 @@
                     d3.event.preventDefault();
                     layerCtrl.classed('expanded', false);
                 });
+            */
+
+            function openLayerController() {
+                layerCtrl.classed('expanded', true);
+                d3.select('#map')
+                    .on('click.layerCtrlr', closeLayerController);
+            }
+
+            function closeLayerController() {
+                layerCtrl.classed('expanded', false);
+                d3.select('#map')
+                    .on('click.layerCtrlr', null);
+            }
 
             layerCtrl.select('a.map-layers')
                 .on('click', function(){
                     d3.event.preventDefault();
+                    openLayerController();
                 });
+
+            layerCtrl.select('#overlaySelectr-close')
+                .on('click',closeLayerController);
 
 
             root.selectAll('input[type="checkbox"]')

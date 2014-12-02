@@ -608,18 +608,28 @@ ul.plain li {
     max-height: 400px;
     overflow: auto;
     overflow-x: hidden;
-
 }
 
 #overlaySelectr.expanded .inner {
     display: block;
 }
 
-#overlaySelectr .map-layers {
+#overlaySelectr .map-layers {}
+#overlaySelectr .map-layers:hover {}
 
+#overlaySelectr-close {
+    position: absolute;
+    display: none;
+    top: 2px;
+    right: 100%;
+    padding: 4px 6px;
+    line-height: 1;
+    margin-right: 5px;
+    border-radius: 4px;
 }
-#overlaySelectr .map-layers:hover {
 
+#overlaySelectr.expanded #overlaySelectr-close {
+    display: block;
 }
 
 /* embed */

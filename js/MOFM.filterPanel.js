@@ -69,7 +69,6 @@
                     .classed('selected', true);
                 h[key] = (value === 'reset' || value === 'all') ? null : value;
             }
-            console.log(h)
 
             STA.hasher.set(h);
         }
