@@ -27,15 +27,15 @@ body,
 .nav div {
     display: inline-block;
     vertical-align: middle;
+    width: 50%;
     zoom: 1;
 }
-.nav div:first-child {
-    width: 70%;
-}
+
 .nav div:last-child {
-    width: 29%;
     text-align: right;
+    width: 49%;
 }
+
 
 #embedded .nav {
     padding: 0.5em 0.55em;
@@ -107,13 +107,15 @@ button, .tabs {
 /* base styles */
 button.link {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: none;
+    background: #fff;
     border: none;
     outline: none;
     padding: 0;
+    text-decoration: none;
 }
 button.link:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    background: #eee;
 }
 button.disabled {
     pointer-events: none;
@@ -125,32 +127,14 @@ button.disabled:hover {
 }
 
 button.selected {
-    background: #bdbdbd !important;
-    /*
+    background: #eee !important;
+
     pointer-events: none;
     cursor: not-allowed;
     text-decoration: none !important;
-    */
+
 }
 
-button.about {
-    position: relative;
-    display: inline-block;
-    top: 0;
-    margin: 2px;
-    font-size: 0.75em;
-    background: #eee;
-    -webkit-border-radius: 50%;
-            border-radius: 50%;
-    vertical-align: top;
-    padding: 3px 6px;
-    line-height: 1;
-    text-decoration: none;
-}
-button.about:hover {
-    background: #aaa;
-    text-decoration: none;
-}
 
 .counts {
     margin-left: 5px;
@@ -531,6 +515,55 @@ ul.plain li {
 
 }
 
+#country-selector li {
+    position: relative;
+    margin-right: 10px;
+    border-radius: 0px;
+    background: #eee;
+}
+#country-selector li:hover {
+    background: #ccc;
+}
+#country-selector li:last-child {
+    margin-right: 0;
+}
+
+#country-selector button.link {
+    position: relative;
+    padding: 6px 26px 6px 15px;
+    font-size: 18px;
+    font-weight: 300;
+    background: transparent;
+    border-radius: 0;
+}
+#country-selector button.link:hover {
+    background: transparent;
+}
+
+#country-selector button.link.selected {
+    background: #ccc !important;
+}
+
+
+.info-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    line-height: 16px;
+    color: #000;
+    background: #fff;
+    font-size: 13px;
+    text-align: center;
+}
+.info-btn:hover {
+    background: #fff;
+    color: #666;
+}
 
 /* overlaySelectr */
 #overlaySelectr {

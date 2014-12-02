@@ -26,15 +26,18 @@
 
         d3.select('#about-all')
             .on('click', function(){
+                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
                 aboutAllModal.toggle();
             });
 
         d3.select('#about-us')
             .on('click', function(){
+                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
                 aboutUSModal.toggle();
             });
         d3.select('#about-canada')
             .on('click', function(){
+                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
                 aboutCanadaModal.toggle();
             });
         d3.select('#embed-btn')
