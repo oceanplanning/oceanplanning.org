@@ -29,6 +29,7 @@
                 continuousWorld: false,
                 worldCopyJump: false,
                 scrollWheelZoom: false,
+                minZoom: 2,
                 layers: [MFOM.config.map.mapboxTilesLowZoom, MFOM.config.map.mapboxTilesHighZoom, MFOM.config.map.mapboxLabels]
             })
             .setView(initialLocation, initialZoom);
