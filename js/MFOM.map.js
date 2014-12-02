@@ -176,15 +176,6 @@
 
         }
 
-        /*
-        d3.selectAll('.leaflet-control-layers-selector')
-        .each(function(item){
-          var value = this.checked,
-            group = this.getAttribute('data-group');
-          console.log(group, value);
-        });
-        */
-
         var availableGroups;
         function getAvailableGroups() {
             availableGroups = {};
@@ -197,6 +188,18 @@
                     if (checked) availableGroups[key] = 1;
                 });
 
+            //filterLayerController();
+        }
+
+        function filterLayerController(){
+            d3.select("#overlaySelectr")
+                .selectAll('input[type="checkbox"]')
+                .each(function(){
+                    var key = this.getAttribute('data-key');
+                    var checked = this.checked;
+
+                    if (checked) availableGroups[key] = 1;
+                });
         }
 
 
@@ -211,7 +214,9 @@
             }
         }
 
+        var layerSelectors;
         function groupOverlays() {
+            layerSelectors = {};
             layerControlReset = true;
             var root = d3.select("#overlaySelectr .inner");
             root.selectAll('ul').remove();
@@ -276,14 +281,16 @@
                     for (var c in sub[l]) {
                         var key = sub[l][c].key;
                         var checked = map.hasLayer(overlayMaps[key]);
-                        var li = ss.append('li');
-                        var label = li.append('label')
+                        var li = ss.append('li').attr('class', 'checkbox-item');
+                        var label = li.append('label');
+
                         label.append('input')
                             .attr('type', 'checkbox')
                             .property('checked', checked)
                             .attr('data-key', key);
                         label.append('span')
                             .text(sub[l][c].label);
+                        layerSelectors[key] = li.node();
                     }
 
                 }
@@ -454,19 +461,19 @@
         var currentFilters = null;
         __.filterOn = function(filters) {
             currentFilters = filters;
-            if (!availableGroups) return;
+
+            if (!availableGroups || !layerSelectors) return;
 
             var bds;
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
-
                 if (!availableGroups.hasOwnProperty(overlay)) continue;
 
                 var valid = true,
                     value;
                 filters.forEach(function(k) {
                     if (k.value) {
-                        value = k.value
+                        value = k.value;
                         if (k.key === 'status') {
                             value = MFOM.config.statusLookup[k.value] || null;
                         }
@@ -493,10 +500,12 @@
                          map.addLayer(overlayMaps[overlay]);
                          map.addLayer(eventOverlays[overlay]);
                     }
+                    if (layerSelectors && overlay in layerSelectors) d3.select(layerSelectors[overlay]).classed('disabled', false);
 
                 } else {
                     if (overlay in overlayMaps) map.removeLayer(overlayMaps[overlay]);
                     if (overlay in eventOverlays) map.removeLayer(eventOverlays[overlay]);
+                    if (layerSelectors && overlay in layerSelectors) d3.select(layerSelectors[overlay]).classed('disabled', true);
                 }
             }
 
@@ -522,6 +531,7 @@
 
             // adds Points & Overlays to map as groups
             addOverlayControl();
+
         };
 
         return __;

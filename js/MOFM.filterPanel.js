@@ -54,6 +54,7 @@
                 value = elmObj.attr('data-value') || null;
 
 
+
             if (elmObj.classed('selected') && value !== 'reset') {
                 filters
                 .classed('selected', false);
@@ -68,6 +69,7 @@
                     .classed('selected', true);
                 h[key] = (value === 'reset' || value === 'all') ? null : value;
             }
+            console.log(h)
 
             STA.hasher.set(h);
         }
