@@ -10,8 +10,8 @@
 
     // Map utilities
     function getRadiusByZoom(zoom) {
-        var s = Math.round(Math.log(zoom-1) * 4) ;
-        return Math.max(s, 2);
+        var s = Math.round(Math.log(zoom+1) * 4) ;
+        return Math.max(s, 5);
     }
 
     MFOM.map = function(selector) {
