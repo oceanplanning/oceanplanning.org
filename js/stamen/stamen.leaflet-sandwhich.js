@@ -221,6 +221,8 @@ L.Path.include({
             this._map._pathRoots[this.options.pathRootName].appendChild(this._container);
         }
 
+        this._pathRoot = this._map._pathRoots[this.options.pathRootName];
+
         map.on({
             'viewreset': this.projectLatlngs,
             'moveend': this._updatePath

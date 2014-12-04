@@ -754,3 +754,9 @@ body.show-embed #embed {
 .moore-map-labels {
     z-index: 2;
 }
+
+.my-div-icon {
+    width: 20px;
+    height: 20px;
+    background: red;
+}

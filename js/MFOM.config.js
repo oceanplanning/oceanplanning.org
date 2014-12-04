@@ -103,13 +103,12 @@
 
     MFOM.config.map = {
         crs: new L.Proj.CRS(
-                'EPSG:2163',  // Guessing
-                //'EPSG:3408',
+                'EPSG:2163',  // Guessing ?
                 '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
                 {
                     origin: [60112700, 20037600], // I don't understand where these come from
-                    resolutions: [
-                        null,
+                    resolutions: [ // map scale, not sure how these were computed (seanc)
+                        156543.0339296875,
                         78271.51696484375,
                         39135.758482421875,
                         19567.8792412109375,
@@ -127,9 +126,7 @@
                         4.7773142678737640380859375,
                         2.388657133934688201904296875,
                         1.194328566968441009521484375
-                    ] // I just copied these from somewhere
-
-
+                    ]
                 }
             ),
         mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: 'Map by Stamen Design'}),

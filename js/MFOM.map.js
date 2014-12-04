@@ -30,20 +30,21 @@
                 worldCopyJump: false,
                 scrollWheelZoom: false,
                 minZoom: 2,
+                maxZoom: 10,
                 layers: [MFOM.config.map.mapboxTilesLowZoom, MFOM.config.map.mapboxTilesHighZoom, MFOM.config.map.mapboxLabels]
             })
             .setView(initialLocation, initialZoom);
 
-
+        window.mapp = map;
 
         var layerControl;
         var selectedCountry = null;
+        var selectedRegion = [];
         var layerControlReset = false;
         var groups = [];
 
         map.on('zoomend', function() {
             if (!markerList) return;
-
             var currentZoom = map.getZoom();
             markerList.forEach(function(marker) {
                 marker.setRadius(getRadiusByZoom(currentZoom));
@@ -59,21 +60,18 @@
 
         map.on('overlayremove overlayadd', function(type, obj) {
             if (layerControlReset) return;
-            console.log("OVERLAY ADD OR REMOVE: ", type, obj);
             getAvailableGroups();
             if (currentFilters) __.filterOn(currentFilters);
         });
 
         function onLayerSelectorChange(key, checked) {
-            if (checked && !map.hasLayer(overlayMaps[key])) {
-                map.addLayer(overlayMaps[key]);
-                map.addLayer(eventOverlays[key]);
-            }
-            if (!checked && map.hasLayer(overlayMaps[key])) {
-                map.removeLayer(overlayMaps[key]);
-                map.removeLayer(eventOverlays[key]);
+            if (checked) {
+                insertLayer(key);
+            } else {
+                removeLayer(key);
             }
 
+            setSelectedRegionIndex();
             getAvailableGroups();
             if (currentFilters) __.filterOn(currentFilters);
         }
@@ -85,20 +83,29 @@
 
             if (h.intro) return;
             STA.hasher.setMapState(center, zoom);
-        };
+        }
+
+        function isPointLayer(feature) {
+            return (feature.hasOwnProperty('options') && 'pointToLayer' in feature.options) ||
+                    (feature.hasOwnProperty('geometry') && feature.geometry.type === 'Point');
+        }
 
         function geojsonStyle(feature) {
-            return feature.properties.status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle;
+            if (isPointLayer(feature)) {// Test if it's a point overlay
+                if (feature.selected) return MFOM.config.styles.geojsonMarkerHighlighted;
+                return feature.properties.status === 'Pre-planning' ?
+                                        MFOM.config.styles.geojsonMarkerOptionsPreplanning :
+                                        MFOM.config.styles.geojsonMarkerOptions;
+            }
+
+            if (feature.selected) return MFOM.config.styles.geojsonPolyHighlighted;
+            return feature.properties.status === 'Pre-planning' ?
+                                        MFOM.config.styles.geojsonPolyStylePreplanning :
+                                        MFOM.config.styles.geojsonPolyStyle;
         }
 
         function onEachFeature(feature, layer) {
             return;
-            if (feature && feature.hasOwnProperty("properties") && feature.properties && feature.properties.hasOwnProperty("location")) {
-                var html = feature.properties.location + "<br>" + feature.properties.status + "<br>" + feature.properties['narrative'];
-            } else {
-                var html = "Location not found";
-            }
-            layer.bindPopup(html);
         }
 
         function showTip(e) {
@@ -108,21 +115,17 @@
                 html = props.location;
             }
 
-            var hover_bubble = new L.Rrose({ offset: new L.Point(0,-10), closeButton: false, autoPan: false })
-              .setContent(html)
-              .setLatLng(e.latlng)
-              .openOn(map);
-            //popupOpen = true;
+            new L.Rrose({ offset: new L.Point(0,-10), closeButton: false, autoPan: false })
+                .setContent(html)
+                .setLatLng(e.latlng)
+                .openOn(map);
         }
 
         function hideTip() {
-            //popupOpen = false;
             map.closePopup();
         }
 
-
-
-
+        var sortingIndex;
         function setupOverlays(layers) {
             layers.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);})
                 .forEach(function(lyr) {
@@ -138,8 +141,6 @@
                         pathRootName: 'evts'
                     });
 
-                    //map.addLayer(lyr.layer);
-
                     lyr.eventLayer.on('mouseover mousemove', function(e){
                         if (lyr.layer.selected) return;
                         showTip(e);
@@ -150,7 +151,7 @@
                     lyr.eventLayer.on('mouseout', function(e){
                         hideTip();
                         if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(lyr.geojson.features[0].properties.status == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                        lyr.layer.setStyle(geojsonStyle(lyr.layer));
                     });
 
                     lyr.eventLayer.on('click', function(e){
@@ -165,6 +166,9 @@
                         STA.hasher.set(h);
                     });
 
+                    var tl = map.project(lyr.layer.getBounds().getNorthWest()),
+                        br = map.project(lyr.layer.getBounds().getSouthEast());
+                    var size = Math.abs(tl.x - br.x) * Math.abs(tl.y - br.y);
 
                     var label = lyr.geojson.features[0].properties.location;
                     if (!label) label = "no shape";
@@ -177,7 +181,10 @@
 
                     overlayMaps[overlayKey] = lyr.layer;
                     eventOverlays[overlayKey]= lyr.eventLayer;
-
+                    sortingIndex.push({
+                        key: overlayKey,
+                        size: size
+                    });
                 });
 
         }
@@ -190,24 +197,86 @@
                 .each(function(){
                     var key = this.getAttribute('data-key');
                     var checked = this.checked;
-                    var forced = overlayMaps[key].forcedOff;
-
-                    if (checked && !forced) availableGroups[key] = 1;
+                    var forced = overlayMaps[key].forcedOff || false;
+                    if (checked && !forced) {
+                        availableGroups[key] = 1;
+                    }
                 });
 
         }
 
+        function returnLayerToIndex(lyr) {
+            if (L.Browser.ie || L.Browser.opera) return lyr;
 
+            var root,path;
+            var idx = lyr.zindex_ + 1;
+            lyr.eachLayer(function(l){
+                    root = l._pathRoot;
+                    path = l._container;
 
+                    if (root && path) {
+                        console.log(root, path, idx);
+                        var children = root.children || root.childNodes;
+                        if (children && children[idx]) {
+                            root.insertBefore(path, children[idx]);
+                        } else {
+                            root.appendChild(path);
+                        }
+                    }
+                    path = null;
+                });
+
+            return lyr;
+        }
+
+        function setSelectedRegionIndex() {
+            if (L.Browser.ie || L.Browser.opera) return;
+            if (selectedRegion && selectedRegion.length) {
+                selectedRegion.forEach(function(key){
+                    overlayMaps[key].bringToFront();
+                    eventOverlays[key].bringToFront();
+                });
+            }
+        }
+
+        function setLayers() {
+            var s = sortingIndex.sort(function(a,b){
+                return d3.descending(a.size, b.size);
+            });
+
+            s.forEach(function(d,i){
+                var k = d.key;
+                if (overlayMaps[k].allowed) {
+                    map.addLayer(overlayMaps[k]);
+                    map.addLayer(eventOverlays[k]);
+                    overlayMaps[k].zindex_ = i;
+                    eventOverlays[k].zindex_ = i;
+                }
+            });
+
+            setSelectedRegionIndex();
+        }
+
+        function insertLayer(key) {
+            if (!overlayMaps.hasOwnProperty(key)) return;
+            if (!map.hasLayer(overlayMaps[key])) map.addLayer(overlayMaps[key]);
+            if (!map.hasLayer(eventOverlays[key])) map.addLayer(eventOverlays[key]);
+
+            if (overlayMaps[key].selected) return;
+
+            returnLayerToIndex(overlayMaps[key]);
+            returnLayerToIndex(eventOverlays[key]);
+        }
+
+        function removeLayer(key) {
+            if (!overlayMaps.hasOwnProperty(key)) return;
+            if (map.hasLayer(overlayMaps[key])) map.removeLayer(overlayMaps[key]);
+            if (map.hasLayer(eventOverlays[key])) map.removeLayer(eventOverlays[key]);
+        }
 
         function removeAllLayers() {
-            var overlay;
-            for (overlay in overlayMaps) {
-                if (map.hasLayer(overlayMaps[overlay])) map.removeLayer(overlayMaps[overlay]);
-            }
-
-            for (overlay in eventOverlays) {
-                if (map.hasLayer(eventOverlays[overlay])) map.removeLayer(eventOverlays[overlay]);
+            for (var overlay in overlayMaps) {
+                removeLayer(overlay);
             }
         }
 
@@ -230,18 +299,21 @@
                     label = props.location,
                     layerName = lyr.lookupKey;
 
-                if (selectedCountry && country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
+                if (selectedCountry &&
+                        country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
+
                 if (!o.hasOwnProperty(country)) {
                     o[country] = {};
                     q[country] = {};
                 }
                 if (!o[country].hasOwnProperty(scale)) o[country][scale] = {};
 
-                if (!q[country].hasOwnProperty(layerName))q[country][layerName] = overlayMaps[layerName];
+                if (!q[country].hasOwnProperty(layerName)) q[country][layerName] = overlayMaps[layerName];
                 o[country][scale][layerName] = {
                     label: label,
                     key: layerName
                 };
+                overlayMaps[overlay].allowed = false;
             }
 
             // add layers
@@ -249,11 +321,12 @@
                 for (var scale in o[country]) {
                     for (var l in o[country][scale]) {
                         var key = o[country][scale][l].key;
-                        map.addLayer(overlayMaps[key]);
-                        map.addLayer(eventOverlays[key]);
+                        overlayMaps[key].allowed = true;
                     }
                 }
             }
+
+            setLayers();
 
             // make menu
             var ul = root.append('ul');
@@ -309,19 +382,8 @@
                     var status = d3.select(this.parentNode).classed('open');
                     d3.select(this.parentNode).classed('open', !status);
                 });
-            var layerCtrl = d3.select("#overlaySelectr");
 
-            /*
-            layerCtrl
-                .on('mouseover', function(){
-                    d3.event.preventDefault();
-                    layerCtrl.classed('expanded', true);
-                })
-                .on('mouseout', function(){
-                    d3.event.preventDefault();
-                    layerCtrl.classed('expanded', false);
-                });
-            */
+            var layerCtrl = d3.select("#overlaySelectr");
 
             function openLayerController() {
                 layerCtrl.classed('expanded', true);
@@ -333,6 +395,26 @@
                 layerCtrl.classed('expanded', false);
                 d3.select('#map')
                     .on('click.layerCtrlr', null);
+            }
+
+            function setParentToggle(elm, state) {
+                while(elm) {
+
+                    if (d3.select(elm).classed('top-level')) {
+                        var t = 0;
+                        var toggle = d3.select(elm).select('.parent-toggle');
+                        d3.select(elm).selectAll('input[type="checkbox"]')
+                        .each(function(){
+                            if (!this.checked) t++;
+                        });
+
+                        toggle.classed('selected', (t > 0) ? false : true);
+                        elm = null;
+                    } else {
+                        elm = elm.parentNode;
+                    }
+
+                }
             }
 
             layerCtrl.select('a.map-layers')
@@ -354,29 +436,6 @@
                     onLayerSelectorChange(key, checked)
                 });
 
-
-            function setParentToggle(elm, state) {
-                while(elm) {
-
-                    if (d3.select(elm).classed('top-level')) {
-                        var t = 0;
-                        var toggle = d3.select(elm).select('.parent-toggle');
-                        d3.select(elm).selectAll('input[type="checkbox"]')
-                        .each(function(){
-                            if (!this.checked) t++;
-                        });
-
-                        console.log("t: ", t);
-
-
-                        toggle.classed('selected', (t > 0) ? false : true);
-                        elm = null;
-                    } else {
-                        elm = elm.parentNode;
-                    }
-
-                }
-            }
             root.selectAll('.checkbox-toggler')
                 .on('click', function(){
                     d3.event.preventDefault();
@@ -385,11 +444,8 @@
                     var state = !(d3.select(this).classed('selected'));
                     d3.select(this).classed('selected', state);
 
-
                     // parent of button not toggle link
                     var parentNode = d3.select(this.parentNode.parentNode);
-
-
 
                     parentNode.select('ul').selectAll('.checkbox-toggler')
                                 .classed('selected', state);
@@ -402,35 +458,22 @@
                             var key = this.getAttribute('data-key');
                             overlayMaps[key].forcedOff = !state;
 
-                            if (state && !map.hasLayer(overlayMaps[key])) {
-                                map.addLayer(overlayMaps[key]);
-                                map.addLayer(eventOverlays[key]);
+                            if (state) {
+                                insertLayer(key);
+                            } else {
+                                removeLayer(key);
                             }
-                            if (!state && map.hasLayer(overlayMaps[key])) {
-                                map.removeLayer(overlayMaps[key]);
-                                map.removeLayer(eventOverlays[key]);
-                            }
-
                         });
 
                     if (!d3.select(this).classed('parent-toggle')) setParentToggle(this, state);
+
+                    setSelectedRegionIndex();
                     getAvailableGroups();
+
                     if (currentFilters) __.filterOn(currentFilters);
-                })
+                });
 
             getAvailableGroups();
-
-
-            // add group control
-            /*
-            console.log(q)
-            layerControl = L.control.nestedLayers(null, q);
-            map.addControl(layerControl);
-
-            layerControlReset = false;
-            exports.layerControl = layerControl;
-            getAvailableGroups()
-            */
         }
 
         // Create point map layers for any rows that have lat & lon
@@ -514,7 +557,10 @@
 
                     overlayMaps[overlayKey] = layer;
                     eventOverlays[overlayKey] = eventLayer;
-
+                    sortingIndex.push({
+                        key: overlayKey,
+                        size: 1
+                    });
                 });
         }
 
@@ -523,31 +569,40 @@
             makeOverlayControl()
         }
 
+        //function getStyle
+
         // call onMoveEndHandler to set map coordinates to hash
         onMoveEndHandler();
 
         __.highlightOverlay = function(data) {
             var id = data['id'] || null;
+
+            if (selectedRegion.length) {
+                selectedRegion.forEach(function(key){
+                    returnLayerToIndex(overlayMaps[key]);
+                    returnLayerToIndex(eventOverlays[key]);
+                });
+            }
+
+            selectedRegion.length = 0;
+
             for(var overlay in overlayMaps) {
                 var props = overlayMaps[overlay].properties;
 
                 if (props['id'] === id) {
+                    selectedRegion.push(overlay);
                     overlayMaps[overlay].selected = true;
-                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
-                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonMarkerHighlighted);
-                    else
-                      overlayMaps[overlay].setStyle(MFOM.config.styles.geojsonPolyHighlighted);
+                    overlayMaps[overlay].setStyle(geojsonStyle(overlayMaps[overlay]));
                 } else {
                     overlayMaps[overlay].selected = false;
-                    if ('pointToLayer' in overlayMaps[overlay].options) // Test if it's a point overlay
-                      overlayMaps[overlay].setStyle(props['status'] == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
-                    else
-                      overlayMaps[overlay].setStyle(props['status'] == "Pre-planning" ? MFOM.config.styles.geojsonPolyStylePreplanning : MFOM.config.styles.geojsonPolyStyle);
+                    overlayMaps[overlay].setStyle(geojsonStyle(overlayMaps[overlay]));
                 }
-
             }
+
+            setSelectedRegionIndex();
         };
 
+        var boundsRect;
         var currentFilters = null;
         __.filterOn = function(filters) {
             currentFilters = filters;
@@ -555,13 +610,16 @@
             if (!availableGroups || !layerSelectors) return;
 
             var bds;
+
             for(var overlay in overlayMaps) {
+
                 var props = overlayMaps[overlay].properties;
                 var forcedOff = overlayMaps[overlay].forcedOff;
                 if (!availableGroups.hasOwnProperty(overlay)) continue;
 
                 var valid = true,
                     value;
+
                 filters.forEach(function(k) {
                     if (k.value) {
                         value = k.value;
@@ -590,21 +648,52 @@
                     }
 
                     if (!map.hasLayer(overlayMaps[overlay])) {
-                         map.addLayer(overlayMaps[overlay]);
-                         map.addLayer(eventOverlays[overlay]);
+                         //map.addLayer(overlayMaps[overlay]);
+                         //map.addLayer(eventOverlays[overlay]);
+                         insertLayer(overlay)
                     }
+
                     if (layerSelectors && overlay in layerSelectors) d3.select(layerSelectors[overlay]).classed('disabled', false);
 
                 } else {
-                    if (overlay in overlayMaps) map.removeLayer(overlayMaps[overlay]);
-                    if (overlay in eventOverlays) map.removeLayer(eventOverlays[overlay]);
+                    removeLayer(overlay);
                     if (layerSelectors && overlay in layerSelectors) d3.select(layerSelectors[overlay]).classed('disabled', true);
                 }
             }
 
+            setSelectedRegionIndex();
+
             // Something weird going on with probably custom projection
             if (bds && bds.isValid()) {
-               // map.fitBounds(bds, {animate: false, paddingTopLeft:[-150, 0] });
+                //var a = MFOM.config.map.crs.project(new L.LatLng(-74,-118)),
+                //    b = MFOM.config.map.crs.project(new L.LatLng(74,119));
+
+                //console.log(bds.getSouthWest());
+
+                /*
+                var source = new proj4.Proj('EPSG:4326');
+                var dest = new proj4.Proj('EPSG:2163');
+                var sw = new proj4.Point(a.x, a.y,1 ),
+                    ne = new proj4.Point(b.x, b.y,1 )
+                proj4.transform(source, dest, sw);
+                proj4.transform(source, dest, ne);
+                */
+
+                //console.log(MFOM.config.map.crs.transform(new L.Point(a.x, a.y)),b);
+                //console.log("BDS: ", bds)
+                //map.fitBounds(bds, {animate: false, paddingTopLeft:[0, 0] });
+
+                /*
+                var myIcon = L.divIcon({className: 'my-div-icon'});
+                L.marker(map.getCenter(), {icon: myIcon}).addTo(map);
+
+                //console.log(map.unproject([sw.x, sw.y]));
+                if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
+                boundsRect = null;
+                boundsRect = L.rectangle([new L.LatLng(-79,-179),new L.LatLng(79,179) ], {color: "#ff7800", weight: 1}).addTo(map);
+                */
+            } else {
+                console.log("NO bounds: ", bds)
             }
         };
 
@@ -617,13 +706,14 @@
             overlayMaps = {};
             eventOverlays = {};
             markerList = [];
+            sortingIndex = [];
 
             // assign handlers and add to overlayMaps object
             setupOverlays(layers);
             setupPoints(eezs);
 
             // adds Points & Overlays to map as groups
-            addOverlayControl();
+            //addOverlayControl();
 
         };
 
