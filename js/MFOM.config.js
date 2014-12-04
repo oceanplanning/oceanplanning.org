@@ -147,12 +147,6 @@
                     "csv_id": 2
                 },
                 {
-                    "topojson_layer": "bc_mapp_north_coast",
-                    "file": "bc_mapp_north_coast.geojson",
-                    "label": "BC MaPP North Coast",
-                    "csv_id": 3
-                },
-                {
                     "topojson_layer": "LOMA_Pacific_North_Coast",
                     "file": "LOMA_Pacific_North_Coast.geojson",
                     "label": "Pacific North Coast",
@@ -249,6 +243,12 @@
                     "file": "bc_mapp_haida_gwaii.geojson",
                     "label": "BC MaPP Haida Gwaii",
                     "csv_id": 33
+                },
+                {
+                    "topojson_layer": "bc_mapp_north_coast",
+                    "file": "bc_mapp_north_coast.geojson",
+                    "label": "BC MaPP North Coast",
+                    "csv_id": 34
                 },
                 {
                     "topojson_layer": "LOMA_Gulf_of_Saint_Lawrence",
