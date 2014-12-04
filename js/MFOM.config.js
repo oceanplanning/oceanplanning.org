@@ -42,17 +42,17 @@
             weight: 1
         },
         geojsonPolyStyle: {
-            color: '#126063',
+            color: '#9bb',
             opacity: 0.6,
-            fillColor: '#126063',
-            fillOpacity: 0.3,
+            fillColor: '#93e5f6',
+            fillOpacity: 0.5,
             weight:1
         },
         geojsonPolyStylePreplanning: {
-            color: '#126063',
-            opacity: 0.5,
-            fillColor: '#9bb',
-            fillOpacity: 0.1,
+            color: '#9bb',
+            opacity: 1.0,
+            fillColor: '#93e5f6',
+            fillOpacity: 0.2,
             weight:1.0,
             dashArray:'3'
         },
@@ -64,24 +64,24 @@
             weight:1
         },
         geojsonPolyMouseover: {
-            color: '#126063',
+            color: '#93e5f6',
             opacity: 0.6,
             fillColor: '#fd0',
             fillOpacity: 0.3,
             weight:1
         },
         geojsonMarkerOptions: {
-            fillColor: "#126063",
-            color: "#126063",
+            fillColor: "#93e5f6",
+            color: "#93e5f6",
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
         },
         geojsonMarkerOptionsPreplanning: {
             fillColor: "#9bb",
-            color: "#126063",
+            color: "#93e5f6",
             weight: 1.5,
-            opacity: 0.5,
+            opacity: 1.0,
             fillOpacity: 0.1,
             dashArray:'2'
         },
@@ -94,7 +94,7 @@
         },
         geojsonMarkerMouseover: {
             fillColor: "#fd0",
-            color: "#126063",
+            color: "#93e5f6",
             weight: 2,
             opacity: 0.6,
             fillOpacity: 0.3
