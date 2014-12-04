@@ -136,136 +136,90 @@
         layers: [
                 {
                     "topojson_layer": "LOMA_Beaufort_Sea",
-                    "file": "LOMA_Beaufort_Sea.geojson",
-                    "label": "Beaufort Sea",
                     "csv_id": 1
                 },
                 {
                     "topojson_layer": "LOMA_Eastern_Scotian_Shelf",
-                    "file": "LOMA_Eastern_Scotian_Shelf.geojson",
-                    "label": "Eastern Scotian Shelf",
                     "csv_id": 2
                 },
                 {
-                    "topojson_layer": "bc_mapp_north_coast",
-                    "file": "bc_mapp_north_coast.geojson",
-                    "label": "BC MaPP North Coast",
-                    "csv_id": 3
-                },
-                {
                     "topojson_layer": "LOMA_Pacific_North_Coast",
-                    "file": "LOMA_Pacific_North_Coast.geojson",
-                    "label": "Pacific North Coast",
-                    "file2": "bc_pncima.geojson",
-                    "label2": "BC PNCIMA",
                     "csv_id": 4
                 },
                 {
                     "topojson_layer": "bc_wcvi",
-                    "file": "bc_wcvi.geojson",
-                    "label": "BC WCVI",
                     "csv_id": 5
                 },
                 {
                     "topojson_layer": "LOMA_Placentia_Bay___Grand_Banks",
-                    "file": "LOMA_Placentia_Bay___Grand_Banks.geojson",
-                    "label": "Placentia Bay / Grand Banks",
                     "csv_id": 6
                 },
                 {
                     "topojson_layer": "NLUP_Boundary",
-                    "file": "NLUP_Boundary.geojson",
-                    "label": "Nunavut",
                     "csv_id": 7
                 },
                 {
                     "topojson_layer": "great_lakes",
-                    "file": "great_lakes.geojson",
-                    "label": "Great Lakes",
                     "csv_id": 8
                 },
                 {
                     "topojson_layer": "pacific_islands",
-                    "file": "pacific_islands.geojson",
-                    "label": "Pacific Islands",
                     "csv_id": 12
                 },
                 {
                     "topojson_layer": "south_atlantic",
-                    "file": "south_atlantic.geojson",
-                    "label": "South Atlantic US",
                     "csv_id": 13
                 },
                 {
                     "topojson_layer": "us_caribbean",
-                    "file": "us_caribbean.geojson",
-                    "label": "US Caribbean",
                     "csv_id": 14
                 },
                 {
                     "topojson_layer": "us_west_coast",
-                    "file": "us_west_coast.geojson",
-                    "label": "US West Coast",
                     "csv_id": 15
                 },
                 {
                     "topojson_layer": "florida_keys",
-                    "file": "florida_keys.geojson",
-                    "label": "Florida Keys",
                     "csv_id": 18
                 },
                 {
                     "topojson_layer": "ma_coastalzone",
-                    "file": "ma_coastalzone.geojson",
-                    "label": "Massachusetts",
                     "csv_id": 22
                 },
                 {
                     "topojson_layer": "oregon",
-                    "file": "oregon.geojson",
-                    "label": "Oregon",
                     "csv_id": 24
                 },
                 {
                     "topojson_layer": "ri_coastalzone",
-                    "file": "ri_coastalzone.geojson",
-                    "label": "Rhode Island",
                     "csv_id": 25
                 },
                 {
                     "topojson_layer": "washington_state",
-                    "file": "washington_state.geojson",
-                    "label": "Washington State",
                     "csv_id": 31
                 },
                 {
                     "topojson_layer": "hi_humpback_sanctuary",
-                    "file": "hi_humpback_sanctuary.geojson",
-                    "label": "Hawaii Humpback Whale National Marine Sanctuary",
                     "csv_id": 32
                 },
                 {
                     "topojson_layer": "bc_mapp_haida_gwaii",
-                    "file": "bc_mapp_haida_gwaii.geojson",
-                    "label": "BC MaPP Haida Gwaii",
                     "csv_id": 33
                 },
                 {
+                    "topojson_layer": "bc_mapp_north_coast",
+                    "csv_id": 34
+                },
+                {
                     "topojson_layer": "LOMA_Gulf_of_Saint_Lawrence",
-                    "file": "LOMA_Gulf_of_Saint_Lawrence.geojson",
-                    "label": "Gulf of Saint Lawrence",
                     "csv_id": 39
                 },
                 {
                     "topojson_layer": "bc_mapp_central_coast",
-                    "file": "bc_mapp_central_coast.geojson",
-                    "label": "BC MaPP Central Coast",
                     "csv_id": 40
                 },
                 {
                     "topojson_layer": "bc_mapp_north_vancouver_island",
-                    "file": "bc_mapp_north_vancouver_island.geojson",
-                    "label": "BC MaPP North Vancouver Island",
                     "csv_id": 41
                 }
             ]

@@ -190,28 +190,22 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceR
 
 
 ### British Columbia MaPP_subregions
-$(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp: $(DATADIR)/MaPP_subregions/mapp_subregions_jan2013.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/bc_mapp_subregions_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $@ $(DATADIR)/bc_mapp_subregions_4326.shp
 
-$(JSONDIR)/bc_mapp_subregions.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia MaPP Subregions" as name, * FROM bc_mapp_subregions_clipped' $@ $<
+### Haida Gwaii
+$(JSONDIR)/bc_mapp_haida_gwaii.geojson: $(DATADIR)/MaPP_subregions/HaidaGwaii_Marine_Area_EstuaryCorrected.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Haida Gwaii - MaPP" as name, * FROM HaidaGwaii_Marine_Area_EstuaryCorrected' $@ $<
 
-### Haida Gwaii (extracted from MaPP)
-$(JSONDIR)/bc_mapp_haida_gwaii.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Haida Gwaii - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "Haida Gwaii"' $@ $<
+### BC North Coast
+$(JSONDIR)/bc_mapp_north_coast.geojson: $(DATADIR)/MaPP_subregions/NorthCoast_Marine_Area_EstuaryCorrected.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Coast - MaPP" as name, * FROM NorthCoast_Marine_Area_EstuaryCorrected' $@ $<
 
-### BC North Coast (extracted from MaPP)
-$(JSONDIR)/bc_mapp_north_coast.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Coast - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "North Coast"' $@ $<
+### BC Central Coast
+$(JSONDIR)/bc_mapp_central_coast.geojson: $(DATADIR)/MaPP_subregions/CentralCoast_Marine_Area_EstuaryCorrected.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Central Coast - MaPP" as name, * FROM CentralCoast_Marine_Area_EstuaryCorrected' $@ $<
 
-### BC Central Coast (extracted from MaPP)
-$(JSONDIR)/bc_mapp_central_coast.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Central Coast - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "Central Coast"' $@ $<
-
-### BC North Vancouver Island (extracted from MaPP)
-$(JSONDIR)/bc_mapp_north_vancouver_island.geojson: $(DATADIR)/MaPP_subregions/bc_mapp_subregions_clipped.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Vancouver Island - MaPP" as name, * FROM bc_mapp_subregions_clipped WHERE subreg = "North Vancouver Island"' $@ $<
+### BC North Vancouver Island
+$(JSONDIR)/bc_mapp_north_vancouver_island.geojson: $(DATADIR)/MaPP_subregions/NorthVancouverIsland_Marine_Area_EstuaryCorrected.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Vancouver Island - MaPP" as name, * FROM NorthVancouverIsland_Marine_Area_EstuaryCorrected' $@ $<
 
 ### British Columbia West Coast Vancouver Island
 $(JSONDIR)/bc_wcvi.geojson: $(DATADIR)/WCVI_AMB_Boundary_Union/AMB_Boundary_Union.shp
@@ -220,8 +214,10 @@ $(JSONDIR)/bc_wcvi.geojson: $(DATADIR)/WCVI_AMB_Boundary_Union/AMB_Boundary_Unio
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia West Coast Vancouver Island" as name, * FROM bc_wcvi_clipped' $@ $(DATADIR)/bc_wcvi_clipped.shp
 
 ### British Columbia PNCIMA
-$(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia PNCIMA" as name, * FROM pncimabndy_inlets071031' $@ $<
+$(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/PNCIMA_with_watersheds_BCalb.shp
+	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/PNCIMA/pncima_4326.shp $< && \
+	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/PNCIMA/pncima_clipped.shp $(DATADIR)/PNCIMA/pncima_4326.shp && \
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia PNCIMA" as name, * FROM pncima_clipped' $@ $(DATADIR)/PNCIMA/pncima_clipped.shp
 
 ### Massachusetts
 #$(DATADIR)/ma-coastal-zone-boundary-2012.zip:

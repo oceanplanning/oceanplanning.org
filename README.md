@@ -18,18 +18,22 @@ Currently only `master`. Potentially moved to `gh-pages` if we decide to host on
 
 ## Data preparation
 
-Processing the input shapefiles into raster tiles and GeoJSON vector overlays needs to happen before deployment of the site. Once the data has been processed, these files will not need to change unless the underlying data changes (if new planning areas are added, or their shapes change, etc.) 
+Processing the input shapefiles into GeoJSON vector overlays needs to happen before deployment of the site. Once the data has been processed, these files will not need to change unless the underlying data changes (if new planning areas are added, or their shapes change, etc.) The instructions in this section refer to the clickable overlays that represent ocean planning areas. To modify the basemap tiles (which include the US and Canada EEZs) see the **basemap style** section below.
 
 Currently the data preparation is done using a Makefile. **Note, the specific commands are subject to change!**
 
-To download and process the base data that is necessary for the raster basemap, run `make basedatalaea`. This creates shapefiles that have been reprojected to Lambert Azimuthal Equal-Area.
-
 If you want to add new planning areas, we need to have a shapefile that describes the spatial extent of the area. Please read the [Shapefile Specifications](SHAPEFILE_SPECIFICATIONS.md) document first.
 
-To get the new planning areas to show up on the map, you must add a new line to the CSV file, and modify the Makefile. To edit the Makefile, follow the pattern of the other planning areas. You will need to edit the Makefile so that the following steps happen:
+To get the new planning areas to show up on the map, you need to do three things:
+
+1. Add a new line to the [CSV file](blob/master/assets/csv/data.csv)
+2. Edit [MFOM.config.js](blob/master/js/MFOM.config.js), specifically the `layers` array, to include a link between the areas ID in the CSV, and its name in the TopoJSON file.
+3. Modify the Makefile to add the new shapefile into the TopoJSON file.
+
+To edit the Makefile, follow the pattern of the other planning areas. You will need to edit the Makefile so that the following steps happen:
 
 1. Download the shapefile from the web (or source it from the repository)
-2. Convert the shapefile to GeoJSON and reproject to EPSG:4326 (usually can be done in one step using `ogr2ogr`)
+2. Convert the shapefile to GeoJSON and reproject to EPSG:4326 (usually can be done in one step using `ogr2ogr`). Make sure the GeoJSON filename is the same as the topojson_layer name you added to MFOM.config.js in step 2 above. 
 3. Compile all the GeoJSON files into one TopoJSON (the `topojson` command)
 
 After modifying the makefile, you run `make topojson` to download and process the interactive overlay data that is drawn on the map. This converts all the shapefiles into GeoJSON, and then compiles them into a single TopoJSON file.
@@ -43,6 +47,8 @@ To modify the basemap style, you need to link the TileMill projects into your lo
 `make install`
 
 You will now have two TileMill projects called "Moore Foundation lowzoom" and "Moore Foundation highzoom". If you adjust the style in one, it should be reflected automatically in the other. (The `make install` step creates symlinks from one style to the other)
+
+To download and process the base data that is necessary for the raster basemap, run `make basedatalaea`. This creates shapefiles that have been reprojected to Lambert Azimuthal Equal-Area.
 
 ## Installation
 
