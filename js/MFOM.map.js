@@ -681,9 +681,12 @@
                 //var a = MFOM.config.map.crs.project(new L.LatLng(-74,-118)),
                 //    b = MFOM.config.map.crs.project(new L.LatLng(74,119));
 
-                //console.log(bds.getSouthWest());
+                //console.log("BDS southwest", bds.getSouthWest());
+                //console.log("BDS northeast", bds.getNorthEast());
 
                 /*
+                // NOTE, we should not try to use EPSG:2163
+                // Our projection is custom, so needs the proj4 string
                 var source = new proj4.Proj('EPSG:4326');
                 var dest = new proj4.Proj('EPSG:2163');
                 var sw = new proj4.Point(a.x, a.y,1 ),
