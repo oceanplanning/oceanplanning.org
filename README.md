@@ -10,11 +10,11 @@ Another key priority of the client is that  updates are easy. Updates will be of
 
 In the case of #1, as much non-geo data as possible should be accessed from CSV files that can be edited in any spreadsheet program or text editor. for #2, geo data should be assumed to come as shapefiles with a documented standard format but no programmatic effort to transform non-compliant files to that format. Ideally, such data would be read directly from the filesystem, with no intervening database.
 
-The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process. 
+The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process.
 
 ## Branches
 
-Currently only `master`. Potentially moved to `gh-pages` if we decide to host on github.
+Currently only `master`.
 
 ## Data preparation
 
@@ -33,7 +33,7 @@ To get the new planning areas to show up on the map, you need to do three things
 To edit the Makefile, follow the pattern of the other planning areas. You will need to edit the Makefile so that the following steps happen:
 
 1. Download the shapefile from the web (or source it from the repository)
-2. Convert the shapefile to GeoJSON and reproject to EPSG:4326 (usually can be done in one step using `ogr2ogr`). Make sure the GeoJSON filename is the same as the topojson_layer name you added to MFOM.config.js in step 2 above. 
+2. Convert the shapefile to GeoJSON and reproject to EPSG:4326 (usually can be done in one step using `ogr2ogr`). Make sure the GeoJSON filename is the same as the topojson_layer name you added to MFOM.config.js in step 2 above.
 3. Compile all the GeoJSON files into one TopoJSON (the `topojson` command)
 
 After modifying the makefile, you run `make topojson` to download and process the interactive overlay data that is drawn on the map. This converts all the shapefiles into GeoJSON, and then compiles them into a single TopoJSON file.
@@ -52,7 +52,7 @@ To download and process the base data that is necessary for the raster basemap, 
 
 ## Installation
 
-TBD. But it should be very simple.
+TBD...
 
 ## Usage + Configuration (specifically for libraries)
 
@@ -68,7 +68,11 @@ _(These are implicit dependencies beyond what gets installed during the [install
 
 Frontend:
 
-* Javascript libraries?
+* D3.js
+* Leaflet
+* Proj4 w/ Proj4Leaflet
+* Hasher w/ Signals
+* Topojson
 
 The data preparation makefile has these dependencies:
 
@@ -81,15 +85,20 @@ The data preparation makefile has these dependencies:
 * Shapefiles of ocean protected areas. These are processed into a [topojson file](blob/master/assets/geojson/planning_areas.topojson) for display on the map.
 * This is a static data project with no database backend.
 
-### Static Assets
-
-* Location and (basic) description of images, existing CSS, HTML, etc.
-
 ## How do I test it?
-
-Test locally by typing `python -m SimpleHTTPServer` in the root directory.
+```bash
+python -m SimpleHTTPServer` in the root directory
+```
 
 ## Deployment
+This should be done from a local copy of [Oceanplanning repo](https://github.com/oceanplanning/oceanplanning.org).
 
-TBD. 
-If this is a live thing in the world, how do we push changes to the live thing?
+Add [Github page repo](https://github.com/oceanplanning/oceanplanning.github.io) to remote
+```bash
+git remote add oceanplanning-web git@github.com:oceanplanning/oceanplanning.github.io.git
+```
+
+And finally to update website:
+```bash
+git push --force oceanplanning-web master
+```
