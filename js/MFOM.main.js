@@ -22,6 +22,7 @@
         var aboutCanadaModal = new MFOM.modal('#about-modal-ca');
         var aboutUSModal = new MFOM.modal('#about-modal-us');
         var aboutAllModal = new MFOM.modal('#about-modal-all');
+        var submitDataModal = new MFOM.modal('#more-data-modal');
         //var embedModal = new MFOM.modal('#embed');
 
         d3.select('#about-all')
@@ -35,16 +36,25 @@
                 d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
                 aboutUSModal.toggle();
             });
+
         d3.select('#about-canada')
             .on('click', function(){
                 d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
                 aboutCanadaModal.toggle();
             });
+
+        d3.select('#more-data-btn')
+            .on('click', function(){
+                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
+                submitDataModal.toggle();
+            });
+
         d3.select('#embed-btn')
             .on('click', function(){
                 console.log('e')
                 STA.Embed.Show();
             });
+
         d3.select('#embed')
             .selectAll('.modal-close')
             .on('click', function(){

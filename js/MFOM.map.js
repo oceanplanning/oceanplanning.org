@@ -31,7 +31,10 @@
                 scrollWheelZoom: false,
                 minZoom: 2,
                 maxZoom: 10,
-                layers: [MFOM.config.map.mapboxTilesLowZoom, MFOM.config.map.mapboxTilesHighZoom, MFOM.config.map.mapboxLabels]
+                layers: [MFOM.config.map.mapboxTilesLowZoom,
+                            MFOM.config.map.mapboxTilesHighZoom,
+                            MFOM.config.map.mapboxLabels
+                        ]
             })
             .setView(initialLocation, initialZoom);
 
@@ -89,16 +92,24 @@
                     (feature.hasOwnProperty('geometry') && feature.geometry.type === 'Point');
         }
 
-        function geojsonStyle(feature) {
-            if (isPointLayer(feature)) {// Test if it's a point overlay
-                if (feature.selected) return MFOM.config.styles.geojsonMarkerHighlighted;
-                return feature.properties.status === 'Pre-planning' ?
+        function geojsonStyle(feature, isPoint) {
+            var status = (feature.hasOwnProperty('properties')) ?
+                    feature.properties.status : feature.status;
+
+            isPoint = (typeof isPoint === 'boolean') ? isPoint : isPointLayer(feature);
+
+            if (feature.selected) return isPoint ?
+                    MFOM.config.styles.geojsonMarkerHighlighted :
+                    MFOM.config.styles.geojsonPolyHighlighted;
+
+
+            if (isPoint) {
+                return status === 'Pre-planning' ?
                                         MFOM.config.styles.geojsonMarkerOptionsPreplanning :
                                         MFOM.config.styles.geojsonMarkerOptions;
             }
 
-            if (feature.selected) return MFOM.config.styles.geojsonPolyHighlighted;
-            return feature.properties.status === 'Pre-planning' ?
+            return status === 'Pre-planning' ?
                                         MFOM.config.styles.geojsonPolyStylePreplanning :
                                         MFOM.config.styles.geojsonPolyStyle;
         }
@@ -248,7 +259,7 @@
             s.forEach(function(d,i){
                 var k = d.key;
                 var r = len - i;
-                console.log(k,d.size,i,r);
+
                 if (overlayMaps[k].allowed) {
                     map.addLayer(overlayMaps[k]);
                     map.addLayer(eventOverlays[k]);
@@ -311,7 +322,9 @@
                 }
                 if (!o[country].hasOwnProperty(scale)) o[country][scale] = {};
 
-                if (!q[country].hasOwnProperty(layerName)) q[country][layerName] = overlayMaps[layerName];
+                if (!q[country].hasOwnProperty(layerName))
+                    q[country][layerName] = overlayMaps[layerName];
+
                 o[country][scale][layerName] = {
                     label: label,
                     key: layerName
@@ -497,7 +510,7 @@
                             }
                         }, {
                             pointToLayer: function(feature, latlng) {
-                                var opts = L.Util.extend({}, row.status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                                var opts = L.Util.extend({}, geojsonStyle(row, true));
                                 opts.pathRootName = 'main';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
@@ -537,7 +550,7 @@
                     eventLayer.on("mouseout", function (e) {
                         hideTip(e);
                         if (layer.selected) return;
-                        layer.setStyle(e.layer.feature.properties.status == "Pre-planning" ? MFOM.config.styles.geojsonMarkerOptionsPreplanning : MFOM.config.styles.geojsonMarkerOptions);
+                        layer.setStyle(geojsonStyle(e.layer.feature));
                     });
 
                     eventLayer.on('click', function(e){

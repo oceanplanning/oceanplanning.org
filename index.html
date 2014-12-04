@@ -93,6 +93,15 @@
         </div>
       </div>
 
+      <div id="more-data-modal" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content txt-copy">
+            <p>Are there planning areas we should add to the map? Send us a shapefile! See the <a href="https://github.com/stamen/moore/blob/master/SHAPEFILE_SPECIFICATIONS.md" target="_blank" title="Documentation to submit a shapefile">Shapefile Specifications</a> documentation for more instructions.</p>
+          </div>
+        </div>
+      </div>
 
 
       <header class="nav block">
@@ -107,14 +116,16 @@
           <li><button class="link country-btn" data-country="can">CANADA</button><a href="#" id="about-canada" class="info-btn">i</a></li>
           </ul>
         </div>
-
       </header>
 
 
       <section class="main block">
         <div id='map'></div>
 
-        <button id="embed-btn" class="link">Embed</button>
+        <div id="additional-actions" class="panel">
+          <button id="embed-btn" class="link btn-large">Embed</button>
+          <button id="more-data-btn" class="link btn-large">More Data</button>
+        </div>
 
         <!-- layer controls -->
         <div id="overlaySelectr" class="dropdown">

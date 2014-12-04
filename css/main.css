@@ -58,13 +58,19 @@ body,
 }
 
 .panel.filters {
-    bottom: 1.5%;
+    bottom: 20px;
     left: 1.2em;
     background: rgba(255,255,255,0.8);
     padding: 10px;
     -webkit-border-radius: 10px;
             border-radius: 10px;
     z-index: 9999;
+}
+#additional-actions.panel {
+    bottom: 20px;
+    right: 1em;
+    z-index: 9999;
+
 }
 
 
@@ -649,11 +655,7 @@ ul.plain li {
 }
 
 /* embed */
-#embed-btn {
-    position: absolute;
-    bottom: 2em;
-    right: 1em;
-    z-index: 9999;
+.link.btn-large {
     background: #fff;
     padding: 10px 20px;
     -webkit-border-radius: 5px;
