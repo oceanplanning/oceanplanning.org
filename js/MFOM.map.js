@@ -225,7 +225,6 @@
                     path = l._container;
 
                     if (root && path) {
-                        console.log(root, path, idx);
                         var children = root.children || root.childNodes;
                         if (children && children[idx]) {
                             root.insertBefore(path, children[idx]);

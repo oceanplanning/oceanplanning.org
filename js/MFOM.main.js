@@ -19,39 +19,21 @@
         var map = new MFOM.map('map');
         var filterPanel = new MFOM.filterpanel();
 
-        var aboutCanadaModal = new MFOM.modal('#about-modal-ca');
-        var aboutUSModal = new MFOM.modal('#about-modal-us');
-        var aboutAllModal = new MFOM.modal('#about-modal-all');
-        var submitDataModal = new MFOM.modal('#more-data-modal');
-        //var embedModal = new MFOM.modal('#embed');
+        // set up modals
+        var modals = d3.selectAll('.modal-activator');
+        modals.each(function(){
+            var target = this.getAttribute('data-target');
+            var modal = (target) ? new MFOM.modal('#' + target) : null;
+            d3.select(this)
+                .on('click', function(){
+                    d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
+                    if (modal) modal.toggle();
+                });
+        });
 
-        d3.select('#about-all')
-            .on('click', function(){
-                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
-                aboutAllModal.toggle();
-            });
-
-        d3.select('#about-us')
-            .on('click', function(){
-                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
-                aboutUSModal.toggle();
-            });
-
-        d3.select('#about-canada')
-            .on('click', function(){
-                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
-                aboutCanadaModal.toggle();
-            });
-
-        d3.select('#more-data-btn')
-            .on('click', function(){
-                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false;
-                submitDataModal.toggle();
-            });
-
+        // embed modals are different
         d3.select('#embed-btn')
             .on('click', function(){
-                console.log('e')
                 STA.Embed.Show();
             });
 

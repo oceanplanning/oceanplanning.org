@@ -103,6 +103,19 @@
         </div>
       </div>
 
+      <div id="about-map-modal" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content txt-copy">
+            <h3>About this map</h3>
+            <p>This map was was created by <a href="http://stamen.com">Stamen Design</a>, a data visualization and cartography studio based in San Francisco.</p>
+            <p>The map uses a custom <a href="http://en.wikipedia.org/wiki/Map_projection">map projection</a> to show the true sizes of the coastal areas of the United States and Canada. Most web-based maps use the <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator projection</a>, which distorts the sizes of regions near the poles, making Northern Canada and the Arctic Ocean appear much larger than they really are.</p>
+            <p>Our map uses a <a href="http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert Azimuthal Equal-area projection</a> which has been modified so that the center of the projection is at 105&deg;W, 40&deg;N. This projection shows accurate sizes everywhere on the map. However, as a side effect, north is not always "up" on this map. As you look at places that are further away from the center of the map, the curvature of the earth becomes apparent. Keep your eye on the <em>graticule lines</em> (the grid of thin blue lines out in the ocean) to help you figure out which direction is north.</p>
+          </div>
+        </div>
+      </div>
+
 
       <header class="nav block">
         <div>
@@ -111,9 +124,9 @@
         </div>
         <div>
           <ul id="country-selector" class="horizontal-list">
-          <li><button class="link country-btn" data-country="all">ALL</button><a href="#" id="about-all" class="info-btn">i</a></li>
-          <li><button class="link country-btn" data-country="usa">U.S.</button><a href="#" id="about-us" class="info-btn">i</a></li>
-          <li><button class="link country-btn" data-country="can">CANADA</button><a href="#" id="about-canada" class="info-btn">i</a></li>
+          <li><button class="link country-btn" data-country="all">ALL</button><a href="#" id="about-all" class="info-btn modal-activator" data-target="about-modal-all">i</a></li>
+          <li><button class="link country-btn" data-country="usa">U.S.</button><a href="#" id="about-us" class="info-btn modal-activator" data-target="about-modal-us">i</a></li>
+          <li><button class="link country-btn" data-country="can">CANADA</button><a href="#" id="about-canada" class="info-btn modal-activator" data-target="about-modal-ca">i</a></li>
           </ul>
         </div>
       </header>
@@ -124,7 +137,7 @@
 
         <div id="additional-actions" class="panel">
           <button id="embed-btn" class="link btn-large">Embed</button>
-          <button id="more-data-btn" class="link btn-large">More Data</button>
+          <button id="more-data-btn" class="link btn-large modal-activator" data-target="more-data-modal">More Data</button>
         </div>
 
         <!-- layer controls -->
