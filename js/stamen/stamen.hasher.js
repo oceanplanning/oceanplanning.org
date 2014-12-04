@@ -90,8 +90,8 @@
         __.getMapState = function(hashObj) {
             if (!hashObj || !hashObj.c) return null;
             var parts = hashObj.c.split(':'),
-                coords = [parts[1],parts[2]],
-                zoom = parts[0];
+                coords = [+parts[1], +parts[2]],
+                zoom = parseInt(parts[0], 10);
 
             return [coords, zoom];
         };

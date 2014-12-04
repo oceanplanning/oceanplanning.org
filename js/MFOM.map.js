@@ -10,7 +10,7 @@
 
     // Map utilities
     function getRadiusByZoom(zoom) {
-        var s = Math.round(Math.log(zoom+1) * 4) ;
+        var s = Math.round(Math.log(zoom+1) * 4);
         return Math.max(s, 5);
     }
 
@@ -24,20 +24,16 @@
         var initialLocation = (hash && hash[0]) ? hash[0] : [35, -105],
             initialZoom = (hash && hash[1]) ? hash[1] : MFOM.config.map.startZoom;
 
-        var map = L.map(selector, {
-                crs: MFOM.config.map.crs,
-                continuousWorld: false,
-                worldCopyJump: false,
-                scrollWheelZoom: false,
-                minZoom: 2,
-                maxZoom: 10,
-                layers: [MFOM.config.map.mapboxTilesLowZoom,
+        var mapOptions = L.Util.extend({}, MFOM.config.map.defaultOptions);
+        mapOptions.crs = MFOM.config.map.crs;
+        mapOptions.layers = [MFOM.config.map.mapboxTilesLowZoom,
                             MFOM.config.map.mapboxTilesHighZoom,
                             MFOM.config.map.mapboxLabels
-                        ]
-            })
-            .setView(initialLocation, initialZoom);
+                        ];
 
+        var map = L.map(selector, mapOptions)
+            .setView(initialLocation, initialZoom);
+        L.control.attribution({prefix: false}).addAttribution(MFOM.config.map.attribution).addTo(map);
         window.mapp = map;
 
         var layerControl;
@@ -493,6 +489,8 @@
 
         // Create point map layers for any rows that have lat & lon
         function setupPoints(eezs) {
+            var initialRadius = getRadiusByZoom(initialZoom);
+
             eezs.sort(function(a,b) { return d3.ascending(+a.id, +b.id);})
                 .forEach(function(row) {
                     if (!row.latitude || !row.longitude) return;
@@ -513,7 +511,7 @@
                                 opts.pathRootName = 'main';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
-                                circleMarker.setRadius(getRadiusByZoom(initialZoom));
+                                circleMarker.setRadius(initialRadius);
                                 return circleMarker;
                             },
                             onEachFeature: onEachFeature,
@@ -533,7 +531,7 @@
                                 opts.pathRootName = 'evts';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
-                                circleMarker.setRadius(getRadiusByZoom(initialZoom));
+                                circleMarker.setRadius(initialRadius);
                                 return circleMarker;
                             },
                             onEachFeature: onEachFeature,

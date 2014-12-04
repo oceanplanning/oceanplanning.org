@@ -129,9 +129,18 @@
                     ]
                 }
             ),
-        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: 'Map by Stamen Design'}),
-        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: 'Map by Stamen Design'}),
-        mapboxLabels: new L.TileLayer.Labels("https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom_labels/{z}/{x}/{y}.png", {minZoom: 0, maxZoom: 10, attribution: 'Map by Stamen Design'}),
+        defaultOptions: {
+            continuousWorld: false,
+            worldCopyJump: false,
+            scrollWheelZoom: false,
+            minZoom: 2,
+            maxZoom: 10,
+            attributionControl: false
+        },
+        attribution: 'Map by <a href="http://stamen.com" target="_blank" title="Stamen Design">Stamen Design</a> | <a id="about-map-btn" class="modal-activator" data-target="about-map-modal" href="#" title="Contextual information about the map.">About</a>',
+        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: null}),
+        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: null}),
+        mapboxLabels: new L.TileLayer.Labels("https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom_labels/{z}/{x}/{y}.png", {minZoom: 0, maxZoom: 10, attribution: null}),
         startZoom: 4,
         layers: [
                 {
