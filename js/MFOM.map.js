@@ -48,7 +48,6 @@
             var currentZoom = map.getZoom();
             markerList.forEach(function(marker) {
                 marker.setRadius(getRadiusByZoom(currentZoom));
-                //console.log(currentZoom, getRadiusByZoom(currentZoom));
             });
         });
         map.on('moveend', onMoveEndHandler, self);
@@ -244,13 +243,17 @@
                 return d3.descending(a.size, b.size);
             });
 
+
+            var len = s.length-1;
             s.forEach(function(d,i){
                 var k = d.key;
+                var r = len - i;
+                console.log(k,d.size,i,r);
                 if (overlayMaps[k].allowed) {
                     map.addLayer(overlayMaps[k]);
                     map.addLayer(eventOverlays[k]);
-                    overlayMaps[k].zindex_ = i;
-                    eventOverlays[k].zindex_ = i;
+                    overlayMaps[k].zindex_ = r;
+                    eventOverlays[k].zindex_ = r;
                 }
             });
 
@@ -518,14 +521,14 @@
                                 opts.pathRootName = 'evts';
                                 var circleMarker = L.circleMarker(latlng, opts);
                                 markerList.push(circleMarker);
-                                circleMarker.setRadius(getRadiusByZoom(MFOM.config.map.startZoom));
+                                circleMarker.setRadius(getRadiusByZoom(initialZoom));
                                 return circleMarker;
                             },
                             onEachFeature: onEachFeature,
                             pathRootName: 'evts'
                         });
 
-                    eventLayer.on("mouseover", function (e) {
+                    eventLayer.on("mouseover mousemove", function (e) {
                         if (layer.selected) return;
                         showTip(e);
                         layer.setStyle(MFOM.config.styles.geojsonMarkerMouseover);
