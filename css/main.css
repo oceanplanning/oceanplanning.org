@@ -766,3 +766,54 @@ body.show-embed #embed {
     height: 20px;
     background: red;
 }
+
+.leaflet-rrose-content {
+    margin: 7px 10px;
+}
+
+.leaflet-rrose-tip-s {
+    margin: 12px auto 0;
+}
+
+.leaflet-rrose-tip-se {
+    margin: 12px 11px 11px -8px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-sw {
+    margin: 12px 11px 11px 32px; overflow: hidden;
+}
+
+
+.leaflet-rrose-content-wrapper {
+    -moz-border-radius:    4px;
+    -webkit-border-radius: 4px;
+    border-radius:         4px;
+}
+
+.leaflet-rrose-content-wrapper-se {
+    -moz-border-radius:    0 4px 4px 4px;
+    -webkit-border-radius: 0 4px 4px 4px;
+    border-radius:         0 4px 4px 4px;
+}
+
+.leaflet-rrose-content-wrapper-sw {
+    -moz-border-radius:    4px 0 4px 4px;
+    -webkit-border-radius: 4px 0 4px 4px;
+    border-radius:         4px 0 4px 4px;
+}
+
+.leaflet-rrose-content-wrapper-nw, .leaflet-rrose-content-wrapper-w {
+    -moz-border-radius:    4px 4px 0 4px;
+    -webkit-border-radius: 4px 4px 0 4px;
+    border-radius:         4px 4px 0 4px;
+}
+
+.leaflet-rrose-content-wrapper-ne, .leaflet-rrose-content-wrapper-e {
+    -moz-border-radius:    4px 4px 4px 0;
+    -webkit-border-radius: 4px 4px 4px 0;
+    border-radius:         4px 4px 4px 0;
+}
+
+.leaflet-rrose-content {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
