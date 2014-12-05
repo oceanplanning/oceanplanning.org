@@ -17,9 +17,11 @@
             lastHeight;
 
         var map = new MFOM.map('map');
-        var filterPanel;
+        var filterPanel,
+            detailsPanel;
 
         if (!MFOM.config.isEmbed) filterPanel = new MFOM.filterpanel();
+        detailsPanel = new MFOM.detailspanel();
 
         // set up modals
         var modals = d3.selectAll('.modal-activator');
@@ -102,6 +104,7 @@
 
         __.onIDChange = function(data) {
             if (filterPanel) filterPanel.update(data);
+            detailsPanel.update(data);
             map.highlightOverlay(data);
         };
 

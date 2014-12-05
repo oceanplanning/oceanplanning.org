@@ -14,33 +14,10 @@
         var root = d3.select('.filters'),
             statusFilters = root.select('.status-filters').selectAll('button'),
             filterBtns = root.selectAll('.filter-btn'),
-            tabs = root.select('.tabs'),
-            tabBtns = tabs.select('.filter-row').selectAll('button'),
-            detailsTab = root.select('[data-tab="details"]'),
-            detailItems = detailsTab.selectAll('li'),
-            descriptionTab = root.select('[data-tab="description"]'),
-            descriptionTxt = descriptionTab.select('p'),
-            resetBtn = root.select('#resetButton'),
-            currentTab,
             statusKeys = [];
 
         statusFilters.each(function(elm){
             statusKeys.push( this.getAttribute('data-value') );
-        });
-
-
-        // reset region button
-        resetBtn.on('click', function(){
-            var h = STA.hasher.get();
-            h.id = null;
-            STA.hasher.set(h);
-        });
-
-        tabBtns.each(function(btn){
-            if (d3.select(this).classed('selected')) currentTab = this;
-        });
-        tabBtns.on('click', function(){
-            setTabs(this);
         });
 
         statusFilters.on('click', function(){
@@ -73,31 +50,6 @@
             STA.hasher.set(h);
         }
 
-        function setTabs(btn) {
-            tabBtns.classed('selected', false);
-
-            tabBtns.each(function(){
-                if (btn === this) {
-                    currentTab = this;
-                    var el = d3.select(this),
-                        target = el.attr('data-target');
-
-                    el.classed('selected', true);
-
-                    if (target === 'details') {
-                        detailsTab.classed('hide', false);
-                        descriptionTab.classed('hide', true);
-                    } else {
-                        detailsTab.classed('hide', true);
-                        descriptionTab.classed('hide', false);
-                    }
-                } else {
-
-                }
-
-            });
-        }
-
         function setFilterReset() {
             statusFilters.classed('selected', false);
             d3.select(statusFilters[0][0]).classed('selected', true);
@@ -105,13 +57,14 @@
 
         // on a filter change
         __.onFilterChange = function(filters) {
-            var showReset = tabs.classed('open');
+            //var showReset = d3.select('.tabs').classed('open');
 
             if (!filters || !filters.length) {
                 root.classed('selected', false);
                 setFilterReset();
                 return;
             };
+
             filterBtns.each(function(){
                 var el = d3.select(this),
                     key = el.attr('data-key'),
@@ -124,19 +77,11 @@
                     if (f.key === key && thisValue === value) match = true;
                 });
                 el.classed('selected', match);
-                if (match) showReset = true;
+                //if (match) showReset = true;
             });
 
-            root.classed('selected', showReset);
+           // root.classed('selected', showReset);
         };
-
-        /*
-        MFOM.config.statusLookup = {
-        'completed': 'Implemented',
-        'pre-planning': 'Pre-planning',
-        'underway': 'Underway',
-        'stalled': new RegExp('stall', 'gi')
-    };*/
 
 
         __.updateCounts = function(country) {
@@ -168,7 +113,7 @@
                 var txt = (key === 'reset') ? total : (counts[key] || 0);
                 el.select('.counts')
                     .text( "(" + txt + ")");
-            })
+            });
 
         };
 
@@ -178,29 +123,10 @@
             if (!data || !data.id) {
                 root.classed('selected', false);
                 setFilterReset();
-                tabs.classed('open', false);
                 return;
             }
 
             root.classed('selected', true);
-            tabs.classed('open', true);
-            descriptionTxt.text(data.narrative || "No description available.");
-            detailItems.each(function(){
-                var el = d3.select(this),
-                    key = el.attr('data-key'),
-                    valEl = el.select('.value'),
-                    value = data[key] || 'n/a'
-
-                if (key === 'website' && value !== 'n/a') {
-                    valEl.select('a')
-                        .attr('href', value)
-                        .attr('target', '_blank')
-                        .text(value);
-                } else {
-                    valEl.text(value);
-                }
-
-            });
         };
 
         return __;

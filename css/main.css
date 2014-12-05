@@ -55,11 +55,17 @@ body,
 
 .panel {
     position: absolute;
+    z-index: 9999;
+}
+
+.panel.details {
+    left: 1em;
+    bottom: 20px;
 }
 
 .panel.filters {
-    bottom: 20px;
-    left: 1.2em;
+    bottom: 65px;
+    right: 1em;
     background: rgba(255,255,255,0.8);
     padding: 10px;
     -webkit-border-radius: 10px;
@@ -195,9 +201,8 @@ button.selected {
     padding: 0;
     list-style: none;
     background: #fff;
-    border: 2px solid #fff;
-    -webkit-border-radius: 10px;
-            border-radius: 10px;
+    -webkit-border-radius: 4px;
+            border-radius: 4px;
     zoom: 1;
 }
 
@@ -239,6 +244,10 @@ button.selected {
     font-size: 12px;
     text-decoration: underline;
     color: #666;
+    padding: 2px 10px;
+    margin-right: 5px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .open #resetButton {
@@ -264,31 +273,36 @@ button.selected {
 }
 .tabs .filter-row {
     margin-bottom: 0;
+    clear: both;
+    line-height: 0;
 }
 .tabs .filter-row ul {
     width: 100%;
-    -webkit-border-bottom-right-radius: 0;
-            border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-            border-bottom-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+            border-bottom-right-radius: 0px;
 }
-
+.tabs .filter-row li {
+    padding: 2px 0 0;
+}
 .tabs .filter-row li:first-child {
     width: 19%;
+    padding-left: 2px;
 }
 .tabs .filter-row li:last-child {
     width: 80%;
 }
 
 .tabs .filter-row li:first-child button {
-    -webkit-border-top-left-radius: 10px;
-            border-top-left-radius: 10px;
+    -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
     -webkit-border-bottom-left-radius: 0px;
             border-bottom-left-radius: 0px;
 }
 .tabs .filter-row li:last-child button {
-    -webkit-border-top-right-radius: 10px;
-            border-top-right-radius: 10px;
+    -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
     -webkit-border-bottom-right-radius: 0px;
             border-bottom-right-radius: 0px;
     text-align: left;
@@ -296,19 +310,20 @@ button.selected {
 .tabs .filter-row button {
     line-height: 20px;
     width: 100%;
+    vertical-align: top;
 }
 .tabs .tabs-inner {
     position: relative;
-    margin: -5px 0 0 0;
+    margin: 0 0 0 0;
     background: #e5e5e5;
-    -webkit-border-bottom-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-    -webkit-border-bottom-left-radius: 10px;
-            border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 4px;
     border: 2px solid #fff;
     width: 100%;
-
 }
+
 .tab {
     padding: 0px 5px;
 }
