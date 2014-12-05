@@ -29,9 +29,9 @@
     MFOM.config.expand = {
         countries : {
             'usa' : "United States",
-            "can" : "Canada"
+            'can' : 'Canada'
         }
-    }
+    };
 
     MFOM.config.styles = {
         eventStyle: {
@@ -41,65 +41,140 @@
             fillOpacity: 0,
             weight: 1
         },
-        geojsonPolyStyle: {
-            color: '#9bb',
-            opacity: 0.6,
-            fillColor: '#93e5f6',
-            fillOpacity: 0.5,
-            weight:1
+        geojsonPolygonStyles: {
+            base: {
+                normal: {
+                    color: '#9bb',
+                    opacity: 0.6,
+                    fillColor: '#93e5f6',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
+                over: {
+                    color: '#93e5f6',
+                    opacity: 0.6,
+                    fillColor: '#fd0',
+                    fillOpacity: 0.3,
+                    weight:1
+                },
+                selected: {
+                    color: '#0ff',
+                    opacity: 0.6,
+                    fillColor: '#0ff',
+                    fillOpacity: 0.3,
+                    weight:1
+                }
+            },
+            // for variants, you can just include the difference from base
+            stalled: {
+                normal:{},
+                over: {},
+                selected: {}
+            },
+            underway: {
+                normal:{},
+                over: {},
+                selected: {}
+            },
+            preplanning: {
+                normal:{
+                    opacity: 1.0,
+                    fillOpacity: 0.2,
+                    dashArray:'3'
+                },
+                over: {},
+                selected: {}
+            },
+            implemented: {
+                normal:{},
+                over: {},
+                selected: {}
+            }
         },
-        geojsonPolyStylePreplanning: {
-            color: '#9bb',
-            opacity: 1.0,
-            fillColor: '#93e5f6',
-            fillOpacity: 0.2,
-            weight:1.0,
-            dashArray:'3'
-        },
-        geojsonPolyHighlighted: {
-            color: '#0ff',
-            opacity: 0.6,
-            fillColor: '#0ff',
-            fillOpacity: 0.3,
-            weight:1
-        },
-        geojsonPolyMouseover: {
-            color: '#93e5f6',
-            opacity: 0.6,
-            fillColor: '#fd0',
-            fillOpacity: 0.3,
-            weight:1
-        },
-        geojsonMarkerOptions: {
-            fillColor: "#93e5f6",
-            color: "#93e5f6",
-            weight: 2,
-            opacity: 0.6,
-            fillOpacity: 0.3
-        },
-        geojsonMarkerOptionsPreplanning: {
-            fillColor: "#9bb",
-            color: "#93e5f6",
-            weight: 1.5,
-            opacity: 1.0,
-            fillOpacity: 0.1,
-            dashArray:'2'
-        },
-        geojsonMarkerHighlighted: {
-            fillColor: "#0ff",
-            color: "#0ff",
-            weight: 2,
-            opacity: 0.6,
-            fillOpacity: 0.3
-        },
-        geojsonMarkerMouseover: {
-            fillColor: "#fd0",
-            color: "#93e5f6",
-            weight: 2,
-            opacity: 0.6,
-            fillOpacity: 0.3
+        // marker styles
+        geojsonMarkerStyles: {
+            base: {
+                normal: {
+                    fillColor: '#93e5f6',
+                    color: '#93e5f6',
+                    weight: 2,
+                    opacity: 0.6,
+                    fillOpacity: 0.3
+                },
+                over: {
+                    fillColor: '#fd0',
+                    color: '#93e5f6',
+                    weight: 2,
+                    opacity: 0.6,
+                    fillOpacity: 0.3
+                },
+                selected: {
+                    fillColor: '#0ff',
+                    color: '#0ff',
+                    weight: 2,
+                    opacity: 0.6,
+                    fillOpacity: 0.3
+                }
+            },
+            // for variants, you can just include the difference from base
+            stalled: {
+                normal:{},
+                over: {},
+                selected: {}
+            },
+            underway: {
+                normal:{},
+                over: {},
+                selected: {}
+            },
+            preplanning: {
+                normal:{
+                    fillColor: '#9bb',
+                    weight: 1.5,
+                    opacity: 1.0,
+                    fillOpacity: 0.1,
+                    dashArray:'2'
+                },
+                over: {},
+                selected: {}
+            },
+            implemented: {
+                normal:{},
+                over: {},
+                selected: {}
+            }
         }
     };
+
+    function merge(base, variant) {
+        var cp = L.extend({}, base);
+
+        for(var style in variant) {
+            for(var prop in variant[style]) {
+                cp[style][prop] = variant[style][prop];
+            }
+        }
+
+        return cp;
+    }
+
+    // merge polygon styles
+    for (var t in MFOM.config.styles.geojsonPolygonStyles){
+        if (t !== 'base') {
+            MFOM.config.styles.geojsonPolygonStyles[t] = merge(
+                MFOM.config.styles.geojsonPolygonStyles['base'],
+                MFOM.config.styles.geojsonPolygonStyles[t]);
+        }
+    }
+
+    // merge marker styles
+    for (var t in MFOM.config.styles.geojsonMarkerStyles){
+        if (t !== 'base') {
+            MFOM.config.styles.geojsonMarkerStyles[t] = merge(
+                MFOM.config.styles.geojsonMarkerStyles['base'],
+                MFOM.config.styles.geojsonMarkerStyles[t]);
+        }
+    }
 
     MFOM.config.map = {
         crs: new L.Proj.CRS(

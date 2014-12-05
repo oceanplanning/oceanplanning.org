@@ -88,26 +88,23 @@
                     (feature.hasOwnProperty('geometry') && feature.geometry.type === 'Point');
         }
 
-        function geojsonStyle(feature, isPoint) {
+        // all requests for a style should come through here
+        function geojsonStyle(feature, isPoint, extra) {
             var status = (feature.hasOwnProperty('properties')) ?
                     feature.properties.status : feature.status;
 
             isPoint = (typeof isPoint === 'boolean') ? isPoint : isPointLayer(feature);
 
-            if (feature.selected) return isPoint ?
-                    MFOM.config.styles.geojsonMarkerHighlighted :
-                    MFOM.config.styles.geojsonPolyHighlighted;
+            var variantKey = (status in MFOM.config.styles.geojsonPolygonStyles) ?
+                MFOM.config.styles.geojsonPolygonStyles[status] : 'base';
 
+            var styleKey = isPoint ? 'geojsonMarkerStyles' : 'geojsonPolygonStyles';
 
-            if (isPoint) {
-                return status === 'Pre-planning' ?
-                                        MFOM.config.styles.geojsonMarkerOptionsPreplanning :
-                                        MFOM.config.styles.geojsonMarkerOptions;
-            }
+            if (feature.selected)  return MFOM.config.styles[styleKey][variantKey]['selected'];
 
-            return status === 'Pre-planning' ?
-                                        MFOM.config.styles.geojsonPolyStylePreplanning :
-                                        MFOM.config.styles.geojsonPolyStyle;
+            if (extra === 'over') return MFOM.config.styles[styleKey][variantKey]['over'];
+
+            return MFOM.config.styles[styleKey][variantKey]['normal'];
         }
 
         function onEachFeature(feature, layer) {
@@ -150,7 +147,7 @@
                     lyr.eventLayer.on('mouseover mousemove', function(e){
                         if (lyr.layer.selected) return;
                         showTip(e);
-                        lyr.layer.setStyle(MFOM.config.styles.geojsonPolyMouseover);
+                        lyr.layer.setStyle(geojsonStyle(lyr.layer, false, 'over'));
 
                     });
 
@@ -541,7 +538,7 @@
                     eventLayer.on("mouseover mousemove", function (e) {
                         if (layer.selected) return;
                         showTip(e);
-                        layer.setStyle(MFOM.config.styles.geojsonMarkerMouseover);
+                        layer.setStyle(geojsonStyle(e.layer.feature, true, 'over'));
                     });
 
                     eventLayer.on("mouseout", function (e) {
@@ -678,33 +675,20 @@
 
             // Something weird going on with probably custom projection
             if (bds && bds.isValid()) {
-                //var a = MFOM.config.map.crs.project(new L.LatLng(-74,-118)),
-                //    b = MFOM.config.map.crs.project(new L.LatLng(74,119));
-
-                //console.log(bds.getSouthWest());
-
                 /*
-                var source = new proj4.Proj('EPSG:4326');
-                var dest = new proj4.Proj('EPSG:2163');
-                var sw = new proj4.Point(a.x, a.y,1 ),
-                    ne = new proj4.Point(b.x, b.y,1 )
-                proj4.transform(source, dest, sw);
-                proj4.transform(source, dest, ne);
+                console.log(bds);
+                var z = map.getBoundsZoom(bds);
+                var pb = L.bounds(map.project(bds.getSouthWest().wrap()), map.project(bds.getNorthEast().wrap()));
+                var pc = map.unproject(pb.getCenter());
+                map.setView(pc, z);
+                //map.fitBounds(bds.pad(0.2));
                 */
-
-                //console.log(MFOM.config.map.crs.transform(new L.Point(a.x, a.y)),b);
-                //console.log("BDS: ", bds)
-                //map.fitBounds(bds, {animate: false, paddingTopLeft:[0, 0] });
-
-                /*
-                var myIcon = L.divIcon({className: 'my-div-icon'});
-                L.marker(map.getCenter(), {icon: myIcon}).addTo(map);
 
                 //console.log(map.unproject([sw.x, sw.y]));
-                if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
-                boundsRect = null;
-                boundsRect = L.rectangle([new L.LatLng(-79,-179),new L.LatLng(79,179) ], {color: "#ff7800", weight: 1}).addTo(map);
-                */
+                //if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
+                //boundsRect = null;
+                //boundsRect = L.rectangle(bds, {color: "#ff7800", weight: 1}).addTo(map);
+
             } else {
                 console.log("NO bounds: ", bds)
             }
