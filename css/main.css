@@ -525,6 +525,11 @@ ul.plain li {
     margin-right: 5px;
     cursor: auto;
 }
+.dropdown input[type="checkbox"].checkbox-toggler {
+    position: relative;
+    float: left;
+    top: 3px;
+}
 .checkbox-item {
     position: relative;
 }
@@ -543,6 +548,7 @@ ul.plain li {
 
 }
 
+/*
 .checkbox-toggler {
     font-size: 12px;
     color: #666;
@@ -558,6 +564,7 @@ ul.plain li {
 .checkbox-toggler.selected:after {
     opacity: 1;
 }
+*/
 
 
 #country-selector li {

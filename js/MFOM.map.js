@@ -200,10 +200,13 @@
                 .each(function(){
                     var key = this.getAttribute('data-key');
                     var checked = this.checked;
-                    var forced = overlayMaps[key].forcedOff || false;
-                    if (checked && !forced) {
-                        availableGroups[key] = 1;
+                    if (key in overlayMaps) {
+                        var forced = overlayMaps[key].forcedOff || false;
+                        if (checked && !forced) {
+                            availableGroups[key] = 1;
+                        }
                     }
+
                 });
 
         }
@@ -345,17 +348,18 @@
 
             for(var group in o) {
                 var sub = o[group];
+
+                // countries
                 var parent = ul.append('li')
                     .attr('class', 'top-level');
                 var parentBtn = parent.append('button')
                     .attr('class', 'link')
                     .text(group);
 
-                parentBtn.append('a')
-                    .attr('href', '#')
+                parentBtn.append('input')
+                    .attr('type', 'checkbox')
                     .attr('class', 'parent-toggle checkbox-toggler selected')
-                    .html('');
-
+                    .property('checked', true);
 
                 var child = parent.append('ul');
 
@@ -365,10 +369,10 @@
                     subchild.append('button')
                         .attr('class', 'link')
                         .html(l)
-                        .append('a')
-                        .attr('href', '#')
-                        .attr('class', 'checkbox-toggler selected')
-                        .html('');
+                        .append('input')
+                            .attr('type', 'checkbox')
+                            .attr('class', 'checkbox-toggler selected')
+                            .property('checked', true);
 
                     var ss = subchild.append('ul');
                     for (var c in sub[l]) {
@@ -379,6 +383,7 @@
 
                         label.append('input')
                             .attr('type', 'checkbox')
+                            .attr('class', 'checkbox-layer')
                             .property('checked', checked)
                             .attr('data-key', key);
                         label.append('span')
@@ -415,12 +420,12 @@
                     if (d3.select(elm).classed('top-level')) {
                         var t = 0;
                         var toggle = d3.select(elm).select('.parent-toggle');
-                        d3.select(elm).selectAll('input[type="checkbox"]')
+                        d3.select(elm).selectAll('.checkbox-layer')
                         .each(function(){
                             if (!this.checked) t++;
                         });
 
-                        toggle.classed('selected', (t > 0) ? false : true);
+                        toggle.property('checked', (t > 0) ? false : true);
                         elm = null;
                     } else {
                         elm = elm.parentNode;
@@ -439,7 +444,8 @@
                 .on('click',closeLayerController);
 
 
-            root.selectAll('input[type="checkbox"]')
+            // checkboxes for layers
+            root.selectAll('.checkbox-layer')
                 .on('change', function(){
                     d3.event.preventDefault();
 
@@ -450,19 +456,20 @@
 
             root.selectAll('.checkbox-toggler')
                 .on('click', function(){
-                    d3.event.preventDefault();
                     d3.event.stopImmediatePropagation();
-
-                    var state = !(d3.select(this).classed('selected'));
+                })
+                .on('change', function(){
+                    var state = this.checked;
                     d3.select(this).classed('selected', state);
 
                     // parent of button not toggle link
                     var parentNode = d3.select(this.parentNode.parentNode);
 
                     parentNode.select('ul').selectAll('.checkbox-toggler')
+                                .property('checked', state)
                                 .classed('selected', state);
                     parentNode
-                        .selectAll('input[type="checkbox"]')
+                        .selectAll('.checkbox-layer')
                         .each(function(){
                             this.checked = state;
                             this.forcedOff = !state;
