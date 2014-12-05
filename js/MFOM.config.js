@@ -178,10 +178,10 @@
 
     MFOM.config.map = {
         crs: new L.Proj.CRS(
-                'EPSG:2163',  // Guessing ?
+                'this string is ignored', // If it has an EPSG code, put it here. If not, the next line overrides
                 '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs',
                 {
-                    origin: [60112700, 20037600], // I don't understand where these come from
+                    transformation: new L.Transformation(1,60112700,-1,20037600), // This is the origin for the map tiles in projected coordinates
                     resolutions: [ // map scale, not sure how these were computed (seanc)
                         156543.0339296875,
                         78271.51696484375,
