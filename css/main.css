@@ -21,9 +21,11 @@ body,
 }
 
 .nav {
-    padding: 0.5em 1.875em;
+    position: relative;
+    padding: 0.5em 1em;
     width: 100%;
 }
+
 .nav div {
     display: inline-block;
     vertical-align: middle;
@@ -33,7 +35,11 @@ body,
 
 .nav div:last-child {
     text-align: right;
-    width: 49%;
+    width: auto;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    margin-top: -16px;
 }
 
 
@@ -611,6 +617,9 @@ ul.plain li {
     background: #ccc !important;
 }
 
+#info-btn {
+    line-height: 0;
+}
 
 .info-btn {
     position: absolute;

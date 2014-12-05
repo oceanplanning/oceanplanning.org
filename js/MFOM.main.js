@@ -49,6 +49,8 @@
             });
 
         var selectedCountry = 'all';
+
+        /*
         var countryFilters = d3.selectAll('.country-btn');
         countryFilters.on('click', function(){
                 var country = d3.select(this).attr('data-country');
@@ -70,7 +72,7 @@
         setCountryList(selectedCountry);
 
         function handleCountryChange(country) {
-            setCountryList(country)
+            setCountryList(country);
 
             var hash = STA.hasher.get();
 
@@ -88,6 +90,7 @@
 
             STA.hasher.set(hash);
         }
+        */
 
         //handleCountryChange(null, selectedCountry);
 
@@ -114,9 +117,9 @@
         };
 
         __.onCountryChange = function(country) {
-            map.countryChange(MFOM.config.expand.countries[country]);
+            map.countryChange(country, MFOM.config.expand.countries[country]);
             selectedCountry = country || 'all';
-            setCountryList(selectedCountry);
+            //setCountryList(selectedCountry);
             if (filterPanel) filterPanel.updateCounts(MFOM.config.expand.countries[country]);
         };
 

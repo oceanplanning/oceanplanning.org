@@ -247,22 +247,20 @@
         function setLayers() {
             var s = sortingIndex.sort(function(a,b){
                 return d3.descending(a.size, b.size);
-            });
-
-
-            var len = s.length-1;
+            }),
+            len = s.length-1;
 
             s.forEach(function(d,i){
                 var k = d.key;
                 var r = len - i;
 
                 if (overlayMaps[k].allowed) {
-                    map.addLayer(overlayMaps[k]);
-                    map.addLayer(eventOverlays[k]);
                     overlayMaps[k].zindex_ = r;
                     eventOverlays[k].zindex_ = r;
-                }
 
+                    map.addLayer(overlayMaps[k]);
+                    map.addLayer(eventOverlays[k]);
+                }
             });
 
             setSelectedRegionIndex();
@@ -291,17 +289,25 @@
             }
         }
 
-        var layerSelectors;
-        function makeOverlayControl() {
-            layerSelectors = {};
-            layerControlReset = true;
-            var root = d3.select("#overlaySelectr .inner");
-            root.selectAll('ul').remove();
+        function updateOverlaySelector(countryCode) {
+            //selectedCountry
 
-            removeAllLayers();
+            countrySelectors.each(function(){
+                var c = this.getAttribute('data-country');
+                var state = (c === countryCode || !countryCode) ? true : false;
+                d3.select(this)
+                    .classed('selected', state)
+                    .property('checked', state);
 
+                setCountryInLayerSelector(this, state);
+            });
+
+            // parent of button not toggle link
+
+        }
+
+        function filterLayersOnCountry() {
             var o = {};
-            var q = {};
             for (var overlay in overlayMaps) {
                 var lyr = overlayMaps[overlay];
                 var props = lyr.properties;
@@ -310,19 +316,17 @@
                     label = props.location,
                     layerName = lyr.lookupKey;
 
-                overlayMaps[overlay].allowed = false;
+                overlayMaps[overlay].allowed = true;
 
+                /*
                 if (selectedCountry &&
                         country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
+                */
 
                 if (!o.hasOwnProperty(country)) {
                     o[country] = {};
-                    q[country] = {};
                 }
                 if (!o[country].hasOwnProperty(scale)) o[country][scale] = {};
-
-                if (!q[country].hasOwnProperty(layerName))
-                    q[country][layerName] = overlayMaps[layerName];
 
                 o[country][scale][layerName] = {
                     label: label,
@@ -331,7 +335,8 @@
 
             }
 
-            // add layers
+            /*
+            // mark allowed layers
             for (var country in o) {
                 for (var scale in o[country]) {
                     for (var l in o[country][scale]) {
@@ -340,10 +345,70 @@
                     }
                 }
             }
+            */
 
-            setLayers();
+            return o;
+        }
 
+        function setParentToggle(elm, state) {
+            while(elm) {
+
+                if (d3.select(elm).classed('top-level')) {
+                    var t = 0;
+                    var toggle = d3.select(elm).select('.parent-toggle');
+                    d3.select(elm).selectAll('.checkbox-layer')
+                    .each(function(){
+                        if (!this.checked) t++;
+                    });
+
+                    toggle.property('checked', (t > 0) ? false : true);
+                    elm = null;
+                } else {
+                    elm = elm.parentNode;
+                }
+
+            }
+        }
+
+        function setCountryInLayerSelector(elm, state) {
+
+            var parentNode = d3.select(elm.parentNode.parentNode);
+            parentNode.select('ul').selectAll('.checkbox-toggler')
+                        .property('checked', state)
+                        .classed('selected', state);
+
+            parentNode
+                .selectAll('.checkbox-layer')
+                .each(function(){
+                    this.checked = state;
+                    this.forcedOff = !state;
+
+                    var key = this.getAttribute('data-key');
+                    overlayMaps[key].forcedOff = !state;
+
+                    if (state) {
+                        insertLayer(key);
+                    } else {
+                        removeLayer(key);
+                    }
+                });
+
+            if (!d3.select(elm).classed('parent-toggle')) setParentToggle(elm, state);
+
+            setSelectedRegionIndex();
+            getAvailableGroups();
+
+            if (currentFilters) __.filterOn(currentFilters);
+        }
+
+        var layerSelectors;
+        var countrySelectors;
+        function makeOverlayControl(o) {
+            layerSelectors = {};
             // make menu
+            var root = d3.select("#overlaySelectr .inner");
+            root.selectAll('ul').remove();
+
             var ul = root.append('ul');
 
             for(var group in o) {
@@ -358,6 +423,9 @@
 
                 parentBtn.append('input')
                     .attr('type', 'checkbox')
+                    .attr('data-country', function(d){
+                        return (group === 'Canada') ? 'can' : 'usa';
+                    })
                     .attr('class', 'parent-toggle checkbox-toggler selected')
                     .property('checked', true);
 
@@ -365,7 +433,8 @@
 
                 for (var l in sub) {
                     var subchild = child.append('li')
-                        .attr('class', 'level-1')
+                        .attr('class', 'level-1');
+
                     subchild.append('button')
                         .attr('class', 'link')
                         .html(l)
@@ -390,9 +459,10 @@
                             .text(sub[l][c].label);
                         layerSelectors[key] = li.node();
                     }
-
                 }
             }
+
+            countrySelectors = root.selectAll('.parent-toggle');
 
             root.selectAll('.link')
                 .on('click', function(){
@@ -414,25 +484,6 @@
                     .on('click.layerCtrlr', null);
             }
 
-            function setParentToggle(elm, state) {
-                while(elm) {
-
-                    if (d3.select(elm).classed('top-level')) {
-                        var t = 0;
-                        var toggle = d3.select(elm).select('.parent-toggle');
-                        d3.select(elm).selectAll('.checkbox-layer')
-                        .each(function(){
-                            if (!this.checked) t++;
-                        });
-
-                        toggle.property('checked', (t > 0) ? false : true);
-                        elm = null;
-                    } else {
-                        elm = elm.parentNode;
-                    }
-
-                }
-            }
 
             layerCtrl.select('a.map-layers')
                 .on('click', function(){
@@ -454,43 +505,41 @@
                     onLayerSelectorChange(key, checked)
                 });
 
+            function onCountryCheckboxChange() {
+
+                var selected = [];
+                var checked = countrySelectors.filter(function(){
+                    return this.checked;
+                });
+
+                if (!checked[0].length) {
+                    var me = this;
+                    var q = countrySelectors.filter(function(){
+                        return me !== this;
+                    });
+                    d3.select(q[0][0]).property('checked', true);
+                    return onCountryCheckboxChange.call(q[0][0]);
+                } else {
+                    var c = null;
+                    if (checked[0].length !== countrySelectors[0].length) {
+                        c = checked[0][0].getAttribute('data-country');
+                    }
+
+                    var hash = STA.hasher.get();
+
+                    hash['country'] = c;
+                    STA.hasher.set(hash);
+                }
+
+            }
+
             root.selectAll('.checkbox-toggler')
                 .on('click', function(){
                     d3.event.stopImmediatePropagation();
                 })
-                .on('change', function(){
-                    var state = this.checked;
-                    d3.select(this).classed('selected', state);
+                .on('change', onCountryCheckboxChange);
 
-                    // parent of button not toggle link
-                    var parentNode = d3.select(this.parentNode.parentNode);
 
-                    parentNode.select('ul').selectAll('.checkbox-toggler')
-                                .property('checked', state)
-                                .classed('selected', state);
-                    parentNode
-                        .selectAll('.checkbox-layer')
-                        .each(function(){
-                            this.checked = state;
-                            this.forcedOff = !state;
-
-                            var key = this.getAttribute('data-key');
-                            overlayMaps[key].forcedOff = !state;
-
-                            if (state) {
-                                insertLayer(key);
-                            } else {
-                                removeLayer(key);
-                            }
-                        });
-
-                    if (!d3.select(this).classed('parent-toggle')) setParentToggle(this, state);
-
-                    setSelectedRegionIndex();
-                    getAvailableGroups();
-
-                    if (currentFilters) __.filterOn(currentFilters);
-                });
 
             getAvailableGroups();
         }
@@ -583,11 +632,6 @@
                         size: 1
                     });
                 });
-        }
-
-        function addOverlayControl() {
-            // group layers
-            makeOverlayControl()
         }
 
         //function getStyle
@@ -706,9 +750,10 @@
             }
         };
 
-        __.countryChange = function(country) {
+        __.countryChange = function(abbr, country) {
             selectedCountry = country;
-            addOverlayControl();
+            //addOverlayControl();
+            updateOverlaySelector(abbr);
         };
 
         __.onData = function(layers, eezs) {
@@ -722,8 +767,17 @@
             setupPoints(eezs);
 
             // adds Points & Overlays to map as groups
-            //addOverlayControl();
+            layerControlReset = true;
 
+            // shouldn't be any, but wipe them
+            removeAllLayers();
+
+            var o = filterLayersOnCountry();
+
+            // add layers
+            setLayers();
+
+            makeOverlayControl(o);
         };
 
         return __;

@@ -1,7 +1,7 @@
 /*
     Moore Foundation Ocean Map
     MFOM.main.js
-    Controller for Ocean Map
+    Filter panel
 */
 
 (function(exports) {
