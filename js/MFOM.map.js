@@ -248,6 +248,7 @@
 
 
             var len = s.length-1;
+
             s.forEach(function(d,i){
                 var k = d.key;
                 var r = len - i;
@@ -258,6 +259,7 @@
                     overlayMaps[k].zindex_ = r;
                     eventOverlays[k].zindex_ = r;
                 }
+
             });
 
             setSelectedRegionIndex();
@@ -305,6 +307,8 @@
                     label = props.location,
                     layerName = lyr.lookupKey;
 
+                overlayMaps[overlay].allowed = false;
+
                 if (selectedCountry &&
                         country.toLowerCase() !== selectedCountry.toLowerCase()) continue;
 
@@ -321,7 +325,7 @@
                     label: label,
                     key: layerName
                 };
-                overlayMaps[overlay].allowed = false;
+
             }
 
             // add layers

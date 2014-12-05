@@ -52,8 +52,7 @@
                 var country = d3.select(this).attr('data-country');
                 if (country === selectedCountry) return;
                 selectedCountry = country;
-
-                handleCountryChange(country)
+                handleCountryChange(country);
             });
 
         function setCountryList(country) {
