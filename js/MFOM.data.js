@@ -7,7 +7,6 @@
 (function(exports) {
     'use strict';
     var MFOM = exports.MFOM || (exports.MFOM = {});
-
     var slice_ = [].slice;
     function extend() {
         var consumer = arguments[0],
@@ -28,7 +27,7 @@
             }
         }
         return consumer;
-    };
+    }
 
     function findID(data, id) {
         return data.filter(function(item){
@@ -51,12 +50,10 @@
                 function(csvdata) {
                     eezs = csvdata;
 
-                    d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planning_areas_topojson) {
-
+                    d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planningAreasTopojson) {
                         // Apply the geojson objects to the tasks array
                         layers.forEach(function(lyr) {
-                            var topolyr = lyr.topojson_layer
-                            lyr.geojson = topojson.feature(planning_areas_topojson, planning_areas_topojson.objects[lyr.topojson_layer]);
+                            lyr.geojson = topojson.feature(planningAreasTopojson, planningAreasTopojson.objects[lyr.topojson_layer]);
                         });
 
                         // assign csv data to each feature
@@ -64,6 +61,7 @@
                         var temp = [];
                         layers.forEach(function(lyr) {
                             lyr.geojson.features.forEach(function(feature){
+                                //if (+lyr.csv_id === 12) return;
                                 var f = findID(csvdata, lyr.csv_id);
                                 if (f.length) {
                                     feature.properties = f[0];

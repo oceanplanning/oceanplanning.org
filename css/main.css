@@ -66,6 +66,7 @@ body,
             border-radius: 10px;
     z-index: 9999;
 }
+
 #additional-actions.panel {
     bottom: 20px;
     right: 1em;
@@ -740,6 +741,10 @@ body.show-embed #embed {
 
 #embedded {
 
+}
+
+#embedded .panel.filters {
+    display: none;
 }
 
 

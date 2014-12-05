@@ -675,19 +675,20 @@
 
             // Something weird going on with probably custom projection
             if (bds && bds.isValid()) {
+
                 /*
-                console.log(bds);
                 var z = map.getBoundsZoom(bds);
                 var pb = L.bounds(map.project(bds.getSouthWest().wrap()), map.project(bds.getNorthEast().wrap()));
                 var pc = map.unproject(pb.getCenter());
                 map.setView(pc, z);
                 //map.fitBounds(bds.pad(0.2));
-                */
+
 
                 //console.log(map.unproject([sw.x, sw.y]));
-                //if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
-                //boundsRect = null;
-                //boundsRect = L.rectangle(bds, {color: "#ff7800", weight: 1}).addTo(map);
+                if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
+                boundsRect = null;
+                boundsRect = L.rectangle(bds, {color: "#ff7800", weight: 1}).addTo(map);
+                */
 
             } else {
                 console.log("NO bounds: ", bds)

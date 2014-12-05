@@ -17,7 +17,9 @@
             lastHeight;
 
         var map = new MFOM.map('map');
-        var filterPanel = new MFOM.filterpanel();
+        var filterPanel;
+
+        if (!MFOM.config.isEmbed) filterPanel = new MFOM.filterpanel();
 
         // set up modals
         var modals = d3.selectAll('.modal-activator');
@@ -100,12 +102,12 @@
         };
 
         __.onIDChange = function(data) {
-            filterPanel.update(data);
+            if (filterPanel) filterPanel.update(data);
             map.highlightOverlay(data);
         };
 
         __.onFilterChange = function(filters) {
-            filterPanel.onFilterChange(filters);
+            if (filterPanel) filterPanel.onFilterChange(filters);
             map.filterOn(filters);
         };
 
@@ -113,7 +115,7 @@
             map.countryChange(MFOM.config.expand.countries[country]);
             selectedCountry = country || 'all';
             setCountryList(selectedCountry);
-            filterPanel.updateCounts(MFOM.config.expand.countries[country]);
+            if (filterPanel) filterPanel.updateCounts(MFOM.config.expand.countries[country]);
         };
 
         return __;
@@ -179,9 +181,14 @@
     window.onload = function() {
         window.onload = null;
 
-        STA.Embed.Index({
-          page: "embed.html"
-        });
+        // is embed?
+        MFOM.config.isEmbed = !!document.body.getAttribute('id');
+
+        if (!MFOM.config.isEmbed) {
+            STA.Embed.Index({
+              page: "embed.html"
+            });
+        }
 
         STA.hasher.on('initialHash', function(d){
             STA.hasher.on('initialHash', null);
