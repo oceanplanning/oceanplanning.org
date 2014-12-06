@@ -67,7 +67,13 @@
             },
             // for variants, you can just include the difference from base
             stalled: {
-                normal:{},
+                normal:{
+                    color: '#FF0000',
+                    opacity: 0.6,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             },
@@ -146,13 +152,18 @@
         }
     };
 
-    function merge(base, variant) {
-        var cp = L.extend({}, base);
+    function mergeMe(base, variant) {
+        var cp = {};
 
         for(var style in variant) {
+            cp[style] = L.Util.extend({}, base[style]);
+            cp[style] = L.Util.extend(cp[style], variant[style]);
+            /*
             for(var prop in variant[style]) {
                 cp[style][prop] = variant[style][prop];
             }
+            */
+           console.log(style)
         }
 
         return cp;
@@ -161,7 +172,7 @@
     // merge polygon styles
     for (var t in MFOM.config.styles.geojsonPolygonStyles){
         if (t !== 'base') {
-            MFOM.config.styles.geojsonPolygonStyles[t] = merge(
+            MFOM.config.styles.geojsonPolygonStyles[t] = mergeMe(
                 MFOM.config.styles.geojsonPolygonStyles['base'],
                 MFOM.config.styles.geojsonPolygonStyles[t]);
         }
@@ -170,7 +181,7 @@
     // merge marker styles
     for (var t in MFOM.config.styles.geojsonMarkerStyles){
         if (t !== 'base') {
-            MFOM.config.styles.geojsonMarkerStyles[t] = merge(
+            MFOM.config.styles.geojsonMarkerStyles[t] = mergeMe(
                 MFOM.config.styles.geojsonMarkerStyles['base'],
                 MFOM.config.styles.geojsonMarkerStyles[t]);
         }

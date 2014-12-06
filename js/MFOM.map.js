@@ -93,10 +93,13 @@
             var status = (feature.hasOwnProperty('properties')) ?
                     feature.properties.status : feature.status;
 
+            status = status.toLowerCase();
+            console.log(status)
+
             isPoint = (typeof isPoint === 'boolean') ? isPoint : isPointLayer(feature);
 
-            var variantKey = (status in MFOM.config.styles.geojsonPolygonStyles) ?
-                MFOM.config.styles.geojsonPolygonStyles[status] : 'base';
+            var variantKey = (MFOM.config.styles.geojsonPolygonStyles.hasOwnProperty(status)) ?
+                status : 'base';
 
             var styleKey = isPoint ? 'geojsonMarkerStyles' : 'geojsonPolygonStyles';
 
