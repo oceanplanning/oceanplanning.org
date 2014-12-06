@@ -44,9 +44,9 @@
         geojsonPolygonStyles: {
             base: {
                 normal: {
-                    color: '#9bb',
+                    color: '#aaf0ff',
                     opacity: 0.6,
-                    fillColor: '#93e5f6',
+                    fillColor: '#aaf0ff',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -68,9 +68,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#FF0000',
+                    color: '#aaf0ff',
                     opacity: 0.6,
-                    fillColor: '#FF0000',
+                    fillColor: '#aaf0ff',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -78,21 +78,35 @@
                 selected: {}
             },
             underway: {
-                normal:{},
+                normal:{
+                    color: '#88cdff',
+                    opacity: 0.6,
+                    fillColor: '#88cdff',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             },
             preplanning: {
                 normal:{
-                    opacity: 1.0,
-                    fillOpacity: 0.2,
-                    dashArray:'3'
+                    color: '#88ceff',
+                    opacity: 0.6,
+                    fillColor: '#88ceff',
+                    fillOpacity: 0.5,
+                    weight:1
                 },
                 over: {},
                 selected: {}
             },
             implemented: {
-                normal:{},
+                normal:{
+                    color: '#74b8ff',
+                    opacity: 0.6,
+                    fillColor: '#74b8ff',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             }
@@ -105,7 +119,7 @@
                     color: '#93e5f6',
                     weight: 2,
                     opacity: 0.6,
-                    fillOpacity: 0.3
+                    fillOpacity: 1.3
                 },
                 over: {
                     fillColor: '#fd0',
@@ -124,28 +138,46 @@
             },
             // for variants, you can just include the difference from base
             stalled: {
-                normal:{},
+                normal:{
+                    color: '#aaf0ff',
+                    opacity: 0.6,
+                    fillColor: '#aaf0ff',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             },
             underway: {
-                normal:{},
+                normal:{
+                    color: '#88cdff',
+                    opacity: 0.6,
+                    fillColor: '#88cdff',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             },
             preplanning: {
                 normal:{
-                    fillColor: '#9bb',
-                    weight: 1.5,
-                    opacity: 1.0,
-                    fillOpacity: 0.1,
-                    dashArray:'2'
+                    color: '#88ceff',
+                    opacity: 0.6,
+                    fillColor: '#88ceff',
+                    fillOpacity: 0.5,
+                    weight:1
                 },
                 over: {},
                 selected: {}
             },
             implemented: {
-                normal:{},
+                normal:{
+                    color: '#74b8ff',
+                    opacity: 0.6,
+                    fillColor: '#74b8ff',
+                    fillOpacity: 0.5,
+                    weight:1
+                },
                 over: {},
                 selected: {}
             }
