@@ -33,6 +33,7 @@ body,
     zoom: 1;
 }
 
+/*
 .nav div:last-child {
     text-align: right;
     width: auto;
@@ -41,7 +42,7 @@ body,
     top: 50%;
     margin-top: -16px;
 }
-
+*/
 
 #embedded .nav {
     padding: 0.5em 0.55em;
@@ -619,6 +620,8 @@ ul.plain li {
 
 #info-btn {
     line-height: 0;
+    margin-left: 10px;
+    vertical-align: top;
 }
 
 .info-btn {
@@ -639,6 +642,16 @@ ul.plain li {
 .info-btn:hover {
     background: #fff;
     color: #666;
+}
+
+.sub-heading button.link {
+    text-decoration: underline;
+}
+header button.link {
+
+}
+header button.link:hover {
+    background: transparent;
 }
 
 /* overlaySelectr */
