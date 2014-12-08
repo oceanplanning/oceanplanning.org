@@ -195,7 +195,6 @@
                 cp[style][prop] = variant[style][prop];
             }
             */
-           console.log(style)
         }
 
         return cp;

@@ -658,8 +658,9 @@ header button.link:hover {
 #overlaySelectr {
     position: absolute;
     display: block;
+    visibility: hidden;
     top: 1em;
-    right: 1em;
+    left: 100%;
     padding: 5px;
     background: #fff;
     -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
@@ -671,16 +672,18 @@ header button.link:hover {
 
 #overlaySelectr .inner {
     position: relative;
-    display: none;
-    margin-top: -24px;
+    display: block;
+    margin-top: 0px;
     background: #fff;
     max-height: 400px;
     overflow: auto;
     overflow-x: hidden;
 }
 
-#overlaySelectr.expanded .inner {
+#overlaySelectr.expanded  {
     display: block;
+    left: auto;
+    right: 1em;
 }
 
 #overlaySelectr .map-layers {}
@@ -688,7 +691,7 @@ header button.link:hover {
 
 #overlaySelectr-close {
     position: absolute;
-    display: none;
+    display: block;
     top: 2px;
     right: 100%;
     padding: 4px 6px;

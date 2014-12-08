@@ -94,7 +94,6 @@
                     feature.properties.status : feature.status;
 
             status = status.toLowerCase();
-            console.log(status)
 
             isPoint = (typeof isPoint === 'boolean') ? isPoint : isPointLayer(feature);
 
@@ -474,9 +473,12 @@
                 });
 
             var layerCtrl = d3.select("#overlaySelectr");
+            var toggleOpenClose = layerCtrl.select('#overlaySelectr-close');
 
+            layerCtrl.style('visibility', 'visible');
             function openLayerController() {
                 layerCtrl.classed('expanded', true);
+                toggleOpenClose.html("&raquo;");
                 d3.select('#map')
                     .on('click.layerCtrlr', closeLayerController);
             }
@@ -485,6 +487,7 @@
                 layerCtrl.classed('expanded', false);
                 d3.select('#map')
                     .on('click.layerCtrlr', null);
+                toggleOpenClose.html("&laquo;");
             }
 
 
@@ -494,8 +497,15 @@
                     openLayerController();
                 });
 
-            layerCtrl.select('#overlaySelectr-close')
-                .on('click',closeLayerController);
+            toggleOpenClose
+                .on('click',function(){
+                    d3.event.preventDefault();
+                    if (layerCtrl.classed('expanded')) {
+                        closeLayerController();
+                    } else {
+                        openLayerController();
+                    }
+                });
 
 
             // checkboxes for layers
