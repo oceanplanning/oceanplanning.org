@@ -743,15 +743,30 @@
 
             // Something weird going on with probably custom projection
             if (bds && bds.isValid()) {
+                //console.log("bounds bds", bds.getSouthWest(), bds.getNorthEast());
+                if (bds.getEast() > 0) { // triggered if shape wraps around dateline, such that east is 180
+                  //console.log("OVERRIDE BOUNDS");
+                  map.setView([35,-115], MFOM.config.map.startZoom-1);
+                } else {
 
+                  // Find the true maximums. Can't rely only on SW and NE because of the map projection
+                  var nwpoint = map.project(bds.getNorthWest());
+                  var swpoint = map.project(bds.getSouthWest());
+                  var nepoint = map.project(bds.getNorthEast());
+                  var sepoint = map.project(bds.getSouthEast());
+                  var northpixels = nwpoint.y > nepoint.y ? nwpoint.y : nepoint.y;
+                  var southpixels = swpoint.y < sepoint.y ? swpoint.y : sepoint.y;
+                  var westpixels = nwpoint.x < swpoint.x ? nwpoint.x : swpoint.x;
+                  var eastpixels = nepoint.x > sepoint.x ? nepoint.x : sepoint.x;
+                  var pb = L.bounds(L.point(westpixels,southpixels),L.point(eastpixels,northpixels));
+                  var pc = map.unproject(pb.getCenter());
+                  // write new bounds
+                  bds = L.latLngBounds(map.unproject(pb.min).wrap(),map.unproject(pb.max).wrap());
+                  var z = map.getBoundsZoom(bds);
+                  map.setView(pc, z);
+                  //map.fitBounds(bds.pad(0.2));
+                }
                 /*
-                var z = map.getBoundsZoom(bds);
-                var pb = L.bounds(map.project(bds.getSouthWest().wrap()), map.project(bds.getNorthEast().wrap()));
-                var pc = map.unproject(pb.getCenter());
-                map.setView(pc, z);
-                //map.fitBounds(bds.pad(0.2));
-
-
                 //console.log(map.unproject([sw.x, sw.y]));
                 if (map.hasLayer(boundsRect))map.removeLayer(boundsRect);
                 boundsRect = null;
