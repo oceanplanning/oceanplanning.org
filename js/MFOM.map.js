@@ -292,8 +292,6 @@
         }
 
         function updateOverlaySelector(countryCode) {
-            //selectedCountry
-
             countrySelectors.each(function(){
                 var c = this.getAttribute('data-country');
                 var state = (c === countryCode || !countryCode) ? true : false;
@@ -373,7 +371,6 @@
         }
 
         function setCountryInLayerSelector(elm, state) {
-
             var parentNode = d3.select(elm.parentNode.parentNode);
             parentNode.select('ul').selectAll('.checkbox-toggler')
                         .property('checked', state)
@@ -395,7 +392,7 @@
                     }
                 });
 
-            if (!d3.select(elm).classed('parent-toggle')) setParentToggle(elm, state);
+            //if (!d3.select(elm).classed('parent-toggle')) setParentToggle(elm, state);
 
             setSelectedRegionIndex();
             getAvailableGroups();
@@ -524,18 +521,24 @@
                 var checked = countrySelectors.filter(function(){
                     return this.checked;
                 });
+                var me = this;
+                var isCountrySelector = d3.select(this).classed('parent-toggle');
 
-                if (!checked[0].length) {
-                    var me = this;
+                if (!isCountrySelector) {
+                    setCountryInLayerSelector(this, this.checked);
+                    //setParentToggle(this, this.checked);
+                } else if (!checked[0].length) {
                     var q = countrySelectors.filter(function(){
                         return me !== this;
                     });
                     d3.select(q[0][0]).property('checked', true);
+                    //q[0][0].checked = true;
                     return onCountryCheckboxChange.call(q[0][0]);
-                } else {
+                } else if (isCountrySelector) {
                     var c = null;
                     if (checked[0].length !== countrySelectors[0].length) {
                         c = checked[0][0].getAttribute('data-country');
+
                     }
 
                     var hash = STA.hasher.get();

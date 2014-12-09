@@ -189,6 +189,7 @@ button.selected,
 }
 
 
+
 .counts {
     margin-left: 5px;
     font-weight: 300;
@@ -569,8 +570,9 @@ ul.plain li {
     cursor: auto;
     line-height: 1.5;
 }
-.dropdown li.top-level {
-
+.dropdown li.top-level > button {
+    font-size: 0.85em;
+    line-height: 1.5;
 }
 
 .dropdown li button {
@@ -621,13 +623,18 @@ ul.plain li {
 }
 .dropdown input[type="checkbox"] {
     margin-right: 5px;
-    cursor: auto;
+    cursor: pointer;
 }
 .dropdown input[type="checkbox"].checkbox-toggler {
     position: relative;
     float: left;
     top: 3px;
 }
+
+.dropdown li.top-level > button input[type="checkbox"].checkbox-toggler {
+    top: 4px;
+}
+
 .checkbox-item {
     position: relative;
 }
@@ -793,6 +800,7 @@ header button.link:hover {
     line-height: 1;
     margin-right: 5px;
     border-radius: 4px;
+    z-index: 1;
 }
 
 #overlaySelectr.expanded #overlaySelectr-close {
@@ -1044,17 +1052,4 @@ only screen and (min-resolution: 1.5dppx) {
     width: 790px;
     height: 48px;
     border: 0;
-}
-
-.left-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    height: 100%;
-    width: 430px;
-}
-.left-panel-inner {
-    position: relative;
-    width: auto;
 }

@@ -17,7 +17,6 @@
             layerSelecterElm = d3.select('#overlaySelectr'),
             layerSelecterWrapElm = layerSelecterElm.select('.scroll-wrap'),
             filterPanelElm = d3.select('.panel.filters'),
-            leftPanel = d3.select('.left-panel'),
             lastHeight;
 
         var map = new MFOM.map('map');
@@ -111,7 +110,7 @@
             mainElm.style('height',
                 (lastHeight - headerElm.node().offsetHeight) + 'px');
 
-            var maxHeight = leftPanel.node().offsetHeight -
+            var maxHeight = mainElm.node().offsetHeight -
                     (layerSelecterElm.node().offsetTop + filterPanelElm.node().offsetHeight + 30); // 30 = bottom pos + padding
             //if (maxHeight < 50) return;
             layerSelecterWrapElm.style('max-height', maxHeight + 'px');
