@@ -20,6 +20,10 @@ body,
             box-sizing: border-box;
 }
 
+.main {
+    overflow: hidden;
+}
+
 .nav {
     position: relative;
     padding: 0.5em 1em;
@@ -622,8 +626,10 @@ ul.plain li {
     cursor: default;
 }
 .dropdown input[type="checkbox"] {
+    position: relative;
     margin-right: 5px;
     cursor: pointer;
+    z-index: 2;
 }
 .dropdown input[type="checkbox"].checkbox-toggler {
     position: relative;

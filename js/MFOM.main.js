@@ -97,8 +97,9 @@
 
         //handleCountryChange(null, selectedCountry);
 
-        __.onData = function(layers, eezs) {
+        __.onData = function(layers, eezs, cb) {
             map.onData(layers, eezs, function(){
+                cb();
                 lastHeight = null;
                 __.onResize();
             });
@@ -184,11 +185,13 @@
         view = new MFOM.view();
 
         MFOM.data.load(function(layers, eezs){
-            view.onData(layers, eezs);
-            processHash(true);
+            view.onData(layers, eezs, function() {
+                processHash(true);
 
-            // kill any loading effects
-            d3.select('body').classed('loading', false);
+                // kill any loading effects
+                d3.select('body').classed('loading', false);
+            });
+
         });
 
         var resizeFn = L.Util.limitExecByInterval(view.onResize, 100);

@@ -131,66 +131,80 @@
         }
 
         var sortingIndex;
-        function setupOverlays(layers) {
-            layers.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);})
-                .forEach(function(lyr) {
-                    lyr.layer = new L.GeoJSON(lyr.geojson, {
-                        style: geojsonStyle,
-                        onEachFeature: onEachFeature,
-                        pathRootName: 'main'
-                    });
+        function setupOverlays(layers, cb) {
+            function makeLayer(idx){
+                var lyr = layers[idx];
 
-                    lyr.eventLayer = new L.GeoJSON(lyr.geojson, {
-                        style: MFOM.config.styles.eventStyle,
-                        onEachFeature: onEachFeature,
-                        pathRootName: 'evts'
-                    });
-
-                    lyr.eventLayer.on('mouseover mousemove', function(e){
-                        if (lyr.layer.selected) return;
-                        showTip(e);
-                        lyr.layer.setStyle(geojsonStyle(lyr.layer, false, 'over'));
-
-                    });
-
-                    lyr.eventLayer.on('mouseout', function(e){
-                        hideTip();
-                        if (lyr.layer.selected) return;
-                        lyr.layer.setStyle(geojsonStyle(lyr.layer));
-                    });
-
-                    lyr.eventLayer.on('click', function(e){
-                        hideTip();
-                        var props = lyr.layer.properties;
-                        var h = STA.hasher.get();
-                        // If current ID is already selected, reset selections to nothing
-                        if (h.id == props['id'])
-                          h.id = null;
-                        else
-                          h.id = props['id'];
-                        STA.hasher.set(h);
-                    });
-
-                    var tl = map.project(lyr.layer.getBounds().getNorthWest()),
-                        br = map.project(lyr.layer.getBounds().getSouthEast());
-                    var size = Math.abs(tl.x - br.x) * Math.abs(tl.y - br.y);
-
-                    var label = lyr.geojson.features[0].properties.location;
-                    if (!label) label = "no shape";
-                    lyr.eventLayer.properties = lyr.geojson.features[0].properties;
-                    lyr.layer.properties = lyr.geojson.features[0].properties;
-                    var overlayKey = lyr.csv_id + ": " + label;
-
-                    lyr.layer.lookupKey = overlayKey;
-                    lyr.eventLayer.lookupKey = overlayKey;
-
-                    overlayMaps[overlayKey] = lyr.layer;
-                    eventOverlays[overlayKey]= lyr.eventLayer;
-                    sortingIndex.push({
-                        key: overlayKey,
-                        size: size
-                    });
+                lyr.layer = new L.GeoJSON(lyr.geojson, {
+                    style: geojsonStyle,
+                    onEachFeature: onEachFeature,
+                    pathRootName: 'main'
                 });
+
+                lyr.eventLayer = new L.GeoJSON(lyr.geojson, {
+                    style: MFOM.config.styles.eventStyle,
+                    onEachFeature: onEachFeature,
+                    pathRootName: 'evts'
+                });
+
+                lyr.eventLayer.on('mouseover mousemove', function(e){
+                    if (lyr.layer.selected) return;
+                    showTip(e);
+                    lyr.layer.setStyle(geojsonStyle(lyr.layer, false, 'over'));
+
+                });
+
+                lyr.eventLayer.on('mouseout', function(e){
+                    hideTip();
+                    if (lyr.layer.selected) return;
+                    lyr.layer.setStyle(geojsonStyle(lyr.layer));
+                });
+
+                lyr.eventLayer.on('click', function(e){
+                    hideTip();
+                    var props = lyr.layer.properties;
+                    var h = STA.hasher.get();
+                    // If current ID is already selected, reset selections to nothing
+                    if (h.id == props['id'])
+                      h.id = null;
+                    else
+                      h.id = props['id'];
+                    STA.hasher.set(h);
+                });
+
+                var tl = map.project(lyr.layer.getBounds().getNorthWest()),
+                    br = map.project(lyr.layer.getBounds().getSouthEast());
+                var size = Math.abs(tl.x - br.x) * Math.abs(tl.y - br.y);
+
+                var label = lyr.geojson.features[0].properties.location;
+                if (!label) label = "no shape";
+                lyr.eventLayer.properties = lyr.geojson.features[0].properties;
+                lyr.layer.properties = lyr.geojson.features[0].properties;
+                var overlayKey = lyr.csv_id + ": " + label;
+
+                lyr.layer.lookupKey = overlayKey;
+                lyr.eventLayer.lookupKey = overlayKey;
+
+                overlayMaps[overlayKey] = lyr.layer;
+                eventOverlays[overlayKey]= lyr.eventLayer;
+                sortingIndex.push({
+                    key: overlayKey,
+                    size: size
+                });
+                idx--;
+
+                setTimeout(function(){
+                    if (!layers[idx]) {
+                        cb();
+                    } else {
+                        makeLayer(idx);
+                    }
+                }, 1);
+            }
+
+            layers.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);});
+            makeLayer(layers.length - 1);
+
 
         }
 
@@ -292,6 +306,7 @@
         }
 
         function updateOverlaySelector(countryCode) {
+            if (!countrySelectors) return;
             countrySelectors.each(function(){
                 var c = this.getAttribute('data-country');
                 var state = (c === countryCode || !countryCode) ? true : false;
@@ -790,24 +805,25 @@
             eventOverlays = {};
             markerList = [];
             sortingIndex = [];
-
             // assign handlers and add to overlayMaps object
-            setupOverlays(layers);
-            setupPoints(eezs);
+            setupOverlays(layers, function() {
+                setupPoints(eezs);
 
-            // adds Points & Overlays to map as groups
-            layerControlReset = true;
+                // adds Points & Overlays to map as groups
+                layerControlReset = true;
 
-            // shouldn't be any, but wipe them
-            removeAllLayers();
+                // shouldn't be any, but wipe them
+                removeAllLayers();
 
-            var o = filterLayersOnCountry();
+                var o = filterLayersOnCountry();
 
-            // add layers
-            setLayers();
+                // add layers
+                setLayers();
 
-            makeOverlayControl(o);
-            if (typeof onCompleteFn == 'function') onCompleteFn();
+                makeOverlayControl(o);
+                if (typeof onCompleteFn == 'function') onCompleteFn();
+            });
+
 
         };
 
