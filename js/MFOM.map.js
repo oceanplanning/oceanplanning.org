@@ -552,8 +552,6 @@
                 })
                 .on('change', onCountryCheckboxChange);
 
-
-
             getAvailableGroups();
         }
 
@@ -769,7 +767,7 @@
             updateOverlaySelector(abbr);
         };
 
-        __.onData = function(layers, eezs) {
+        __.onData = function(layers, eezs, onCompleteFn) {
             overlayMaps = {};
             eventOverlays = {};
             markerList = [];
@@ -791,6 +789,8 @@
             setLayers();
 
             makeOverlayControl(o);
+            if (typeof onCompleteFn == 'function') onCompleteFn();
+
         };
 
         return __;

@@ -65,13 +65,10 @@ body,
     z-index: 9999;
 }
 
-.panel.details {
-    left: 1em;
-    bottom: 20px;
-}
 
-.panel.filters {
-    bottom: 65px;
+.panel.filters,
+.panel.details {
+    bottom: 20px;
     right: 1em;
     background: rgba(255,255,255,0.8);
     padding: 10px;
@@ -80,11 +77,20 @@ body,
     z-index: 9999;
 }
 
+.panel.details {
+    left: 1em;
+    right: auto;
+}
+
+#additional-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
 #additional-actions.panel {
     bottom: 20px;
     right: 1em;
     z-index: 9999;
-
 }
 
 
@@ -98,7 +104,7 @@ body,
     font-size: 1.6em;
     font-weight: 400;
     text-transform: uppercase;
-    line-height: 1;
+    line-height: 21px;
 }
 
 .sub-heading {
@@ -132,10 +138,39 @@ button.link {
     padding: 0;
     text-decoration: none;
 }
+button.link.btn-large {
+    padding: 10px 20px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+button.link.btn-small {
+    padding: 4px 12px;
+    line-height: 1;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+}
+
+button.link.inverse {
+    background: #bfbfbf;
+    color: #fff;
+}
+
 button.link:hover {
     text-decoration: none;
-    background: #eee;
+    background: #ddd;
 }
+button.link.inverse:hover {
+    color: #fff;
+    background: #ddd;
+}
+
 button.disabled {
     pointer-events: none;
     cursor: not-allowed;
@@ -145,13 +180,12 @@ button.disabled:hover {
     text-decoration: none;
 }
 
-button.selected {
-    background: #eee !important;
-
+button.selected,
+.filter-row .selected button {
+    background: #ddd !important;
     pointer-events: none;
     cursor: not-allowed;
     text-decoration: none !important;
-
 }
 
 
@@ -168,9 +202,6 @@ button.selected {
 }
 
 /* nav */
-.nav div:last-child p button:first-child {
-    margin-left: 5px;
-}
 .nav div:last-child span{
     margin: 0 5px;
 }
@@ -216,6 +247,7 @@ button.selected {
 .filter-row li {
     float: left;
     margin: 0 2px 0 0;
+    overflow: hidden;
 }
 
 .filter-row li:last-child {
@@ -229,13 +261,19 @@ button.selected {
     font-size: 0.65em;
     min-width: 3.5em;
 }
-.filter-row li:first-child button {
+
+.filter-row.status-filters button {
+    line-height: 37px;
+    padding: 3px 6px 0;
+}
+
+.filter-row.status-filters li:first-child {
     -webkit-border-top-left-radius: 10px;
             border-top-left-radius: 10px;
     -webkit-border-bottom-left-radius: 10px;
             border-bottom-left-radius: 10px;
 }
-.filter-row li:last-child button {
+.filter-row.status-filters li:last-child {
     -webkit-border-top-right-radius: 10px;
             border-top-right-radius: 10px;
     -webkit-border-bottom-right-radius: 10px;
@@ -245,25 +283,22 @@ button.selected {
     background: #e5e5e5;
 }
 
-#resetButton {
-    float: right;
-    display: none;
-    font-size: 12px;
-    text-decoration: underline;
-    color: #666;
-    padding: 2px 10px;
-    margin-right: 5px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-.open #resetButton {
+.filter-row.status-filters li:after {
+    content: ' ';
+    position: relative;
     display: block;
+    height: 6px;
+    width: 100%;
+    background: #e5e5e5;
 }
 
-#resetButton:hover {
-    color: #000;
-}
+.filter-row li.filter-reset.selected:after,
+.filter-row li.filter-reset:hover:after {background: #ddd !important;}
+.filter-row li.filter-implemented:after {background: #80c0ff;}
+.filter-row li.filter-underway:after {background: #91d3ff;}
+.filter-row li.filter-pre-planning:after {background: #9ee2ff;}
+.filter-row li.filter-stalled:after {background: #b3f2ff;}
+
 
 /* tabs */
 .tabs {
@@ -331,9 +366,30 @@ button.selected {
     width: 100%;
 }
 
+.tabs .tabs-inner,
+.tabs .filter-row ul {
+    background: transparent;
+    border: 0;
+}
+
+.tabs .tabs-inner {
+    border-top: 1px solid #ddd;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.tabs .filter-row li:first-child,
+.tabs .filter-row li:last-child {
+    width: auto;
+}
+
+.tabs .filter-row li:first-child {padding-left: 0;}
+
+
 .tab {
     padding: 0px 5px;
 }
+
 .tab ul {
     margin: 0;
     padding: 0;
@@ -343,7 +399,7 @@ button.selected {
 .tab li {
     font-size: 0.75em;
     line-height: 2.2;
-    border-bottom: 1px dashed white;
+    border-bottom: 1px dotted #eee;
 }
 
 .tab li span {
@@ -369,9 +425,29 @@ button.selected {
     margin: 5px 0;
 }
 
-.tab:first-child ul {
-    max-height: 250px;
-    overflow: auto;
+
+#resetButton {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    padding: 0;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #666;
+}
+#resetButton:hover {
+    background: transparent;
+}
+
+.open #resetButton {
+    display: block;
+}
+
+#resetButton:hover {
+    color: #000;
 }
 
 /* modal */
@@ -444,18 +520,18 @@ button.selected {
 }
 
 .icon-close {
-    line-height: 1;
-    background: #eee;
-    -webkit-border-radius: 50%;
-            border-radius: 50%;
-    padding: 4px 6px;
-    font-size: 10px;
-    text-align: center;
     position: relative;
+    padding: 4px 6px;
+    background: transparent;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
     text-decoration: none !important;
 }
 button:hover .icon-close {
-    background: #ccc;
+    background: transparent;
 }
 
 /* horizontal-list */
@@ -643,6 +719,10 @@ ul.plain li {
     background: #fff;
     color: #666;
 }
+#info-btn img {
+    width: 21px;
+    height: 21px;
+}
 
 .sub-heading button.link {
     text-decoration: underline;
@@ -658,16 +738,34 @@ header button.link:hover {
 #overlaySelectr {
     position: absolute;
     display: block;
-    visibility: hidden;
     top: 1em;
     left: 100%;
-    padding: 5px;
+    width: 400px;
     background: #fff;
+
     -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
             box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+
     -webkit-border-radius: 5px;
             border-radius: 5px;
+}
+
+.loading #overlaySelectr {
+    visibility: hidden;
+}
+
+#overlaySelectr .scroll-wrap {
+    position: relative;
+    width: 100%;
+    max-height: 340px;
+    padding: 5px;
+    overflow: auto;
+    overflow-x: hidden;
+    background: #fff;
     z-index: 9999;
+
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
 }
 
 #overlaySelectr .inner {
@@ -675,9 +773,6 @@ header button.link:hover {
     display: block;
     margin-top: 0px;
     background: #fff;
-    max-height: 400px;
-    overflow: auto;
-    overflow-x: hidden;
 }
 
 #overlaySelectr.expanded  {
@@ -705,15 +800,6 @@ header button.link:hover {
 }
 
 /* embed */
-.link.btn-large {
-    background: #fff;
-    padding: 10px 20px;
-    -webkit-border-radius: 5px;
-            border-radius: 5px;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 1em;
-}
 
 body.show-embed #embed {
     display: block !important;
@@ -868,7 +954,12 @@ body.show-embed #embed {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.leaflet-container .leaflet-control-attribution {
+    padding: 0 5px;
+}
+
 #legend {
+    /*
     position: absolute;
     z-index: 9999;
     bottom: 20px;
@@ -876,6 +967,8 @@ body.show-embed #embed {
     background: #f4f4f4;
     border: 2px solid #e2ebee;
     border-radius: 6px;
+    */
+   text-align: center;
 }
 
 #legend ul {
@@ -895,6 +988,7 @@ body.show-embed #embed {
 #legend li span {
     display: inline-block;
     vertical-align: middle;
+    text-align: left;
     *zoom: 1;
 }
 
@@ -902,7 +996,7 @@ body.show-embed #embed {
     background: transparent url('../assets/icons/icons-legend.png') 0 0 no-repeat;
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
@@ -923,7 +1017,7 @@ only screen and (min-resolution: 1.5dppx) {
     height: 23px;
     background-position: -1px -1px;
 }
-
+/*
 #legend li:nth-child(2) .icon {
     background-position: -28px -3px;
 }
@@ -939,8 +1033,8 @@ only screen and (min-resolution: 1.5dppx) {
 #legend li:nth-child(5) .icon {
     background-position: -94px -3px;
 }
-
-#legend li:nth-child(6) .icon {
+*/
+#legend li:nth-child(2) .icon {
     width: 16px;
     height: 16px;
     background-position: -118px -5px;
@@ -950,4 +1044,17 @@ only screen and (min-resolution: 1.5dppx) {
     width: 790px;
     height: 48px;
     border: 0;
+}
+
+.left-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    height: 100%;
+    width: 430px;
+}
+.left-panel-inner {
+    position: relative;
+    width: auto;
 }

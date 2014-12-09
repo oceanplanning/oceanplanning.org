@@ -13,7 +13,10 @@
         var root = d3.select(selector);
 
         var layerSelectors = {},
-            layerControlReset = false;
+            layerControlReset = false,
+            removeLayerFn = null;
+
+
         return __;
     };
 

@@ -14,6 +14,10 @@
         var __ = {};
         var headerElm = d3.select('.nav'),
             mainElm = d3.select('.main'),
+            layerSelecterElm = d3.select('#overlaySelectr'),
+            layerSelecterWrapElm = layerSelecterElm.select('.scroll-wrap'),
+            filterPanelElm = d3.select('.panel.filters'),
+            leftPanel = d3.select('.left-panel'),
             lastHeight;
 
         var map = new MFOM.map('map');
@@ -95,7 +99,10 @@
         //handleCountryChange(null, selectedCountry);
 
         __.onData = function(layers, eezs) {
-            map.onData(layers, eezs);
+            map.onData(layers, eezs, function(){
+                lastHeight = null;
+                __.onResize();
+            });
         };
 
         __.onResize = function() {
@@ -103,6 +110,11 @@
             lastHeight = window.innerHeight;
             mainElm.style('height',
                 (lastHeight - headerElm.node().offsetHeight) + 'px');
+
+            var maxHeight = leftPanel.node().offsetHeight -
+                    (layerSelecterElm.node().offsetTop + filterPanelElm.node().offsetHeight + 30); // 30 = bottom pos + padding
+            //if (maxHeight < 50) return;
+            layerSelecterWrapElm.style('max-height', maxHeight + 'px');
         };
 
         __.onIDChange = function(data) {
@@ -175,6 +187,9 @@
         MFOM.data.load(function(layers, eezs){
             view.onData(layers, eezs);
             processHash(true);
+
+            // kill any loading effects
+            d3.select('body').classed('loading', false);
         });
 
         var resizeFn = L.Util.limitExecByInterval(view.onResize, 100);

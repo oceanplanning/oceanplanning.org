@@ -31,7 +31,7 @@
 <![endif]-->
 
 </head>
-  <body>
+  <body class="loading">
 
     <div class="container block-group">
       <!-- MODALS -->
@@ -112,12 +112,13 @@
       <header class="nav block">
         <div>
           <h1 class="heading">Ocean Planning<button id="info-btn" class="link modal-activator" data-target="about-modal-all">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 42.8 42.8" enable-background="new 0 0 42.8 42.8" xml:space="preserve">
-            <circle fill="#FFFFFF " stroke="#000000 " stroke-width="4" stroke-miterlimit="10" cx="21.4" cy="21.4" r="19.7"/>
+            <svg version="1.1" width="21px" height="21px" x="0px" y="0px"
+               viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+            <circle fill="#FFFFFF" stroke="#000000" stroke-width="2.132" stroke-miterlimit="10" cx="12" cy="12" r="10.5"/>
             <g>
-                <circle cx="21.3" cy="10.7" r="3"/>
-                <polygon points="24.5,31.9 24.5,19.5 24.5,16.1 16.5,16.1 16.5,19.5 18.5,19.5 18.5,31.9 16.5,31.9 16.5,35.1 26.3,35.1 26.3,31.9
-                        "/>
+              <circle cx="11.947" cy="6.297" r="1.599"/>
+              <polygon points="13.652,17.596 13.652,10.987 13.652,9.175 9.388,9.175 9.388,10.987 10.454,10.987 10.454,17.596 9.388,17.596
+                9.388,19.302 14.612,19.302 14.612,17.596  "/>
             </g>
             </svg>
           </button></h1>
@@ -129,11 +130,7 @@
       <section class="main block">
         <div id='map'></div>
 
-        <div id="additional-actions" class="panel">
-          <button id="embed-btn" class="link btn-large">Embed</button>
-          <button id="more-data-btn" class="link btn-large modal-activator" data-target="more-data-modal">Feedback</button>
-        </div>
-
+        <div class="left-panel">
         <!-- layer controls -->
         <div id="overlaySelectr" class="dropdown expanded">
           <!--
@@ -145,7 +142,9 @@
           </a>
           -->
           <button id="overlaySelectr-close" class="link">&raquo;</button>
+          <div class="scroll-wrap">
           <div class="inner"></div>
+          </div>
         </div>
         <!-- end layer controls -->
 
@@ -155,18 +154,31 @@
           <p class='txt-copy panel-headline'>Filter by status:</p>
           <div class="filter-row status-filters">
             <ul class="clearfix">
-              <li><button class="link filter-btn" data-key="status" data-value="reset">All<span class="counts"></span></button></li>
-              <li><button class="link filter-btn" data-key="status" data-value="implemented">Implemented<span class="counts"></span></button></li>
-              <li><button class="link filter-btn" data-key="status" data-value="underway">Underway<span class="counts"></span></button></li>
-              <li><button class="link filter-btn" data-key="status" data-value="pre-planning">Pre-planning<span class="counts"></span></button></li>
-              <li><button class="link filter-btn" data-key="status" data-value="stalled">Stalled<span class="counts"></span></button></li>
+              <li class="filter-reset"><button class="link filter-btn" data-key="status" data-value="reset">All<span class="counts"></span></button></li>
+              <li class="filter-implemented"><button class="link filter-btn" data-key="status" data-value="implemented">Implemented<span class="counts"></span></button></li>
+              <li class="filter-underway"><button class="link filter-btn" data-key="status" data-value="underway">Underway<span class="counts"></span></button></li>
+              <li class="filter-pre-planning"><button class="link filter-btn" data-key="status" data-value="pre-planning">Pre-planning<span class="counts"></span></button></li>
+              <li class="filter-stalled"><button class="link filter-btn" data-key="status" data-value="stalled">Stalled<span class="counts"></span></button></li>
             </ul>
           </div>
+
+          <div id="legend">
+            <ul>
+              <li><i class="icon"></i><span>Exclusive Economic Zone</span></li>
+              <li><i class="icon"></i><span>Planning area boundary<br/>unavailable or undefined</span></li>
+            </ul>
+          </div>
+
+          <div id="additional-actions" class="">
+            <button id="embed-btn" class="link btn-small inverse">Embed</button>
+            <button id="more-data-btn" class="link btn-small modal-activator inverse" data-target="more-data-modal">Feedback</button>
+          </div>
+        </div>
         </div>
 
         <div class="panel details">
           <div class="tabs">
-            <button id="resetButton" class="link"><!--<span class="icon-close">&#x2715;</span>--> clear</button>
+            <button id="resetButton" class="link"><span class="icon-close">&#x2715;</span></button>
             <div class="filter-row">
               <ul class="clearfix">
                 <li><button class="link selected" data-target="details">Details</button></li>
@@ -194,6 +206,7 @@
         <!-- end filter & details panel -->
 
         <!-- legend -->
+        <!--
         <div id="legend">
           <ul>
             <li><i class="icon"></i><span>Exclusive Economic Zone</span></li>
@@ -203,8 +216,8 @@
             <li><i class="icon"></i><span>Stalled</span></li>
             <li><i class="icon"></i><span>Planning area boundary<br/>unavailable or undefined</span></li>
           </ul>
-          <!--<img src="assets/icons/legend@2x.png"/>-->
-        </div>
+          <!--<img src="assets/icons/legend@2x.png"/>--><!--
+        </div>-->
 
       </section>
 

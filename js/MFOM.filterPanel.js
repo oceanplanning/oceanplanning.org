@@ -28,22 +28,31 @@
             var h = STA.hasher.get();
             var elmObj = d3.select(elm),
                 key = elmObj.attr('data-key') || null,
-                value = elmObj.attr('data-value') || null;
+                value = elmObj.attr('data-value') || null,
+                parent = d3.select(elm.parentNode);
 
-
-
-            if (elmObj.classed('selected') && value !== 'reset') {
+            if (parent.classed('selected') && value !== 'reset') {
                 filters
-                .classed('selected', false);
+                .each(function(){
+                    d3.select(this.parentNode).classed('selected', false);
+                });
+
                 h[key] = null;
             } else {
                 filters
-                    .classed('selected', false)
+                    .each(function(){
+                        console.log(this.parentNode)
+                        d3.select(this.parentNode).classed('selected', false);
+                    })
+                    //.classed('selected', false)
                     .filter(function(){
                         var v = this.getAttribute('data-value');
                         return v === value;
                     })
-                    .classed('selected', true);
+                    .each(function(){
+                        d3.select(this.parentNode).classed('selected', true);
+                    });
+                    //.classed('selected', true);
                 h[key] = (value === 'reset' || value === 'all') ? null : value;
             }
 
@@ -67,6 +76,7 @@
 
             filterBtns.each(function(){
                 var el = d3.select(this),
+                    parent = d3.select(this.parentNode),
                     key = el.attr('data-key'),
                     value = el.attr('data-value');
 
@@ -76,11 +86,8 @@
                     var thisValue = f.value ? f.value : 'reset';
                     if (f.key === key && thisValue === value) match = true;
                 });
-                el.classed('selected', match);
-                //if (match) showReset = true;
+                parent.classed('selected', match);
             });
-
-           // root.classed('selected', showReset);
         };
 
 
