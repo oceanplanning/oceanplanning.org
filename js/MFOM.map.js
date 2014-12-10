@@ -747,7 +747,7 @@
                 //console.log("bounds bds", bds.getSouthWest(), bds.getNorthEast());
                 if (bds.getEast() > 0) { // triggered if shape wraps around dateline, such that east is 180
                   //console.log("OVERRIDE BOUNDS");
-                  map.setView([35,-115], MFOM.config.map.startZoom-1);
+                  map.setView([35,-105], MFOM.config.map.startZoom);
                 } else {
 
                   // Find the true maximums. Can't rely only on SW and NE because of the map projection
