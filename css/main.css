@@ -128,6 +128,7 @@ body,
     line-height: 1.5;
 }
 button, .tabs {
+    user-select: none;
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -568,38 +569,50 @@ ul.plain li {
     padding: 0;
 }
 .dropdown li {
+    position: relative;
     font-size: 1em;
     font-weight: 400;
     margin: 0 5px;
     cursor: auto;
     line-height: 1.5;
-}
-.dropdown li.top-level > button {
-    font-size: 0.85em;
-    line-height: 1.5;
+    user-select: none;
 }
 
-.dropdown li button {
-    width: 100%;
+.dropdown li.level-1 .btn,
+.dropdown li.top-level .btn {
+    position: relative;
     font-size: 0.75em;
     font-weight: bold;
     text-align: left;
     padding: 0 0 0 0.5em;
+    cursor: pointer;
 }
-.dropdown li button:after {
+.dropdown li .btn span,
+.dropdown li .btn input[type="checkbox"] {
+    display: inline-block;
+    vertical-align: middle;
+}
+.dropdown li.top-level > .btn {
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.dropdown li.top-level .btn:after {
     content: " ";
-    position: relative;
-    float: right;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -9px;
     background-image: url('../assets/icons/right-chevron.svg');
     background-size: 18px 18px;
     height: 18px;
     width: 18px;
 }
 
-.dropdown .open > button {
+.dropdown .open > .btn {
     background: #eee;
 }
-.dropdown .open > button:after {
+.dropdown .open > .btn:after {
     background-image: url('../assets/icons/down-chevron.svg');
 }
 
@@ -616,7 +629,8 @@ ul.plain li {
 .dropdown li > ul {
     height: 0px;
     overflow: hidden;
-
+    margin-top: 2px;
+    margin-left: 5px;
 }
 .dropdown li.open > ul {
     height: auto;
@@ -630,15 +644,6 @@ ul.plain li {
     margin-right: 5px;
     cursor: pointer;
     z-index: 2;
-}
-.dropdown input[type="checkbox"].checkbox-toggler {
-    position: relative;
-    float: left;
-    top: 3px;
-}
-
-.dropdown li.top-level > button input[type="checkbox"].checkbox-toggler {
-    top: 4px;
 }
 
 .checkbox-item {
@@ -711,6 +716,11 @@ ul.plain li {
     line-height: 0;
     margin-left: 10px;
     vertical-align: top;
+}
+
+#info-btn {
+    width: 21px;
+    height: 21px;
 }
 
 .info-btn {
@@ -802,7 +812,7 @@ header button.link:hover {
     display: block;
     top: 2px;
     right: 100%;
-    padding: 4px 6px;
+    padding: 2px 6px 4px;
     line-height: 1;
     margin-right: 5px;
     border-radius: 4px;

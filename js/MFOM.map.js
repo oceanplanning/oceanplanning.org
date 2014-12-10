@@ -373,15 +373,56 @@
                     var toggle = d3.select(elm).select('.parent-toggle');
                     d3.select(elm).selectAll('.checkbox-layer')
                     .each(function(){
-                        if (!this.checked) t++;
+                        if (this.checked) t++;
                     });
 
-                    toggle.property('checked', (t > 0) ? false : true);
+                    toggle.property('checked', (t > 0) ? true : false);
+                    onCountryCheckboxChange(toggle.node());
                     elm = null;
                 } else {
                     elm = elm.parentNode;
                 }
 
+            }
+        }
+
+        function setCountryHash(elm) {
+            var c =  elm.getAttribute('data-country') || null;
+            console.log(c)
+            var hash = STA.hasher.get();
+            if (hash.country && hash.country === c) return;
+            hash['country'] = c;
+            STA.hasher.set(hash);
+        }
+
+        function onCountryCheckboxChange(elm) {
+
+            var selected = [];
+            var checked = countrySelectors.filter(function(){
+                return this.checked;
+            });
+
+            var isCountrySelector = d3.select(elm).classed('parent-toggle');
+
+            if (!isCountrySelector) {
+                setCountryInLayerSelector(elm, elm.checked);
+                //setParentToggle(this, this.checked);
+            } else if (!checked[0].length) {
+                var q = countrySelectors.filter(function(){
+                    return elm !== this;
+                });
+                d3.select(q[0][0]).property('checked', true);
+                return onCountryCheckboxChange.call(q[0][0]);
+            } else if (isCountrySelector) {
+                var c = null;
+                if (checked[0].length !== countrySelectors[0].length) {
+                    c = checked[0][0].getAttribute('data-country');
+                }
+
+                var hash = STA.hasher.get();
+                if (hash.country && hash.country === c) return;
+                hash['country'] = c;
+                STA.hasher.set(hash);
             }
         }
 
@@ -407,7 +448,7 @@
                     }
                 });
 
-            //if (!d3.select(elm).classed('parent-toggle')) setParentToggle(elm, state);
+            if (!d3.select(elm).classed('parent-toggle')) setParentToggle(elm, state);
 
             setSelectedRegionIndex();
             getAvailableGroups();
@@ -431,9 +472,9 @@
                 // countries
                 var parent = ul.append('li')
                     .attr('class', 'top-level');
-                var parentBtn = parent.append('button')
-                    .attr('class', 'link')
-                    .text(group);
+
+                var parentBtn = parent.append('div')
+                        .attr('class', 'btn link');
 
                 parentBtn.append('input')
                     .attr('type', 'checkbox')
@@ -443,19 +484,26 @@
                     .attr('class', 'parent-toggle checkbox-toggler selected')
                     .property('checked', true);
 
+                parentBtn.append('span')
+                    .text(group);
+
                 var child = parent.append('ul');
 
                 for (var l in sub) {
                     var subchild = child.append('li')
                         .attr('class', 'level-1');
 
-                    subchild.append('button')
-                        .attr('class', 'link')
-                        .html(l)
-                        .append('input')
-                            .attr('type', 'checkbox')
-                            .attr('class', 'checkbox-toggler selected')
-                            .property('checked', true);
+                    var subchildBtn = subchild.append('div')
+                            .attr('class', 'btn link');
+
+                    subchildBtn.append('input')
+                        .attr('type', 'checkbox')
+                        .attr('class', 'checkbox-toggler selected')
+                        .property('checked', true);
+
+                    subchildBtn.append('span')
+                        .html(l);
+
 
                     var ss = subchild.append('ul');
                     for (var c in sub[l]) {
@@ -530,45 +578,15 @@
                     onLayerSelectorChange(key, checked)
                 });
 
-            function onCountryCheckboxChange() {
 
-                var selected = [];
-                var checked = countrySelectors.filter(function(){
-                    return this.checked;
-                });
-                var me = this;
-                var isCountrySelector = d3.select(this).classed('parent-toggle');
-
-                if (!isCountrySelector) {
-                    setCountryInLayerSelector(this, this.checked);
-                    //setParentToggle(this, this.checked);
-                } else if (!checked[0].length) {
-                    var q = countrySelectors.filter(function(){
-                        return me !== this;
-                    });
-                    d3.select(q[0][0]).property('checked', true);
-                    //q[0][0].checked = true;
-                    return onCountryCheckboxChange.call(q[0][0]);
-                } else if (isCountrySelector) {
-                    var c = null;
-                    if (checked[0].length !== countrySelectors[0].length) {
-                        c = checked[0][0].getAttribute('data-country');
-
-                    }
-
-                    var hash = STA.hasher.get();
-
-                    hash['country'] = c;
-                    STA.hasher.set(hash);
-                }
-
-            }
 
             root.selectAll('.checkbox-toggler')
                 .on('click', function(){
                     d3.event.stopImmediatePropagation();
                 })
-                .on('change', onCountryCheckboxChange);
+                .on('change', function(){
+                    onCountryCheckboxChange(this);
+                });
 
             getAvailableGroups();
         }
