@@ -84,6 +84,10 @@ body,
 .panel.details {
     left: 1em;
     right: auto;
+    display: none;
+}
+.panel.details.selected {
+    display: block;
 }
 
 #additional-actions {

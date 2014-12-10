@@ -206,6 +206,10 @@
         // is embed?
         MFOM.config.isEmbed = !!document.body.getAttribute('id');
 
+        // is lte IE9
+        //  load simplier geometries
+        MFOM.config.lteIE9 = d3.select('html').classed('ie-lte9');
+
         if (!MFOM.config.isEmbed) {
             STA.Embed.Index({
               page: "embed.html"

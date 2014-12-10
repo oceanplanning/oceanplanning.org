@@ -132,6 +132,7 @@
 
         var sortingIndex;
         function setupOverlays(layers, cb) {
+            var delay = MFOM.config.lteIE9 ? 30 : 0;
             function makeLayer(idx){
                 var lyr = layers[idx];
 
@@ -165,10 +166,7 @@
                     var props = lyr.layer.properties;
                     var h = STA.hasher.get();
                     // If current ID is already selected, reset selections to nothing
-                    if (h.id == props['id'])
-                      h.id = null;
-                    else
-                      h.id = props['id'];
+                    h.id = (h.id == props['id'])  ? null : props['id'];
                     STA.hasher.set(h);
                 });
 
@@ -191,6 +189,7 @@
                     key: overlayKey,
                     size: size
                 });
+
                 idx--;
 
                 setTimeout(function(){
@@ -199,7 +198,7 @@
                     } else {
                         makeLayer(idx);
                     }
-                }, 1);
+                }, delay);
             }
 
             layers.sort(function(a, b) { return d3.ascending(+a.csv_id, +b.csv_id);});
