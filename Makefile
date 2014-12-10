@@ -99,7 +99,7 @@ basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp
 
 # The EEZ and protected area data:
 
-geojson: jsondir data \
+geojson: jsondir \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
 $(JSONDIR)/bc_mapp_haida_gwaii.geojson \
@@ -126,7 +126,7 @@ $(JSONDIR)/south_atlantic.geojson \
 
 # Create topojson file. -q is quantization, -p means preserve all properties
 
-topojson: geojson
+topojson:
 	$(TOPOJSON) -q 60000 --simplify-proportion 0.7 -p -o $(JSONDIR)/planning_areas.topojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
