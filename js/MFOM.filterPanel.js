@@ -21,7 +21,7 @@
         });
 
         statusFilters.on('click', function(){
-            setFilter(this,statusFilters, 'status');
+            setFilter(this, statusFilters, 'status');
         });
 
         function setFilter(elm, filters, key) {
@@ -60,8 +60,11 @@
         }
 
         function setFilterReset() {
-            statusFilters.classed('selected', false);
-            d3.select(statusFilters[0][0]).classed('selected', true);
+            statusFilters.each(function(){
+                d3.select(this.parentNode).classed('selected', false);
+            })
+
+            d3.select(statusFilters[0][0].parentNode).classed('selected', true);
         }
 
         // on a filter change

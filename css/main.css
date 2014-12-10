@@ -169,25 +169,26 @@ button.link.inverse {
 
 button.link:hover {
     text-decoration: none;
-    background: #ddd;
+    background: #b2b6b7;
 }
 button.link.inverse:hover {
-    color: #fff;
-    background: #ddd;
+    color: #000;
 }
 
 button.disabled {
     pointer-events: none;
     cursor: not-allowed;
     text-decoration: none;
+    opacity: 0.5;
 }
 button.disabled:hover {
     text-decoration: none;
 }
 
+
 button.selected,
 .filter-row .selected button {
-    background: #ddd !important;
+    background: #b2b6b7 !important;
     pointer-events: none;
     cursor: not-allowed;
     text-decoration: none !important;
@@ -198,7 +199,7 @@ button.selected,
 .counts {
     margin-left: 5px;
     font-weight: 300;
-    color: #444;
+    color: #333;
 }
 
 .scroller {
@@ -285,6 +286,7 @@ button.selected,
     -webkit-border-bottom-right-radius: 10px;
             border-bottom-right-radius: 10px;
 }
+
 .filter-row button.disabled {
     background: #e5e5e5;
 }
@@ -299,7 +301,7 @@ button.selected,
 }
 
 .filter-row li.filter-reset.selected:after,
-.filter-row li.filter-reset:hover:after {background: #ddd !important;}
+.filter-row li.filter-reset:hover:after {background: #b2b6b7 !important;}
 .filter-row li.filter-implemented:after {background: #80c0ff;}
 .filter-row li.filter-underway:after {background: #91d3ff;}
 .filter-row li.filter-pre-planning:after {background: #9ee2ff;}
