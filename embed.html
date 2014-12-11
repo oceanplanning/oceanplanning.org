@@ -1,9 +1,14 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--[if lt IE 10]>    <html class="no-js ie-lte9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
 <meta charset=utf-8 />
-<title>Moore Foundation Embed</title>
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<title>Oceanplanning.org</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic,300italic,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/normalize.css">
@@ -31,50 +36,75 @@
 
 </head>
   <body id="embedded" class="loading">
-    <svg style="display:none;">
-      <defs>
-
-        <g id="map-layers">
-            <path d="M0 0h24v24h-24z" fill="none"/>
-            <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
-        <g>
-
-      </defs>
-    </svg>
+    <!--[if lt IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
     <div class="container block-group">
-
 
       <header class="nav block">
         <div>
-          <h1 class="heading"><a href="/">Ocean Planning</a></h1>
+          <h1 class="heading"><a href="http://oceanplanning.org/" target="_top">Ocean Planning</a></h1>
         </div>
       </header>
-
 
       <section class="main block">
         <div id='map'></div>
         <!-- layer controls -->
-        <div id="overlaySelectr" class="dropdown">
-          <a href="#" class="icon map-layers">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M0 0h24v24h-24z" fill="none"/>
-                <path d="M11.99 18.54l-7.37-5.73-1.62 1.26 9 7 9-7-1.63-1.27-7.38 5.74zm.01-2.54l7.36-5.73 1.64-1.27-9-7-9 7 1.63 1.27 7.37 5.73z"/>
-            </svg>
-          </a>
-          <button id="overlaySelectr-close" class="link">&times;</button>
+        <div id="overlaySelectr" class="dropdown expanded">
+          <button id="overlaySelectr-close" class="link">&raquo;</button>
+          <div class="scroll-wrap">
           <div class="inner"></div>
+          </div>
         </div>
         <!-- end layer controls -->
+
+        <div class="panel details">
+          <div class="tabs">
+            <button id="resetButton" class="link"><span class="icon-close">&#x2715;</span></button>
+            <div class="filter-row">
+              <ul class="clearfix">
+                <li><button class="link selected" data-target="details">Details</button></li>
+                <li><button class="link" data-target="description">Description</button></li>
+              </ul>
+            </div>
+            <div class="tabs-inner">
+              <div class="tab" data-tab="details">
+                <ul>
+                  <li data-key="location"><span class="key">Plan Name:</span><span class="value"></span></li>
+                  <li data-key="website"><span class="key">Website:</span><span class="value"><a href=""></a></span></li>
+                  <li data-key="status"><span class="key">Status:</span><span class="value"></span></li>
+                  <li data-key="date_planning_initiated"><span class="key">Date Planning Initiated:</span><span class="value"></span></li>
+                  <li data-key="date_plan_completed"><span class="key">Date Completed:</span><span class="value"></span></li>
+                  <li data-key="ocean_uses_covered"><span class="key">Ocean Uses Covered:</span><span class="value"></span></li>
+                  <li data-key="lead_institution"><span class="key">Lead Institution(s):</span><span class="value"></span></li>
+                </ul>
+              </div>
+              <div class="tab hide" data-tab="description">
+                <p class="txt-copy">Select a planning area.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
+
+      <div id="about-map-modal" class="panel modal hide">
+        <div class="modal-background modal-close"></div>
+        <div class="modal-inner">
+          <button class="link modal-close">×</button>
+          <div class="modal-content txt-copy">
+            <h3>About the basemap</h3>
+            <p>This map was was created by <a href="http://stamen.com">Stamen Design</a>, a data visualization and cartography studio based in San Francisco.</p>
+            <p>The map uses a custom <a href="http://en.wikipedia.org/wiki/Map_projection">map projection</a> to show the true sizes of the coastal areas of the United States and Canada. Most web-based maps use the <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator projection</a>, which distorts the sizes of regions near the poles, making Northern Canada and the Arctic Ocean appear much larger than they really are.</p>
+            <p>Our map uses a <a href="http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert Azimuthal Equal-area projection</a> which has been modified so that the center of the projection is at 105&deg;W, 40&deg;N. This projection shows accurate sizes everywhere on the map. However, as a side effect, north is not always "up" on this map. As you look at places that are further away from the center of the map, the curvature of the earth becomes apparent. Keep your eye on the <em>graticule lines</em> (the grid of thin blue lines out in the ocean) to help you figure out which direction is north.</p>
+          </div>
+        </div>
+      </div>
 
     </div> <!-- end container -->
 
 
-
     <script type="text/javascript" src="js/vendor/leaflet-0.7.3.js"></script>
-    <script type="text/javascript" src='js/vendor/leaflet.ajax.min.js'></script>
     <script type="text/javascript" src='js/vendor/d3.v3.min.js'></script>
-    <script type="text/javascript" src='js/vendor/queue.v1.min.js'></script>
     <script type="text/javascript" src='js/vendor/proj4-compressed.js'></script>
     <script type="text/javascript" src='js/vendor/proj4leaflet.js'></script>
     <script type="text/javascript" src='js/vendor/topojson.v1.min.js'></script>
@@ -92,11 +122,11 @@
     <script type="text/javascript" src='js/MFOM.config.js'></script>
     <script type="text/javascript" src='js/MFOM.data.js'></script>
     <script type="text/javascript" src='js/MFOM.map.js'></script>
-    <script type="text/javascript" src='js/MFOM.filterPanel.js'></script>
     <script type="text/javascript" src='js/MFOM.detailsPanel.js'></script>
     <script type="text/javascript" src='js/MFOM.layerControls.js'></script>
     <script type="text/javascript" src='js/MFOM.modal.js'></script>
     <script type="text/javascript" src='js/MFOM.main.js'></script>
+
 
     <script type="text/javascript">
       STA.Embed.Widget(window.location.search);

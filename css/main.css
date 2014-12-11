@@ -14,6 +14,8 @@ body,
     padding:0;
     position: relative;
 }
+body {min-width: 500px;}
+
 .container * {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
@@ -483,9 +485,10 @@ button.selected,
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 40%;
+    width: 80%;
     height: auto;
     max-height: 70%;
+    max-width: 500px;
     background: #fff;
     overflow: auto;
     z-index: 1;
@@ -525,6 +528,11 @@ button.selected,
     font-size: 1.5em;
     line-height: 1;
 }
+
+button.link.modal-close:hover {
+    background: transparent;
+}
+
 .modal-close.inline {
     position: relative;
     right: auto;
@@ -1074,4 +1082,21 @@ only screen and (min-resolution: 1.5dppx) {
     width: 790px;
     height: 48px;
     border: 0;
+}
+
+.browserupgrade {
+    position: absolute;
+    background: #98a8d3;
+    padding: 10px 20px;
+    z-index: 9999;
+    top: 50%;
+    margin-top: -18px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+}
+
+.browserupgrade a {
+    color: black;
+    font-weight: 700;
 }

@@ -111,8 +111,10 @@
             mainElm.style('height',
                 (lastHeight - headerElm.node().offsetHeight) + 'px');
 
+
+            var filterElmHeight = (filterPanel) ? filterPanelElm.node().offsetHeight : 0;
             var maxHeight = mainElm.node().offsetHeight -
-                    (layerSelecterElm.node().offsetTop + filterPanelElm.node().offsetHeight + 30); // 30 = bottom pos + padding
+                    (layerSelecterElm.node().offsetTop + filterElmHeight + 30); // 30 = bottom pos + padding
             //if (maxHeight < 50) return;
             layerSelecterWrapElm.style('max-height', maxHeight + 'px');
         };
