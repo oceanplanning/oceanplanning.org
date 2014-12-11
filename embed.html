@@ -11,12 +11,15 @@
 
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic,300italic,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<!-- build:css css/embed.min.css -->
 <link rel="stylesheet" type="text/css" href="css/normalize.css">
 <link rel="stylesheet" type="text/css" href="css/pocketgrid.min.css">
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="css/rrose.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/leaflet.groupedlayercontrol.css">
+<!-- endbuild -->
 
 <!--[if lte IE 9]>
   <style>
@@ -102,7 +105,7 @@
 
     </div> <!-- end container -->
 
-
+    <!-- build:js scripts/embed.min.js -->
     <script type="text/javascript" src="js/vendor/leaflet-0.7.3.js"></script>
     <script type="text/javascript" src='js/vendor/d3.v3.min.js'></script>
     <script type="text/javascript" src='js/vendor/proj4-compressed.js'></script>
@@ -126,7 +129,7 @@
     <script type="text/javascript" src='js/MFOM.layerControls.js'></script>
     <script type="text/javascript" src='js/MFOM.modal.js'></script>
     <script type="text/javascript" src='js/MFOM.main.js'></script>
-
+    <!-- endbuild -->
 
     <script type="text/javascript">
       STA.Embed.Widget(window.location.search);
