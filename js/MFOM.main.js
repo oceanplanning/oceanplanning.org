@@ -20,6 +20,7 @@
             lastHeight;
 
         var map = new MFOM.map('map');
+        var selectedCountry = 'all';
         var filterPanel,
             detailsPanel;
 
@@ -51,52 +52,6 @@
                 STA.Embed.Hide();
             });
 
-        var selectedCountry = 'all';
-
-        /*
-        var countryFilters = d3.selectAll('.country-btn');
-        countryFilters.on('click', function(){
-                var country = d3.select(this).attr('data-country');
-                if (country === selectedCountry) return;
-                selectedCountry = country;
-                handleCountryChange(country);
-            });
-
-        function setCountryList(country) {
-            if (!country) country = 'all';
-            countryFilters.classed('selected', false)
-                .filter(function(){
-                    var c = this.getAttribute('data-country');
-                    return c === country;
-                })
-                .classed('selected', true);
-        }
-
-        setCountryList(selectedCountry);
-
-        function handleCountryChange(country) {
-            setCountryList(country);
-
-            var hash = STA.hasher.get();
-
-            for(var key in hash) {
-                if (key !== 'country' && key !== 'c' ) {
-                    hash[key] = null;
-                }
-            }
-
-            if (country === 'all') {
-                hash['country'] = null;
-            } else {
-                hash['country'] = country;
-            }
-
-            STA.hasher.set(hash);
-        }
-        */
-
-        //handleCountryChange(null, selectedCountry);
-
         __.onData = function(layers, eezs, cb) {
             map.onData(layers, eezs, function(){
                 cb();
@@ -111,10 +66,11 @@
             mainElm.style('height',
                 (lastHeight - headerElm.node().offsetHeight) + 'px');
 
-
             var filterElmHeight = (filterPanel) ? filterPanelElm.node().offsetHeight : 0;
+            var extraSpace = (filterPanel) ? 55 : 30;
+
             var maxHeight = mainElm.node().offsetHeight -
-                    (layerSelecterElm.node().offsetTop + filterElmHeight + 30); // 30 = bottom pos + padding
+                    (layerSelecterElm.node().offsetTop + filterElmHeight + extraSpace); // 30 = bottom pos + padding
             //if (maxHeight < 50) return;
             layerSelecterWrapElm.style('max-height', maxHeight + 'px');
         };
