@@ -15,6 +15,7 @@
         base: 'assets/',
         csvBase: 'assets/csv/',
         geojsonBase: 'assets/geojson/',
+        geojsonLowResBase: 'assets/geojson-low/',
         eez: 'data.csv',
         planningAreas: 'planning_areas.topojson'
     };

@@ -50,7 +50,9 @@
                 function(csvdata) {
                     eezs = csvdata;
 
-                    d3.json(MFOM.config.files.geojsonBase + MFOM.config.files.planningAreas, function(planningAreasTopojson) {
+                    // switch to low-res for ie9
+                    var base = MFOM.config.lteIE9 ? MFOM.config.files.geojsonLowResBase : MFOM.config.files.geojsonBase;
+                    d3.json(base + MFOM.config.files.planningAreas, function(planningAreasTopojson) {
                         // Apply the geojson objects to the tasks array
                         layers.forEach(function(lyr) {
                             lyr.geojson = topojson.feature(planningAreasTopojson, planningAreasTopojson.objects[lyr.topojson_layer]);

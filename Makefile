@@ -1,5 +1,6 @@
 DATADIR := data
 JSONDIR := assets/geojson
+JSONLOWDIR := assets/geojson-low
 TOPOJSON := /usr/local/bin/topojson
 SHELL := /bin/bash
 DATED=$(shell date '+%Y-%m-%d')
@@ -81,14 +82,14 @@ $(DATADIR)/ne_10m_graticules_10.shp: $(DATADIR)/ne_10m_graticules_10.zip
 	unzip $< -d $(DATADIR) && \
 	touch $@
 
-# Unfortunately I have no source for the disputed areas, so I will create approximations by intersecting some Canadian planning areas with the Alaskan EEZ from the World EEZ file (which shows the US claims). 
+# Unfortunately I have no source for the disputed areas, so I will create approximations by intersecting some Canadian planning areas with the Alaskan EEZ from the World EEZ file (which shows the US claims).
 
 disputed: $(DATADIR)/disputed_dixon_entrance.shp $(DATADIR)/disputed_beaufort_sea.shp
 
-$(DATADIR)/disputed_dixon_entrance.shp: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp 
+$(DATADIR)/disputed_dixon_entrance.shp: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
 	ogr2ogr -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
 
-$(DATADIR)/disputed_beaufort_sea.shp: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp 
+$(DATADIR)/disputed_beaufort_sea.shp: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
 	ogr2ogr -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
 
 # rule to project any shapefile into Lambert Azimuthal Equal Area
@@ -128,6 +129,33 @@ $(JSONDIR)/south_atlantic.geojson \
 
 topojson:
 	$(TOPOJSON) -q 60000 --simplify-proportion 0.7 -p -o $(JSONDIR)/planning_areas.topojson \
+$(JSONDIR)/ma_coastalzone.geojson \
+$(JSONDIR)/ri_coastalzone.geojson \
+$(JSONDIR)/bc_mapp_haida_gwaii.geojson \
+$(JSONDIR)/bc_mapp_north_coast.geojson \
+$(JSONDIR)/bc_mapp_central_coast.geojson \
+$(JSONDIR)/bc_mapp_north_vancouver_island.geojson \
+$(JSONDIR)/bc_wcvi.geojson \
+$(JSONDIR)/bc_pncima.geojson \
+$(JSONDIR)/hi_humpback_sanctuary.geojson \
+$(JSONDIR)/LOMA_Beaufort_Sea.geojson \
+$(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson \
+$(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson \
+$(JSONDIR)/LOMA_Pacific_North_Coast.geojson \
+$(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson \
+$(JSONDIR)/NLUP_Boundary.geojson \
+$(JSONDIR)/florida_keys.geojson \
+$(JSONDIR)/oregon.geojson \
+$(JSONDIR)/great_lakes.geojson \
+$(JSONDIR)/pacific_islands.geojson \
+$(JSONDIR)/us_caribbean.geojson \
+$(JSONDIR)/us_west_coast.geojson \
+$(JSONDIR)/washington_state.geojson \
+$(JSONDIR)/south_atlantic.geojson \
+
+
+topojson-low:
+	$(TOPOJSON) -q 1e5 -s 0.0000001 -p -o $(JSONLOWDIR)/planning_areas.topojson \
 $(JSONDIR)/ma_coastalzone.geojson \
 $(JSONDIR)/ri_coastalzone.geojson \
 $(JSONDIR)/bc_mapp_haida_gwaii.geojson \
