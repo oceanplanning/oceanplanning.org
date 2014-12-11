@@ -110,8 +110,10 @@ From the root directory:
 ```bash
 gulp
 ```
-This will take a minute and all output will be written to `oceanplanning.github.io` submodule.  Once that is done, `cd` into `oceanplanning.github.io` submodule.  Write a commit message, then do a push:
+This will take a minute and all output will be written to `oceanplanning.github.io` submodule.  Once that is done, `cd` into `oceanplanning.github.io` submodule.  Add the new files, write a commit message and then do a push:
 ```bash
+git add .
+git commit -a -m "SOME MSG...."
 git push
 ```
 The [Oceanplanning repo](https://github.com/oceanplanning/oceanplanning.github.io) and [Oceanplanning site](https://oceanplanning.org) should be updated.
