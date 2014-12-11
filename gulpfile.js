@@ -19,6 +19,7 @@ gulp.task("index", function() {
     .pipe(uglify())             // Minify any javascript sources
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(csso())               // Minify any CSS sources
     .pipe(cssFilter.restore())
     .pipe(rev())                // Rename the concatenated files

@@ -12,6 +12,13 @@ In the case of #1, as much non-geo data as possible should be accessed from CSV 
 
 The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process.
 
+## Repo set-up
+The Moore repo has [oceanplanning.github.io](https://github.com/oceanplanning/oceanplanning.github.io) loaded as a [submodule](http://git-scm.com/book/en/v2/Git-Tools-Submodules). So after cloning the Moore repo, you will need to run these commands in the root directory to prepare the submodule:
+```bash
+git submodule init
+git submodule update
+```
+
 ## Branches
 
 Currently only `master`.
@@ -61,6 +68,14 @@ TBD...
 ```
 
 ## Dependencies
+* [npm](https://www.npmjs.org/)
+* [Gulp](http://gulpjs.com/)
+
+Quick setup:
+```bash
+npm install --global gulp
+npm install --save-dev gulp gulp-autoprefixer gulp-csso gulp-uglify gulp-filter gulp-useref gulp-rev gulp-rev-replace
+```
 
 ### Software
 
@@ -91,14 +106,14 @@ python -m SimpleHTTPServer` in the root directory
 ```
 
 ## Deployment
-This should be done from a local copy of [Oceanplanning repo](https://github.com/oceanplanning/oceanplanning.org).
-
-Add [Github page repo](https://github.com/oceanplanning/oceanplanning.github.io) to remote
+From the root directory:
 ```bash
-git remote add oceanplanning-web git@github.com:oceanplanning/oceanplanning.github.io.git
+gulp
 ```
-
-And finally to update website:
+This will take a minute and all output will be written to `oceanplanning.github.io` submodule.  Once that is done, `cd` into `oceanplanning.github.io` submodule.  Write a commit message, then do a push:
 ```bash
-git push --force oceanplanning-web master
+git push
 ```
+The [Oceanplanning repo](https://github.com/oceanplanning/oceanplanning.github.io) and [Oceanplanning site](https://oceanplanning.org) should be updated.
+
+**IMPORTANT** Make sure you are in the `oceanplanning.github.io` directory when you do the above steps.
