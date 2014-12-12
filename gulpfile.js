@@ -34,7 +34,7 @@ gulp.task('assets', function() {
         .pipe(gulp.dest('oceanplanning.github.io/assets'));
 });
 gulp.task('static', function() {
-    return gulp.src([".htaccess", "favicon.ico"])
+    return gulp.src([".htaccess", "favicon.ico", "CNAME"])
         .pipe(gulp.dest('oceanplanning.github.io'));
 });
 
