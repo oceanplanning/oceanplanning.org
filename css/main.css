@@ -14,7 +14,10 @@ body,
     padding:0;
     position: relative;
 }
-body {min-width: 500px;}
+body {
+    background: #F5F8F8;
+    min-width: 500px;
+}
 
 .container * {
     -webkit-box-sizing: border-box;
@@ -30,6 +33,7 @@ body {min-width: 500px;}
     position: relative;
     padding: 0.5em 1em;
     width: 100%;
+    background: #fff;
 }
 
 .nav div {
@@ -64,6 +68,7 @@ body {min-width: 500px;}
     width:100%;
     height: 100%;
     z-index: 1;
+    background: #F5F8F8;
 }
 
 .panel {

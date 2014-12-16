@@ -249,11 +249,12 @@
             ),
         defaultOptions: {
             continuousWorld: false,
-            worldCopyJump: false,
+            worldCopyJump: true,
             scrollWheelZoom: false,
             minZoom: 2,
             maxZoom: 10,
             attributionControl: false,
+            inertia: false, // !important - don't remove...
             maxBounds:[[-90,-180],[90,180]]
         },
         attribution: 'Map by <a href="http://stamen.com" target="_blank" title="Stamen Design">Stamen Design</a> | <a id="about-map-btn" class="modal-activator" data-target="about-map-modal" href="#" title="Contextual information about the map.">About</a>',
