@@ -62,9 +62,9 @@
             getAvailableGroups();
             if (currentFilters) __.filterOn(currentFilters);
         });
-        var polyline = L.polyline([[85,-179],[0,109],[0,140],[-40,140],[-85,-179],[0,0],[85,-179]], {color: 'red'}).addTo(map);
-        window.pl = polyline;
 
+
+        //var mapBoundsHelper = L.polyline([[85,-179],[0,109],[0,140],[-40,140],[-85,-179],[0,0],[85,-179]], {color: 'red'}).addTo(map);
 
 
         function onLayerSelectorChange(key, checked) {
