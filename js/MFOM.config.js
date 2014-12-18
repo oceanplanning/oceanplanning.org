@@ -246,8 +246,7 @@
             minZoom: 2,
             maxZoom: 10,
             attributionControl: false,
-            inertia: false, // !important - don't remove...
-            maxBounds:[[-85,-179],[85, 140]]
+            inertia: false // !important - don't remove...
         },
         attribution: 'Map by <a href="http://stamen.com" target="_blank" title="Stamen Design">Stamen Design</a> | <a id="about-map-btn" class="modal-activator" data-target="about-map-modal" href="#" title="Contextual information about the map.">About</a>',
         mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: null, continuousWorld: false}),

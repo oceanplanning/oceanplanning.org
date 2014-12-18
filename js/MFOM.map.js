@@ -80,6 +80,16 @@
         }
 
         function onMoveEndHandler(e) {
+            //console.log("onMoveEndHandler", e);
+            if (e && e.hasOwnProperty('target')) {
+              try {
+                var center = e.target.getCenter();
+              }
+              catch(err) {
+                console.log("panned off map: reset map view to center");
+                map.setView(initialLocation, map.getZoom());
+              }
+            }
             var center = map.getCenter(),
                 zoom = map.getZoom();
             var h = STA.hasher.get();
