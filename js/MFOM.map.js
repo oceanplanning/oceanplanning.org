@@ -14,95 +14,6 @@
         return Math.max(s, 5);
     }
 
-
-    // Super hacked way to restrict map bounds
-    // The custom projection was throwing off the preventMaxBounds function in Leaflet.
-    L.Map.include({
-        _boundsXRangeForZoom:  function(z) {
-            switch(z) { // left, right
-                case 10:
-                    return [331981,426750];
-                case 9:
-                    return [166125,213340];
-                case 8:
-                    return [83185,106440];
-                case 7:
-                    return [41940,52960];
-                case 6:
-                    return [21000,26360];
-                case 5:
-                    return [10261,14350];
-                case 4:
-                    return [5423,6900];
-                case 3:
-                    return [3000,3180];
-                case 2:
-                    return [1500,1540];
-                default:
-                    return null;
-            }
-        },
-        _boundsYRangeForZoom:  function(z) {
-            switch(z) { // top, bottom
-                case 10:
-                    return [93496,164605];
-                case 9:
-                    return [46909,82158];
-                case 8:
-                    return [23530,40948];
-                case 7:
-                    return [11840,20481];
-                case 6:
-                    return [3330,13120];
-                case 5:
-                    return [1820,6440];
-                case 4:
-                    return [1070,3085];
-                case 3:
-                    return [690,1415];
-                case 2:
-                    return [500,585];
-                default:
-                    return null;
-            }
-        },
-
-        // adjust center for view to get inside bounds
-        _limitCenter: function (center, zoom, bounds) {
-            if (!bounds) { return center; }
-
-            var centerPoint = this.project(center, zoom);
-            console.log("centerPoint: ", centerPoint);
-            var bx = this._boundsXRangeForZoom(zoom),
-                by = this._boundsYRangeForZoom(zoom);
-
-            if (!bx || !by) return center;
-
-            var x,y;
-
-            if (centerPoint.x < bx[0]) {
-                x = bx[0] + 100;
-            } else if (centerPoint.x > bx[1]) {
-                x = bx[1] - 100;
-            }
-
-            if (centerPoint.y < by[0]) {
-                y = by[0] + 100;
-            } else if (centerPoint.y > by[1]) {
-                y = by[1] - 100;
-            }
-
-            if (!x && !y) return center;
-
-            if (!x) x = centerPoint.x;
-            if (!y) y = centerPoint.y;
-
-            return this.unproject(L.point(x, y), zoom);
-        }
-
-
-    });
-
     MFOM.map = function(selector) {
         var __ = {};
 
@@ -151,6 +62,8 @@
             getAvailableGroups();
             if (currentFilters) __.filterOn(currentFilters);
         });
+        var polyline = L.polyline([[85,-179],[0,109],[0,140],[-40,140],[-85,-179],[0,0],[85,-179]], {color: 'red'}).addTo(map);
+        window.pl = polyline;
 
 
 

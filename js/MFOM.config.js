@@ -228,7 +228,7 @@
                     resolutions: [ // map scale, not sure how these were computed (seanc)
                         156543.0339296875,
                         78271.51696484375,
-                        39135.758482421875,
+                        39135.758482421875, // zoom 2
                         19567.8792412109375,
                         9783.93962060546875,
                         4891.969810302734375,
@@ -236,31 +236,23 @@
                         1222.99245257568359375,
                         611.496226287841796875,
                         305.7481131439208984375,
-                        152.87405657196044921875,
-                        76.437028285980224609375,
-                        38.2185141429901123046875,
-                        19.10925707149505615234375,
-                        9.554628535747528076171875,
-                        4.7773142678737640380859375,
-                        2.388657133934688201904296875,
-                        1.194328566968441009521484375
+                        152.87405657196044921875 // zoom 10
                     ]
                 }
             ),
         defaultOptions: {
-            continuousWorld: false,
-            worldCopyJump: true,
+            worldCopyJump: false,
             scrollWheelZoom: false,
             minZoom: 2,
             maxZoom: 10,
             attributionControl: false,
             inertia: false, // !important - don't remove...
-            maxBounds:[[-90,-180],[90,180]]
+            maxBounds:[[-85,-179],[85, 140]]
         },
         attribution: 'Map by <a href="http://stamen.com" target="_blank" title="Stamen Design">Stamen Design</a> | <a id="about-map-btn" class="modal-activator" data-target="about-map-modal" href="#" title="Contextual information about the map.">About</a>',
-        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: null}),
-        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: null}),
-        mapboxLabels: new L.TileLayer.Labels("https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom_labels/{z}/{x}/{y}.png", {minZoom: 0, maxZoom: 10, attribution: null}),
+        mapboxTilesLowZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_lowzoom/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 5, attribution: null, continuousWorld: false}),
+        mapboxTilesHighZoom: L.tileLayer('https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom/{z}/{x}/{y}.png', {minZoom: 6, maxZoom: 10, attribution: null, continuousWorld: false}),
+        mapboxLabels: new L.TileLayer.Labels("https://{s}.tiles.mapbox.com/v3/stamen.moore_highzoom_labels/{z}/{x}/{y}.png", {minZoom: 0, maxZoom: 10, attribution: null, continuousWorld: false}),
         startZoom: 4,
         layers: [
                 {
