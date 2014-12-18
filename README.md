@@ -1,5 +1,4 @@
 # Moore Foundation Ocean Maps
-
 ![image](screenshot.png)
 This project will map a variety of ocean protection areas ranging from thousands of square miles in the Pacific to a few square miles off Massachusetts. The maps use an equal-area projection (specifically a [Lambert Azimuthal Equal Area](http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection) centered on 105ºW, 40ºN) to reduce distortion, but one of the design challenges will be making that projection intelligible even when the zoom is very close, like in the Cape Cod example.
 
@@ -12,19 +11,62 @@ In the case of #1, as much non-geo data as possible should be accessed from CSV 
 
 The site will consist of a pre-generated raster basemap (currently hosted on Mapbox) overlaid with clickable and toggleable vector shapes. The basemap will show the EEZs of the US and Canada for context. The vector overlays will show each individual ocean planning process.
 
-## Repo set-up
+
+## Build Dependencies
+We use [Gulp](http://gulpjs.com/) to package up the various css & js bits for deployment on [oceanplanning.github.io](https://github.com/oceanplanning/oceanplanning.github.io).  This process:
+* minifies the css & js
+* runs autoprefixer on the css
+* versions the css & js minified files
+* copies all necessary files to `oceanplanning.github.io` submodule
+
+For this to happen, you will need these tools.
+* [npm](https://www.npmjs.org/)
+* [Gulp](http://gulpjs.com/)
+
+Quick setup:
+
+Run these commands in the top-level of the `oceanplanning.org` directory.
+```bash
+npm install --global gulp
+npm install --save-dev gulp gulp-autoprefixer gulp-csso gulp-uglify gulp-filter gulp-useref gulp-rev gulp-rev-replace
+```
+
+
+## Initial repository set-up
 The Moore repo has [oceanplanning.github.io](https://github.com/oceanplanning/oceanplanning.github.io) loaded as a [submodule](http://git-scm.com/book/en/v2/Git-Tools-Submodules). So after cloning the Moore repo, you will need to run these commands in the root directory to prepare the submodule:
 ```bash
 git submodule init
 git submodule update
+cd oceanplanning.github.io
+git checkout master
 ```
 
-## Branches
 
+## Branches
 Currently only `master`.
 
-## Data preparation
 
+## Deployment
+From the **root** directory of `oceanplanning.org`:
+```bash
+gulp
+```
+This will take a minute and all output will be written to `oceanplanning.github.io` submodule.  After the **Gulp** task is complete:
+* `cd oceanplanning.github.io` submodule
+* add the new files
+* write a commit message
+* push changes
+
+From the **oceanplanning.github.io** directory, the commands would be:
+```bash
+git add .
+git commit -a -m "...SOME MSG...."
+git push
+```
+After a few minutes, you should see these changes reflected at [Oceanplanning site](https://oceanplanning.org).
+
+
+## Data preparation (Geographical files)
 Processing the input shapefiles into GeoJSON vector overlays needs to happen before deployment of the site. Once the data has been processed, these files will not need to change unless the underlying data changes (if new planning areas are added, or their shapes change, etc.) The instructions in this section refer to the clickable overlays that represent ocean planning areas. To modify the basemap tiles (which include the US and Canada EEZs) see the **basemap style** section below.
 
 Currently the data preparation is done using a Makefile. **Note, the specific commands are subject to change!**
@@ -45,8 +87,8 @@ To edit the Makefile, follow the pattern of the other planning areas. You will n
 
 After modifying the makefile, you run `make topojson` to download and process the interactive overlay data that is drawn on the map. This converts all the shapefiles into GeoJSON, and then compiles them into a single TopoJSON file.
 
-## Working on the basemap style
 
+## Working on the basemap style (Tilemill)
 The basemap consists of two almost-identical TileMill projects. One is for the low zoom levels and covers the entire world. The other is for higher zoom levels and only covers the extent of the US and Canada's EEZs. They both use the same stylesheets (only the project.mml files are different).
 
 To modify the basemap style, you need to link the TileMill projects into your local tilemill directory. Do this with the following command:
@@ -57,65 +99,31 @@ You will now have two TileMill projects called "Moore Foundation lowzoom" and "M
 
 To download and process the base data that is necessary for the raster basemap, run `make basedatalaea`. This creates shapefiles that have been reprojected to Lambert Azimuthal Equal-Area.
 
-## Installation
-
-TBD...
-
-## Usage + Configuration (specifically for libraries)
-
-```javascript
-// this is some sample code showing how things are used
-```
-
-## Dependencies
-* [npm](https://www.npmjs.org/)
-* [Gulp](http://gulpjs.com/)
-
-Quick setup:
-```bash
-npm install --global gulp
-npm install --save-dev gulp gulp-autoprefixer gulp-csso gulp-uglify gulp-filter gulp-useref gulp-rev gulp-rev-replace
-```
 
 ### Software
 
-_(These are implicit dependencies beyond what gets installed during the [installation](#Installation) step.)_
+##### Front-end
+* [D3.js](http://d3js.org/)
+* [Topojson](https://github.com/mbostock/topojson)
+* [Leaflet](http://leafletjs.com/)
+* [Proj4](http://proj4js.org/) w/ [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet)
+* [Hasher](https://github.com/millermedeiros/hasher/) w/ [Signals](http://millermedeiros.github.io/js-signals/)
 
-Frontend:
 
-* D3.js
-* Leaflet
-* Proj4 w/ Proj4Leaflet
-* Hasher w/ Signals
-* Topojson
-
-The data preparation makefile has these dependencies:
-
+#####Data preparation makefile has these dependencies:
 * **GDAL/OGR**, particularly the command `ogr2ogr`: On OSX, install using [Homebrew](http://brew.sh/) and `brew install gdal`
 * **topojson**: Install Node.js `brew install node`. Then install topojson with `npm install -g topojson`.
 
-### Data
 
-* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore. Currently we maintain this data in a Google Spreadsheet and periodically export it to the [CSV file](blob/master/assets/csv/data.csv) that is stored in this repository.
-* Shapefiles of ocean protected areas. These are processed into a [topojson file](blob/master/assets/geojson/planning_areas.topojson) for display on the map.
+### Tabular Data
+* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore. To make any changes to this data, edit the [CSV file](assets/csv/data.csv) that is stored in this repository.  Once the changes are done, follow the [deploy](#Deployment) steps to push the changes to the live site.
+* Shapefiles of ocean protected areas. These are processed into a [topojson file](assets/geojson/planning_areas.topojson) for display on the map.
 * This is a static data project with no database backend.
 
+
 ## How do I test it?
+Any HTTP server environment will do, for example you can preview the site using Python's [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html).
 ```bash
-python -m SimpleHTTPServer` in the root directory
+python -m SimpleHTTPServer
 ```
 
-## Deployment
-From the root directory:
-```bash
-gulp
-```
-This will take a minute and all output will be written to `oceanplanning.github.io` submodule.  Once that is done, `cd` into `oceanplanning.github.io` submodule.  Add the new files, write a commit message and then do a push:
-```bash
-git add .
-git commit -a -m "SOME MSG...."
-git push
-```
-The [Oceanplanning repo](https://github.com/oceanplanning/oceanplanning.github.io) and [Oceanplanning site](https://oceanplanning.org) should be updated.
-
-**IMPORTANT** Make sure you are in the `oceanplanning.github.io` directory when you do the above steps.
