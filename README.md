@@ -116,7 +116,7 @@ To download and process the base data that is necessary for the raster basemap, 
 
 
 ### Tabular Data
-* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore. To make any changes to this data, edit the [CSV file](assets/csv/data.csv) that is stored in this repository.  Once the changes are done, follow the [deploy](#Deployment) steps to push the changes to the live site.
+* CSV meta data about ocean protected areas, economic zones, and potentially other designated areas offshore. To make any changes to this data, edit the [CSV file](assets/csv/data.csv) that is stored in this repository.  Once the changes are done, follow the [deploy](#deployment) steps to push the changes to the live site.
 * Shapefiles of ocean protected areas. These are processed into a [topojson file](assets/geojson/planning_areas.topojson) for display on the map.
 * This is a static data project with no database backend.
 
