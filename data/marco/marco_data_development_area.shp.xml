@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>
+Department of Commerce (DOC), National Oceanic and
+Atmospheric Administration (NOAA),
+National Ocean Service (NOS), Coastal Services Center (CSC)
+</origin>
+				<pubdate>20060524</pubdate>
+				<title>Fishery Management Council Regions</title>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<pubinfo>
+					<pubplace>Charleston, SC</pubplace>
+					<publish>NOAA's Ocean Service, Coastal Services Center (CSC)</publish>
+				</pubinfo>
+				<ftname Sync="TRUE">Regional_Ocean_Councils</ftname><onlink>http://www.csc.noaa.gov/legislativeatlas</onlink></citeinfo>
+		</citation>
+		<descript>
+			<abstract>The NOAA Coastal Services Center's Legislative Atlas is a regional geographic information system (GIS) that provides spatial data for state and federal coastal and ocean management laws and the jurisdictional boundaries of management agencies. There are a growing number of regional collaborations among federal, state, and local agencies to address coastal management issues that cut across existing political and jurisdictional boundaries. To support regional management efforts, the Coastal Services Center has developed geographic representations of key state and federal legislation and the jurisdictional boundaries of state and federal management agencies.</abstract>
+			<purpose>
+The Legislative Atlas allows users to identify what coastal and ocean
+laws apply at specific locations and to visualize relationships
+between the management framework and the natural and socio-economic
+resources in a region.  This dataset represents the jurisdictional boundaries of the Fishery Management Councils' regions.  THE SPATIAL REPRESENTATIONS OF LEGISLATION AND AGENCY JURISDICTIONS ARE BASED ON   INTERPRETATION OF AVAILABLE INFORMATION AND SHOULD NOT BE CONSTRUED AS LEGALLY BINDING.  These data are regional in scale (1:100,000) and are intended for regional coastal and ocean planning purposes. Not for use for scales greater than 1:100,000.
+</purpose>
+			<langdata Sync="TRUE">en</langdata></descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate>
+					<caldate>20060524</caldate>
+				</sngdate>
+			</timeinfo>
+			<current>publication date</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>None planned</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">-129.163506</westbc>
+				<eastbc Sync="TRUE">-65.699722</eastbc>
+				<northbc Sync="TRUE">49.002286</northbc>
+				<southbc Sync="TRUE">23.817500</southbc>
+			</bounding>
+			<lboundng><leftbc Sync="TRUE">-129.163506</leftbc><rightbc Sync="TRUE">-65.699722</rightbc><bottombc Sync="TRUE">23.817500</bottombc><topbc Sync="TRUE">49.002286</topbc></lboundng></spdom>
+		<keywords>
+			<theme>
+				<themekt>None</themekt>
+				<themekey>Marine Boundaries</themekey>
+				<themekey>Fishery Management Council Regions</themekey>
+				<themekey>Environmental quality</themekey>
+				<themekey>Coastal zone management</themekey>
+				<themekey>Ocean planning</themekey>
+				<themekey>NOAA</themekey>
+			</theme>
+			<theme>
+				<themekt>ISO 19115 Topic Category</themekt>
+				<themekey>Boundaries</themekey>
+			</theme>
+			<place>
+				<placekt>None</placekt>
+				<placekey>U.S.</placekey>
+				<placekey>Continental U.S.</placekey>
+				<placekey>Coastal zone</placekey>
+				<placekey>EEZ</placekey>
+				<placekey>Exclusive economic zone</placekey>
+			</place>
+		</keywords>
+		<accconst>none</accconst>
+		<useconst>
+THE SPATIAL REPRESENTATIONS OF LEGISLATION AND AGENCY JURISDICTIONS ARE BASED ON
+INTERPRETATION OF AVAILABLE INFORMATION AND SHOULD NOT BE CONSTRUED AS LEGALLY BINDING.  These data are regional in scale (1:100,000) and
+are intended for regional coastal and ocean planning purposes. Not for use for scales greater than 1:100,000.
+
+Data set is not for use in litigation. While efforts have
+been made to ensure that these data are accurate and
+reliable within the state of the art, NOAA, cannot assume
+liability for any damages, or misrepresentations, caused by
+any inaccuracies in the data, or as a result of the data to
+be used on a particular system. NOAA makes no warranty,
+expressed or implied, nor does the fact of distribution
+constitute such a warranty.
+</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>NOAA Coastal Services Center</cntorg>
+					<cntper>Clearinghouse Manager</cntper>
+				</cntorgp>
+				<cntpos>Clearinghouse Manager</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>2234 South Hobson Ave</address>
+					<city>Charleston</city>
+					<state>South Carolina</state>
+					<postal>29405-2413</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>(843)740-1200</cntvoice>
+				<cntfax>(843) 740-1224</cntfax>
+				<cntemail>clearinghouse@csc.noaa.gov</cntemail>
+				<hours>Monday-Friday, 8am-5pm, Eastern Standard Time</hours>
+			</cntinfo>
+		</ptcontac>
+		<native Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.3500</native>
+		<natvform Sync="TRUE">File Geodatabase Feature Class</natvform></idinfo>
+	<dataqual>
+		<attracc>
+			<attraccr>The attributes in this dataset are believed to be accurate</attraccr>
+		</attracc>
+		<logic>These data are believed to be logically consistent.  Geometry is topologically clean.</logic>
+		<complete>Spatial and attribute properties are believed to be complete, although attribute information has been simplified. Geometric thresholds from original data are preserved. No tests have been completed for exhaustiveness.</complete>
+		<posacc>
+			<horizpa>
+				<horizpar>The accuracy of this dataset is based on source data that is assumed to meet National Map Accuracy Standards.</horizpar>
+			</horizpa>
+			<vertacc>
+				<vertaccr>None</vertaccr>
+			</vertacc>
+		</posacc>
+		<lineage>
+			<procstep>
+				<procdesc>As interpreted from the U.S. code, the regulatory authority of the Fishery Management Councils applies to U.S. federal waters, extending from the Federal-State boundary to the seaward extent of the U.S. Exclusive Economic Zone (EEZ). The Fishery Management Councils' jurisdictional boundaries were developed from two existing data sets: (1) the Federal-State boundary for the continental U.S. distributed by the Minerals Management Service (http://www.mms.gov/ld/Maps.htm) and (2) the EEZ of the U.S. distributed by NOAA's Office of Coast Survey (http://nauticalcharts.noaa.gov/csdl/EEZ.HTM). The Federal-State shapefile was downloaded from MMS for each region (Atlantic, Gulf, and Pacific) and merged into one shapefile after reprojecting the Gulf Federal-State shapefile from NAD27 to NAD83. Lateral boundaries were created between Fishery Managment Council regions (as described at http://www.nmfs.noaa.gov/councils.htm), extending from the Federal-State line to the seaward extent of the EEZ. These lateral boundaries were based on best available information, but should not be interpreted as official boundaries. The lateral boundary polylines and Federal-state polylines were combined with the shapefiles representing the EEZ for the continental U.S. in the Features to Polygon tool in ArcGIS to create a single polygon shapefile for the Fishery Management Council regions. </procdesc></procstep>
+			<procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE"></srcused><procdate Sync="TRUE">20091112</procdate><proctime Sync="TRUE">10042700</proctime></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">C:\Documents and Settings\Charles.Molnar\Desktop\Federal_LegAtlas_Shapefiles\ROC</srcused><procdate Sync="TRUE">20091112</procdate><proctime Sync="TRUE">12583500</proctime></procstep></lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf><esriterm Name="ocean_councils"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom Sync="TRUE">4</efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">0</efeacnt><spindex Sync="TRUE">TRUE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf></spdoinfo>
+	<spref>
+		<horizsys>
+			<geodetic>
+				<horizdn Sync="TRUE">North American Datum of 1983</horizdn>
+				<ellips Sync="TRUE">Geodetic Reference System 80</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257222</denflat>
+			</geodetic>
+			<cordsysn><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn></cordsysn></horizsys>
+		<vertdef><altsys><altenc Sync="TRUE">Explicit elevation coordinate included with horizontal coordinates</altenc><altres Sync="TRUE">1.000000</altres></altsys></vertdef></spref>
+	<eainfo>
+		<detailed Name="ocean_councils">
+			<enttyp>
+				<enttypl Sync="TRUE">ocean_councils</enttypl>
+				<enttypd>Shapefile representing spatial applicability of legislation.</enttypd>
+				<enttypds>NOAA CSC</enttypds>
+				<enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">0</enttypc></enttyp>
+			<attr><attrlabl Sync="TRUE">OBJECTID_1</attrlabl><attalias Sync="TRUE">OBJECTID_1</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Internal feature number.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">OBJECTID</attrlabl><attalias Sync="TRUE">OBJECTID</attalias><attrtype Sync="TRUE">Integer</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Internal feature number.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv></attr><attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Agency</attrlabl>
+				<attrdef>The agency being spatially represented</attrdef>
+				<attrdefs>NOAA CSC</attrdefs>
+				<attrdomv>
+					<edom>
+						<edomv>Fishery Management Council</edomv>
+						<edomvd>The agency being spatially represented</edomvd>
+						<edomvds>NOAA CSC</edomvds>
+					</edom>
+				</attrdomv>
+				<attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attalias Sync="TRUE">AGENCY</attalias><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr><attrlabl Sync="TRUE">Region</attrlabl><attalias Sync="TRUE">REGION</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">20</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">Name</attrlabl><attalias Sync="TRUE">NAME</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">150</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SHAPE_LE_1</attrlabl><attalias Sync="TRUE">SHAPE_LE_1</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">Shape_Leng</attrlabl><attalias Sync="TRUE">SHAPE_LENG</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">GLOBALID</attrlabl><attalias Sync="TRUE">GLOBALID</attalias><attrtype Sync="TRUE">GlobalID</attrtype><attwidth Sync="TRUE">38</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SHAPE_Length</attrlabl><attalias Sync="TRUE">SHAPE_Length</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Length of feature in internal units.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">SHAPE_Area</attrlabl><attalias Sync="TRUE">SHAPE_Area</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr></detailed>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>NOAA Coastal Services Center</cntorg>
+					<cntper>Clearinghouse Manager</cntper>
+				</cntorgp>
+				<cntpos>Clearinghouse Manager</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>2234 South Hobson Avenue</address>
+					<city>Charleston</city>
+					<state>SC</state>
+					<postal>29405-2413</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>(843)740-1210</cntvoice>
+				<cntfax>(843)740-1224</cntfax>
+				<cntemail>clearinghouse@csc.noaa.gov</cntemail>
+				<hours>Monday-Friday, 8-5 EST</hours>
+			</cntinfo>
+		</distrib>
+		<resdesc>Downloadable Data</resdesc>
+		<distliab>
+Users must assume responsibility to determine
+the usability of these data.
+</distliab>
+		<stdorder><digform><digtinfo><transize Sync="TRUE">5.345</transize><dssize Sync="TRUE">5.345</dssize></digtinfo></digform></stdorder></distinfo>
+	<metainfo>
+		<metd Sync="TRUE">20110202</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>NOAA Coastal Services Center</cntorg>
+					<cntper>Metadata Specialist</cntper>
+				</cntorgp>
+				<cntpos>Metadata Specialist</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>2234 South Hobson Avenue</address>
+					<city>Charleston</city>
+					<state>South Carolina</state>
+					<postal>29405</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>(843)740-1200</cntvoice>
+				<cntfax>(843)740-1224</cntfax>
+				<cntemail>csc@csc.noaa.gov</cntemail>
+				<hours>Monday-Friday, 8am-5pm, Eastern Standard Time</hours>
+			</cntinfo>
+		</metc>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<metextns>
+			<onlink>http://www.esri.com/metadata/esriprof80.html</onlink>
+			<metprof>ESRI Metadata Profile</metprof>
+		</metextns>
+		<langmeta Sync="TRUE">en</langmeta></metainfo>
+As interpreted from the U.S. code, the regulatory authority of the Fishery Management Councils applies to U.S. federal waters, extending from the Federal-State boundary to the seaward extent of the U.S. Exclusive Economic Zone (EEZ). The Fishery Management Councils' jurisdictional boundaries were developed from two existing data sets: (1) the Federal-State boundary for the continental U.S. distributed by the Minerals Management Service (http://www.mms.gov/ld/Maps.htm) and (2) the EEZ of the U.S. distributed by NOAA's Office of Coast Survey (http://nauticalcharts.noaa.gov/csdl/EEZ.HTM). The Federal-State shapefile was downloaded from MMS for each region (Atlantic, Gulf, and Pacific) and merged into one shapefile after reprojecting the Gulf Federal-State shapefile from NAD27 to NAD83. Lateral boundaries were created between Fishery Managment Council regions (as described at http://www.nmfs.noaa.gov/councils.htm), extending from the Federal-State line to the seaward extent of the EEZ. These lateral boundaries were based on best available information, but should not be interpreted as official boundaries. The lateral boundary polylines and Federal-state polylines were combined with the shapefiles representing the EEZ for the continental U.S. in the Features to Polygon tool in ArcGIS to create a single polygon shapefile for the Fishery Management Council regions.
+<Esri><CreaDate>20150323</CreaDate><CreaTime>11100400</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20120126</SyncDate><SyncTime>13543100</SyncTime><ModDate>20120126</ModDate><ModTime>13543100</ModTime><DataProperties><lineage><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20090326" Time="123511">CopyFeatures "Z:\Project Folders\Legislative Atlas\Version2_data\metadata\All.gdb\FMC_regions" "Z:\Project Folders\Legislative Atlas\Version2_data\metadata\Shapefiles\FMC_regions.shp" # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20091221" Time="074814">CopyFeatures "C:\Documents and Settings\Charles.Molnar\Desktop\FY10\ROCs\ROC.shp" "Database Connections\92-dev-s_mmc_DC.sde\s_mmc.S_MMC.ROC" # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20100106" Time="111321">CopyFeatures "Database Connections\92-dev-s_mmc_DC.sde\s_mmc.S_MMC.ROC" C:\arcserverdata\MMC\MMC_93.gdb\s_mmc_S_MMC_ROC # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20100108" Time="135827">CopyFeatures C:\arcserverdata\MMC\MMC_93.gdb\s_mmc_S_MMC_ROC "Database Connections\93-dev-s_MSP.sde\s_MSP.S_MSP.s_mmc_S_MMC_ROC" # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20110202" Time="150708">FeatureClassToFeatureClass "Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils" F:\temp\esbensen\forChrisBruce.gdb Regional_Ocean_Councils # "Agency 'Agency' true true false 50 Text 0 0 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Agency,-1,-1;Region 'Region' true true false 20 Text 0 0 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Region,-1,-1;Shape_Leng 'Shape_Leng' true true false 8 Double 8 38 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Shape_Leng,-1,-1;Name 'Name' true true false 150 Text 0 0 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Name,-1,-1;Shape_area 'Shape_area' false false true 0 Double 0 0 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Shape.area,-1,-1;Shape_len 'Shape_len' false false true 0 Double 0 0 ,First,#,Database Connections\9.3 PROD s_MSP.sde\s_MSP.S_MSP.Regional_Ocean_Councils,Shape.len,-1,-1" # F:\temp\esbensen\forChrisBruce.gdb\Regional_Ocean_Councils</Process><Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20110322" Time="163838">Project K:\scratch\ocean_councils_east.shp K:\proj10\MARCO_Portal\Data2Publish\ocean_councils.shp PROJCS['WGS_1984_Web_Mercator_Auxiliary_Sphere',GEOGCS['GCS_WGS_1984',DATUM['D_WGS_1984',SPHEROID['WGS_1984',6378137.0,298.257223563]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Mercator_Auxiliary_Sphere'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',0.0],PARAMETER['Central_Meridian',0.0],PARAMETER['Standard_Parallel_1',0.0],PARAMETER['Auxiliary_Sphere_Type',0.0],UNIT['Meter',1.0]] NAD_1983_To_WGS_1984_5 GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]]</Process><Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20110323" Time="165159">CopyFeatures C:\Temp\VAFO\ocean_councils.shp "Database Connections\va_steward@sdetest.tnc.org.sde\VA_STEWARD.ocean_councils" # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\ChangePrivileges" Date="20110323" Time="165740">ChangePrivileges 'Database Connections\va_steward@sdetest.tnc.org.sde\VA_STEWARD.bathymetry';'Database Connections\va_steward@sdetest.tnc.org.sde\VA_STEWARD.ocean_councils';'Database Connections\va_steward@sdetest.tnc.org.sde\VA_STEWARD.seabed_form';'Database Connections\va_steward@sdetest.tnc.org.sde\VA_STEWARD.wind_energy_areas' tnc_viewer GRANT #</Process><Process ToolSource="C:\Program Files (x86)\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20120126" Time="135436">CopyFeatures "Database Connections\va_steward on sdetest.tnc.org.sde\VA_STEWARD.ocean_councils" C:\Users\cbruce\MARCO_portal_Data.gdb\administrative\ocean_councils # 0 0 0</Process></lineage><itemProps><itemName Sync="TRUE">ocean_councils</itemName><imsContentType Sync="TRUE">002</imsContentType><itemLocation><linkage Sync="TRUE">file://\\HYDRA\C$\Users\cbruce\MARCO_portal_Data.gdb</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><coordRef><type Sync="TRUE">Projected</type><geogcsn Sync="TRUE">GCS_WGS_1984</geogcsn><projcsn Sync="TRUE">WGS_1984_Web_Mercator_Auxiliary_Sphere</projcsn><peXml Sync="TRUE">&lt;ProjectedCoordinateSystem xsi:type='typens:ProjectedCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.0'&gt;&lt;WKT&gt;PROJCS[&amp;quot;WGS_1984_Web_Mercator_Auxiliary_Sphere&amp;quot;,GEOGCS[&amp;quot;GCS_WGS_1984&amp;quot;,DATUM[&amp;quot;D_WGS_1984&amp;quot;,SPHEROID[&amp;quot;WGS_1984&amp;quot;,6378137.0,298.257223563]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433]],PROJECTION[&amp;quot;Mercator_Auxiliary_Sphere&amp;quot;],PARAMETER[&amp;quot;False_Easting&amp;quot;,0.0],PARAMETER[&amp;quot;False_Northing&amp;quot;,0.0],PARAMETER[&amp;quot;Central_Meridian&amp;quot;,0.0],PARAMETER[&amp;quot;Standard_Parallel_1&amp;quot;,0.0],PARAMETER[&amp;quot;Auxiliary_Sphere_Type&amp;quot;,0.0],UNIT[&amp;quot;Meter&amp;quot;,1.0],AUTHORITY[&amp;quot;EPSG&amp;quot;,3857]]&lt;/WKT&gt;&lt;XOrigin&gt;-20037700&lt;/XOrigin&gt;&lt;YOrigin&gt;-30241100&lt;/YOrigin&gt;&lt;XYScale&gt;10000&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;0.001&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;WKID&gt;3857&lt;/WKID&gt;&lt;/ProjectedCoordinateSystem&gt;</peXml></coordRef></DataProperties><ArcGISFormat>1.0</ArcGISFormat><ArcGISstyle>North American Profile of ISO19115 2003</ArcGISstyle></Esri><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows Server 2008 R2 Version 6.1 (Build 7601) Service Pack 1; ESRI ArcGIS 10.0.2.3200</envirDesc><dataLang><languageCode Sync="TRUE" value="eng" country="USA"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">ocean_councils</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">-129.163506</westBL><eastBL Sync="TRUE">-65.699722</eastBL><northBL Sync="TRUE">49.002286</northBL><southBL Sync="TRUE">23.8175</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-129.163506</westBL><eastBL Sync="TRUE">-65.699722</eastBL><northBL Sync="TRUE">49.002286</northBL><southBL Sync="TRUE">23.8175</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><descKeys><thesaName uuidref="723f6998-058e-11dc-8314-0800200c9a66"></thesaName><keyword Sync="TRUE">002</keyword></descKeys></dataIdInfo><mdLang><languageCode Sync="TRUE" value="eng"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="006"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\csc-s-nis\csc\nac2\ftp\temp\esbensen\forChrisBruce.gdb</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">5.345</transSize></distorTran><distorFormat><formatName Sync="TRUE">File Geodatabase Feature Class</formatName></distorFormat></distributor><distFormat><formatName Sync="TRUE">File Geodatabase Feature Class</formatName></distFormat></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE" code="3857">GCS_North_American_1983</identCode><idCodeSpace Sync="TRUE">EPSG</idCodeSpace><idVersion Sync="TRUE">7.4.1</idVersion></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="Regional_Ocean_Councils"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="002"></GeoObjTypCd><geoObjCnt Sync="TRUE">0</geoObjCnt></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20120126</mdDateSt></metadata>
