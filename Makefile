@@ -124,6 +124,8 @@ $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
 $(JSONDIR)/washington_state.geojson \
 $(JSONDIR)/south_atlantic.geojson \
+$(JSONDIR)/mid_atlantic.geojson \
+$(JSONDIR)/northeast.geojson \
 
 # Create topojson file. -q is quantization, -p means preserve all properties
 
@@ -152,6 +154,8 @@ $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
 $(JSONDIR)/washington_state.geojson \
 $(JSONDIR)/south_atlantic.geojson \
+$(JSONDIR)/mid_atlantic.geojson \
+$(JSONDIR)/northeast.geojson \
 
 
 topojson-low:
@@ -179,7 +183,8 @@ $(JSONDIR)/us_caribbean.geojson \
 $(JSONDIR)/us_west_coast.geojson \
 $(JSONDIR)/washington_state.geojson \
 $(JSONDIR)/south_atlantic.geojson \
-
+$(JSONDIR)/mid_atlantic.geojson \
+$(JSONDIR)/northeast.geojson \
 
 
 
@@ -366,6 +371,14 @@ $(JSONDIR)/us_west_coast.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegio
 	ogr2ogr -where "EEZ_ID='163'" $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp
 
+## Mid Atlantic
+$(JSONDIR)/mid_atlantic.geojson: $(DATADIR)/marco/marco_data_development_area.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Mid-Atlantic" as name, * FROM marco' $@ $<
+
+## Northeast
+$(JSONDIR)/northeast.geojson: $(DATADIR)/nroc/nroc_data_development_area.shp
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Northeast" as name, * FROM nroc' $@ $<
+
 ### Washington State
 $(JSONDIR)/washington_state.geojson: $(DATADIR)/WA_state_MSP/WA_state_MSP.shp
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Washington State" as name, * FROM WA_state_MSP' $@ $<
@@ -382,4 +395,3 @@ $(DATADIR)/SA_EEZ_off_states.shp: $(DATADIR)/sa_eez_off_states.zip
 $(JSONDIR)/south_atlantic.geojson: $(DATADIR)/SA_EEZ_off_states.shp
 	ogr2ogr $(DATADIR)/sa_eez_off_states_dissolved.shp $(DATADIR)/SA_EEZ_off_states.shp -dialect sqlite -sql "SELECT ST_union(ST_buffer(Geometry,0.001)),'South Atlantic' as name from SA_EEZ_off_states group by name" && \
 	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT * FROM sa_eez_off_states_dissolved' $@ $(DATADIR)/sa_eez_off_states_dissolved.shp
-
