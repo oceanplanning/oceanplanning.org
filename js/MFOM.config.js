@@ -283,6 +283,14 @@
                     "csv_id": 8
                 },
                 {
+                    "topojson_layer": "mid_atlantic",
+                    "csv_id": 10
+                },
+                {
+                    "topojson_layer": "northeast",
+                    "csv_id": 11
+                },
+                {
                     "topojson_layer": "pacific_islands",
                     "csv_id": 12
                 },
