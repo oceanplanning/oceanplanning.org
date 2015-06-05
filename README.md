@@ -75,8 +75,8 @@ If you want to add new planning areas, we need to have a shapefile that describe
 
 To get the new planning areas to show up on the map, you need to do three things:
 
-1. Add a new line to the [CSV file](blob/master/assets/csv/data.csv)
-2. Edit [MFOM.config.js](blob/master/js/MFOM.config.js), specifically the `layers` array, to include a link between the areas ID in the CSV, and its name in the TopoJSON file.
+1. Add a new line to the [CSV file](/assets/csv/data.csv)
+2. Edit [MFOM.config.js](/js/MFOM.config.js), specifically the `layers` array, to include a link between the areas ID in the CSV, and its name in the TopoJSON file.
 3. Modify the Makefile to add the new shapefile into the TopoJSON file.
 
 To edit the Makefile, follow the pattern of the other planning areas. You will need to edit the Makefile so that the following steps happen:
