@@ -283,6 +283,14 @@
                     "csv_id": 8
                 },
                 {
+                    "topojson_layer": "marco_data_development_area",
+                    "csv_id": 10
+                },
+                {
+                    "topojson_layer": "nroc_data_development_area",
+                    "csv_id": 11
+                },
+                {
                     "topojson_layer": "pacific_islands",
                     "csv_id": 12
                 },
