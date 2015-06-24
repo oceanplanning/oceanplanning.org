@@ -380,11 +380,11 @@ $(DATADIR)/sa_eez_off_states.zip:
 
 ### Northeast US
 $(JSONDIR)/nroc_data_development_area.geojson: $(DATADIR)/nroc/nroc_data_development_area.shp
-    ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Mid-Atlantic US
 $(JSONDIR)/marco_data_development_area.geojson: $(DATADIR)/marco/marco_data_development_area.shp
-    ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -s_srs "EPSG:3857" $@ $<
 
 $(DATADIR)/SA_EEZ_off_states.shp: $(DATADIR)/sa_eez_off_states.zip
 	unzip $< -d $(DATADIR) && \
