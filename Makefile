@@ -33,6 +33,16 @@ jsondir:
 
 basedata: datadir $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.shp $(DATADIR)/ne_10m_land_scale_rank.shp $(DATADIR)/ne_10m_populated_places.shp $(DATADIR)/ne_10m_geography_marine_polys.shp $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ne_10m_lakes.shp $(DATADIR)/ne_10m_graticules_10.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
 
+$(DATADIR)/World_EEZ_v8_20140228_LR:
+	test -d $(DATADIR)/World_EEZ_v8_20140228_LR || mkdir $(DATADIR)/World_EEZ_v8_20140228_LR
+
+$(DATADIR)/World_EEZ_v8_20140228_LR.zip:
+	$(error Download World_EEZ_v8_20140228_LR.zip from http://www.marineregions.org/download_file.php?fn=v8_20140228_LR and place the zipfile in the oceanplanning.org/data directory. Then try again)
+
+$(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp: $(DATADIR)/World_EEZ_v8_20140228_LR $(DATADIR)/World_EEZ_v8_20140228_LR.zip
+	unzip $< -d $(DATADIR)/World_EEZ_v8_20140228_LR && \
+	touch $@
+
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
 	curl -sL http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces_lakes.zip -o $@
 
