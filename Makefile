@@ -40,7 +40,7 @@ $(DATADIR)/World_EEZ_v8_20140228_LR.zip:
 	$(error Download World_EEZ_v8_20140228_LR.zip from http://www.marineregions.org/download_file.php?fn=v8_20140228_LR and place the zipfile in the oceanplanning.org/data directory. Then try again)
 
 $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp: $(DATADIR)/World_EEZ_v8_20140228_LR $(DATADIR)/World_EEZ_v8_20140228_LR.zip
-	unzip $< -d $(DATADIR)/World_EEZ_v8_20140228_LR && \
+	unzip -o $< -d $(DATADIR)/World_EEZ_v8_20140228_LR && \
 	touch $@
 
 $(DATADIR)/ne_10m_admin_1_states_provinces_lakes.zip:
@@ -97,16 +97,16 @@ $(DATADIR)/ne_10m_graticules_10.shp: $(DATADIR)/ne_10m_graticules_10.zip
 disputed: $(DATADIR)/disputed_dixon_entrance.shp $(DATADIR)/disputed_beaufort_sea.shp
 
 $(DATADIR)/disputed_dixon_entrance.shp: $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
-	ogr2ogr -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/PNCIMA/pncimabndy_inlets071031.shp
 
 $(DATADIR)/disputed_beaufort_sea.shp: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
-	ogr2ogr -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" -clipdst $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -clipdstwhere "Country = 'Alaska'" $@ $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
 
 # rule to project any shapefile into Lambert Azimuthal Equal Area
 %_laea.shp: %.shp
-	ogr2ogr --config SHAPE_ENCODING WINDOWS-1252 --config OGR_ENABLE_PARTIAL_REPROJECTION TRUE -t_srs '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs' $@ $<
+	ogr2ogr -fieldTypeToString All -overwrite --config SHAPE_ENCODING WINDOWS-1252 --config OGR_ENABLE_PARTIAL_REPROJECTION TRUE -t_srs '+proj=laea +lat_0=40 +lon_0=-105 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs' $@ $<
 
-basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp $(DATADIR)/ne_10m_land_scale_rank_laea.shp $(DATADIR)/ne_10m_populated_places_laea.shp $(DATADIR)/ne_10m_geography_marine_polys_laea.shp $(DATADIR)/ne_10m_ocean_laea.shp $(DATADIR)/ne_10m_lakes_laea.shp $(DATADIR)/ne_10m_graticules_10_laea.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014_laea.shp
+basedatalaea: basedata $(DATADIR)/ne_10m_admin_1_states_provinces_lakes_laea.shp $(DATADIR)/ne_10m_land_scale_rank_laea.shp $(DATADIR)/ne_10m_populated_places_laea.shp $(DATADIR)/ne_10m_geography_marine_polys_laea.shp $(DATADIR)/ne_10m_ocean_laea.shp $(DATADIR)/ne_10m_lakes_laea.shp $(DATADIR)/ne_10m_graticules_10_laea.shp
 
 # The EEZ and protected area data:
 
@@ -200,7 +200,7 @@ $(JSONDIR)/marco_data_development_area.geojson \
 data: datadir $(DATADIR)/USMaritimeLimitsNBoundaries.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp $(DATADIR)/mbounds_samp.shp
 
 $(JSONDIR)/us_eez.geojson: $(DATADIR)/USMaritimeLimitsNBoundaries.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 $(DATADIR)/USMaritimeLimitsAndBoundariesSHP.zip:
 	curl -sL http://maritimeboundaries.noaa.gov/downloads/USMaritimeLimitsAndBoundariesSHP.zip -o $@
@@ -228,38 +228,38 @@ $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceR
 	touch $@
 
 $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions.shp
-	ogr2ogr -t_srs "EPSG:4326" $@ $< && \
+	ogr2ogr -overwrite -t_srs "EPSG:4326" $@ $< && \
 
 
 ### British Columbia MaPP_subregions
 
 ### Haida Gwaii
 $(JSONDIR)/bc_mapp_haida_gwaii.geojson: $(DATADIR)/MaPP_subregions/HaidaGwaii_Marine_Area_EstuaryCorrected.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Haida Gwaii - MaPP" as name, * FROM HaidaGwaii_Marine_Area_EstuaryCorrected' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Haida Gwaii - MaPP" as name, * FROM HaidaGwaii_Marine_Area_EstuaryCorrected' $@ $<
 
 ### BC North Coast
 $(JSONDIR)/bc_mapp_north_coast.geojson: $(DATADIR)/MaPP_subregions/NorthCoast_Marine_Area_EstuaryCorrected.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Coast - MaPP" as name, * FROM NorthCoast_Marine_Area_EstuaryCorrected' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Coast - MaPP" as name, * FROM NorthCoast_Marine_Area_EstuaryCorrected' $@ $<
 
 ### BC Central Coast
 $(JSONDIR)/bc_mapp_central_coast.geojson: $(DATADIR)/MaPP_subregions/CentralCoast_Marine_Area_EstuaryCorrected.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Central Coast - MaPP" as name, * FROM CentralCoast_Marine_Area_EstuaryCorrected' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Central Coast - MaPP" as name, * FROM CentralCoast_Marine_Area_EstuaryCorrected' $@ $<
 
 ### BC North Vancouver Island
 $(JSONDIR)/bc_mapp_north_vancouver_island.geojson: $(DATADIR)/MaPP_subregions/NorthVancouverIsland_Marine_Area_EstuaryCorrected.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Vancouver Island - MaPP" as name, * FROM NorthVancouverIsland_Marine_Area_EstuaryCorrected' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "North Vancouver Island - MaPP" as name, * FROM NorthVancouverIsland_Marine_Area_EstuaryCorrected' $@ $<
 
 ### British Columbia West Coast Vancouver Island
 $(JSONDIR)/bc_wcvi.geojson: $(DATADIR)/WCVI_AMB_Boundary_Union/AMB_Boundary_Union.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/bc_wcvi_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/bc_wcvi_clipped.shp $(DATADIR)/bc_wcvi_4326.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia West Coast Vancouver Island" as name, * FROM bc_wcvi_clipped' $@ $(DATADIR)/bc_wcvi_clipped.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" $(DATADIR)/bc_wcvi_4326.shp $< && \
+	ogr2ogr -overwrite -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/bc_wcvi_clipped.shp $(DATADIR)/bc_wcvi_4326.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia West Coast Vancouver Island" as name, * FROM bc_wcvi_clipped' $@ $(DATADIR)/bc_wcvi_clipped.shp
 
 ### British Columbia PNCIMA
 $(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/PNCIMA_with_watersheds_BCalb.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/PNCIMA/pncima_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/PNCIMA/pncima_clipped.shp $(DATADIR)/PNCIMA/pncima_4326.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia PNCIMA" as name, * FROM pncima_clipped' $@ $(DATADIR)/PNCIMA/pncima_clipped.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" $(DATADIR)/PNCIMA/pncima_4326.shp $< && \
+	ogr2ogr -overwrite -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/PNCIMA/pncima_clipped.shp $(DATADIR)/PNCIMA/pncima_4326.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "British Columbia PNCIMA" as name, * FROM pncima_clipped' $@ $(DATADIR)/PNCIMA/pncima_clipped.shp
 
 ### Massachusetts
 #$(DATADIR)/ma-coastal-zone-boundary-2012.zip:
@@ -271,9 +271,9 @@ $(JSONDIR)/bc_pncima.geojson: $(DATADIR)/PNCIMA/PNCIMA_with_watersheds_BCalb.shp
 	#touch $@
 
 $(JSONDIR)/ma_coastalzone.geojson: $(DATADIR)/MA_Coastal_Zone/MA_Coastal_Zone.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/ma_coastalzone_4326.shp $< && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ma_coastalzone_clipped.shp $(DATADIR)/ma_coastalzone_4326.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Massachusetts" as name, * FROM ma_coastalzone_clipped' $@ $(DATADIR)/ma_coastalzone_clipped.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" $(DATADIR)/ma_coastalzone_4326.shp $< && \
+	ogr2ogr -overwrite -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/ma_coastalzone_clipped.shp $(DATADIR)/ma_coastalzone_4326.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Massachusetts" as name, * FROM ma_coastalzone_clipped' $@ $(DATADIR)/ma_coastalzone_clipped.shp
 
 ### Rhode Island
 $(DATADIR)/mbounds_samp.zip:
@@ -284,7 +284,7 @@ $(DATADIR)/mbounds_samp.shp: $(DATADIR)/mbounds_samp.zip
 	touch $@
 
 $(JSONDIR)/ri_coastalzone.geojson: $(DATADIR)/mbounds_samp.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Rhode Island" as name, * FROM mbounds_samp' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Rhode Island" as name, * FROM mbounds_samp' $@ $<
 
 ### Hawaii
 $(DATADIR)/hihwnms_py2.zip:
@@ -295,46 +295,46 @@ $(DATADIR)/hihwnms_py.shp: $(DATADIR)/hihwnms_py2.zip
 	touch $@
 
 $(JSONDIR)/hi_humpback_sanctuary.geojson: $(DATADIR)/hihwnms_py.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Hawaii" as name, * FROM hihwnms_py' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Hawaii" as name, * FROM hihwnms_py' $@ $<
 
 ### Canada EEZ
 $(JSONDIR)/canada_eez.geojson: $(DATADIR)/canada_eez.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 # TODO: source for Canadian EEZ. I downloaded from here: http://www.marineregions.org/gazetteer.php?p=details&id=8493
 
 ### Beaufort Sea
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Beaufort_Sea.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Beaufort_Sea.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Eastern Scotian Shelf
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Eastern_Scotian_Shelf.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Eastern_Scotian_Shelf_Updated.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Gulf of Saint Lawrence
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Gulf_of_Saint_Lawrence.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Gulf_of_Saint_Lawrence.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Pacific North Coast
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Pacific_North_Coast.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Pacific_North_Coast.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Placentia Bay / Grand Banks
 ### Data comes from LOMA_Shapefiles.zip (Canada)
 $(JSONDIR)/LOMA_Placentia_Bay___Grand_Banks.geojson: $(DATADIR)/LOMA_Shapefiles/LOMA_Placentia_Bay___Grand_Banks.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Nunavut
 ### NOTE, this data does not come from LOMA_Shapefiles.zip. From NLUP_Boundary.zip (Canada)
 $(JSONDIR)/NLUP_Boundary.geojson: $(DATADIR)/NLUP_Boundary/NLUP_Boundary.shp $(DATADIR)/ne_10m_lakes.shp
-	ogr2ogr -t_srs "EPSG:4326" $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp $< && \
-	ogr2ogr $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp -dialect sqlite -sql "SELECT ST_union(Geometry),'Nunavut' as name from NLUP_Boundary_4326 group by name" && \
-	ogr2ogr -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp
+	ogr2ogr -overwrite -t_srs "EPSG:4326" $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp $< && \
+	ogr2ogr -overwrite $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326.shp -dialect sqlite -sql "SELECT ST_union(Geometry),'Nunavut' as name from NLUP_Boundary_4326 group by name" && \
+	ogr2ogr -overwrite -clipsrc $(DATADIR)/ne_10m_ocean.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_dissolved.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NLUP_Boundary/NLUP_Boundary_4326_clipped.shp
 
 ### Florida keys
 $(DATADIR)/fknms_py2.zip:
@@ -345,7 +345,7 @@ $(DATADIR)/fknms_py.shp: $(DATADIR)/fknms_py2.zip
 	touch $@
 
 $(JSONDIR)/florida_keys.geojson: $(DATADIR)/fknms_py.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Florida Keys" as name, * FROM fknms_py' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Florida Keys" as name, * FROM fknms_py' $@ $<
 
 ### Oregon
 $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.zip:
@@ -356,33 +356,33 @@ $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp: $(DATADIR)/BASE_Territ
 	touch $@
 
 $(JSONDIR)/oregon.geojson: $(DATADIR)/BASE_Territorial_Sea_Polygon_ESIshoreline.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Oregon" as name, * FROM BASE_Territorial_Sea_Polygon_ESIshoreline' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Oregon" as name, * FROM BASE_Territorial_Sea_Polygon_ESIshoreline' $@ $<
 
 ### Great Lakes
 $(JSONDIR)/great_lakes.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/ne_10m_lakes.shp
-	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/ne_10m_lakes.shp -dialect sqlite -sql "SELECT ST_union(Geometry),name_alt from ne_10m_lakes where name_alt = 'Great Lakes' group by name_alt" && \
-	ogr2ogr -clipsrc $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp -clipdstwhere "Region = Northeast" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp
+	ogr2ogr -overwrite $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/ne_10m_lakes.shp -dialect sqlite -sql "SELECT ST_union(Geometry),name_alt from ne_10m_lakes where name_alt = 'Great Lakes' group by name_alt" && \
+	ogr2ogr -overwrite -clipsrc $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_dissolved.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp -clipdstwhere "Region = Northeast" $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/great_lakes_clipped.shp
 
 ### Pacific Islands
 $(JSONDIR)/pacific_islands.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
-	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Wake Island' or Country = 'Northern Mariana Islands and Guam' or Country = 'Johnston Atoll' or Country = 'Howland Island and Baker Island' or Country = 'Palmyra Atoll' or Country = 'Jarvis Island' or Country = 'American Samoa' or Country = 'Hawaii' group by Sovereign" && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp
+	ogr2ogr -overwrite $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Wake Island' or Country = 'Northern Mariana Islands and Guam' or Country = 'Johnston Atoll' or Country = 'Howland Island and Baker Island' or Country = 'Palmyra Atoll' or Country = 'Jarvis Island' or Country = 'American Samoa' or Country = 'Hawaii' group by Sovereign" && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/pacific_islands_dissolved.shp
 
 ### US Caribbean
 $(JSONDIR)/us_caribbean.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp
-	ogr2ogr $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Puerto Rico' or Country = 'Virgin Islands of the United States' group by Sovereign" && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp
+	ogr2ogr -overwrite $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp -dialect sqlite -sql "SELECT ST_union(Geometry),Sovereign from World_EEZ_v8_2014 where Country = 'Puerto Rico' or Country = 'Virgin Islands of the United States' group by Sovereign" && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_caribbean_dissolved.shp
 
 ### US West Coast
 $(JSONDIR)/us_west_coast.geojson: $(DATADIR)/NationalMarineFisheriesServiceRegions/NationalMarineFisheriesServiceRegions_4326.shp $(DATADIR)/ne_10m_ocean.shp
-	ogr2ogr -clipsrc -130 25 -115 50 $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp && \
-	ogr2ogr -where "EEZ_ID='163'" $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp
+	ogr2ogr -overwrite -clipsrc -130 25 -115 50 $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp $(DATADIR)/World_EEZ_v8_20140228_LR/World_EEZ_v8_2014.shp && \
+	ogr2ogr -overwrite -where "EEZ_ID='163'" $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_clipped.shp && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $(DATADIR)/NationalMarineFisheriesServiceRegions/us_west_coast_extracted.shp
 
 ### Washington State
 $(JSONDIR)/washington_state.geojson: $(DATADIR)/WA_state_MSP/WA_state_MSP.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Washington State" as name, * FROM WA_state_MSP' $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT "Washington State" as name, * FROM WA_state_MSP' $@ $<
 
 ### South Atlantic
 $(DATADIR)/sa_eez_off_states.zip:
@@ -390,11 +390,11 @@ $(DATADIR)/sa_eez_off_states.zip:
 
 ### Northeast US
 $(JSONDIR)/nroc_data_development_area.geojson: $(DATADIR)/nroc/nroc_data_development_area.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" $@ $<
 
 ### Mid-Atlantic US
 $(JSONDIR)/marco_data_development_area.geojson: $(DATADIR)/marco/marco_data_development_area.shp
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -s_srs "EPSG:3857" $@ $<
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -s_srs "EPSG:3857" $@ $<
 
 $(DATADIR)/SA_EEZ_off_states.shp: $(DATADIR)/sa_eez_off_states.zip
 	unzip $< -d $(DATADIR) && \
@@ -402,5 +402,5 @@ $(DATADIR)/SA_EEZ_off_states.shp: $(DATADIR)/sa_eez_off_states.zip
 
 # Note, here we add a buffer of 0.001 degrees so our union doesn't have slivers
 $(JSONDIR)/south_atlantic.geojson: $(DATADIR)/SA_EEZ_off_states.shp
-	ogr2ogr $(DATADIR)/sa_eez_off_states_dissolved.shp $(DATADIR)/SA_EEZ_off_states.shp -dialect sqlite -sql "SELECT ST_union(ST_buffer(Geometry,0.001)),'South Atlantic' as name from SA_EEZ_off_states group by name" && \
-	ogr2ogr -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT * FROM sa_eez_off_states_dissolved' $@ $(DATADIR)/sa_eez_off_states_dissolved.shp
+	ogr2ogr -overwrite $(DATADIR)/sa_eez_off_states_dissolved.shp $(DATADIR)/SA_EEZ_off_states.shp -dialect sqlite -sql "SELECT ST_union(ST_buffer(Geometry,0.001)),'South Atlantic' as name from SA_EEZ_off_states group by name" && \
+	ogr2ogr -overwrite -f "GeoJSON" -t_srs "EPSG:4326" -sql 'SELECT * FROM sa_eez_off_states_dissolved' $@ $(DATADIR)/sa_eez_off_states_dissolved.shp
