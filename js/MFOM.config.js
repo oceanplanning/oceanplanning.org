@@ -45,21 +45,21 @@
         geojsonPolygonStyles: {
             base: {
                 normal: {
-                    color: '#aaf0ff',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#aaf0ff',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
                 over: {
-                    color: '#93e5f6',
+                    color: '#f59918',
                     opacity: 0.6,
                     fillColor: '#fd0',
                     fillOpacity: 0.3,
                     weight:1
                 },
                 selected: {
-                    color: '#0ff',
+                    color: '#fa71e8',
                     opacity: 0.6,
                     fillColor: '#0ff',
                     fillOpacity: 0.3,
@@ -69,9 +69,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#aaf0ff',
+                    color: '#d93b52',
                     opacity: 0.6,
-                    fillColor: '#aaf0ff',
+                    fillColor: '#d93b52',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -80,9 +80,9 @@
             },
             underway: {
                 normal:{
-                    color: '#88cdff',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#88cdff',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -91,9 +91,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#88ceff',
+                    color: '#456bf7',
                     opacity: 0.6,
-                    fillColor: '#88ceff',
+                    fillColor: '#456bf7',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -102,9 +102,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#74b8ff',
+                    color: '#78dbba',
                     opacity: 0.6,
-                    fillColor: '#74b8ff',
+                    fillColor: '#78dbba',
                     fillOpacity: 0.5,
                     weight:1
                 },
