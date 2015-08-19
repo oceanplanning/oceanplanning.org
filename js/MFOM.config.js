@@ -54,14 +54,14 @@
                 over: {
                     color: '#f59918',
                     opacity: 0.6,
-                    fillColor: '#fd0',
+                    fillColor: '#59918',
                     fillOpacity: 0.3,
                     weight:1
                 },
                 selected: {
-                    color: '#fa71e8',
+                    color: '#fae38e',
                     opacity: 0.6,
-                    fillColor: '#0ff',
+                    fillColor: '#fae38e',
                     fillOpacity: 0.3,
                     weight:1
                 }
@@ -91,9 +91,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#7845f7',
+                    color: '#fa71e8',
                     opacity: 0.6,
-                    fillColor: '#456bf7',
+                    fillColor: '#fa71e8',
                     fillOpacity: 0.5,
                     weight:1
                 },
