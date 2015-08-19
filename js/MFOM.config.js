@@ -91,7 +91,7 @@
             },
             preplanning: {
                 normal:{
-                    color: '#456bf7',
+                    color: '#7845f7',
                     opacity: 0.6,
                     fillColor: '#456bf7',
                     fillOpacity: 0.5,
