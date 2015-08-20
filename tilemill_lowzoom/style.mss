@@ -1,4 +1,4 @@
-@non_eez_water: lighten(#e6eeee,5%);
+@non_eez_water: lighten(#a1c0c8, 20%);
 @eez_water: white;
 @background: @non_eez_water;
 
