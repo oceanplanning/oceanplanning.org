@@ -80,9 +80,9 @@
             },
             underway: {
                 normal:{
-                    color: '#192ea8',
+                    color: '#fa71e8',
                     opacity: 0.6,
-                    fillColor: '#192ea8',
+                    fillColor: '#fa71e8',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -91,9 +91,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#fa71e8',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#fa71e8',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
