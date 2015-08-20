@@ -116,22 +116,22 @@
         geojsonMarkerStyles: {
             base: {
                 normal: {
-                    fillColor: '#93e5f6',
-                    color: '#93e5f6',
+                    fillColor: '#fa71e8',
+                    color: '#fa71e8',
                     weight: 2,
                     opacity: 0.6,
                     fillOpacity: 1.3
                 },
                 over: {
-                    fillColor: '#fd0',
-                    color: '#93e5f6',
+                    fillColor: '#f59918',
+                    color: '#f59918',
                     weight: 2,
                     opacity: 0.6,
                     fillOpacity: 0.3
                 },
                 selected: {
-                    fillColor: '#0ff',
-                    color: '#0ff',
+                    fillColor: '#fae38e',
+                    color: '#fae38e',
                     weight: 2,
                     opacity: 0.6,
                     fillOpacity: 0.3
@@ -140,9 +140,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#aaf0ff',
+                    color: '#d93b52',
                     opacity: 0.6,
-                    fillColor: '#aaf0ff',
+                    fillColor: '#d93b52',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -151,9 +151,9 @@
             },
             underway: {
                 normal:{
-                    color: '#88cdff',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#88cdff',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -162,9 +162,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#88ceff',
+                    color: '#fa71e8',
                     opacity: 0.6,
-                    fillColor: '#88ceff',
+                    fillColor: '#fa71e8',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -173,9 +173,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#74b8ff',
+                    color: '#78dbba',
                     opacity: 0.6,
-                    fillColor: '#74b8ff',
+                    fillColor: '#78dbba',
                     fillOpacity: 0.5,
                     weight:1
                 },
