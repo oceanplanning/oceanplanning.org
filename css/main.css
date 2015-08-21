@@ -15,7 +15,7 @@ body,
     position: relative;
 }
 body {
-    background: #F5F8F8;
+    background: #a1c0c8;
     min-width: 500px;
 }
 
@@ -68,7 +68,7 @@ body {
     width:100%;
     height: 100%;
     z-index: 1;
-    background: #F5F8F8;
+    background: #a1c0c8;
 }
 
 .panel {
