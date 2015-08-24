@@ -80,9 +80,9 @@
             },
             underway: {
                 normal:{
-                    color: '#78dbba',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#78dbba',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
