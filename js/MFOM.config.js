@@ -45,16 +45,16 @@
         geojsonPolygonStyles: {
             base: {
                 normal: {
-                    color: '#fa71e8',
+                    color: '#f59918',
                     opacity: 0.6,
-                    fillColor: '#fa71e8',
+                    fillColor: '#f59918',
                     fillOpacity: 0.5,
                     weight:1
                 },
                 over: {
-                    color: '#f59918',
+                    color: '#fa71e8',
                     opacity: 0.6,
-                    fillColor: '#59918',
+                    fillColor: '#fa71e8',
                     fillOpacity: 0.3,
                     weight:1
                 },
@@ -91,9 +91,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#fa71e8',
+                    color: '#f59918',
                     opacity: 0.6,
-                    fillColor: '#fa71e8',
+                    fillColor: '#f59918',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -116,8 +116,8 @@
         geojsonMarkerStyles: {
             base: {
                 normal: {
-                    fillColor: '#fa71e8',
-                    color: '#fa71e8',
+                    fillColor: '#f59918',
+                    color: '#f59918',
                     weight: 2,
                     opacity: 0.6,
                     fillOpacity: 1.3
@@ -162,9 +162,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#fa71e8',
+                    color: '#f59918',
                     opacity: 0.6,
-                    fillColor: '#fa71e8',
+                    fillColor: '#f59918',
                     fillOpacity: 0.5,
                     weight:1
                 },
