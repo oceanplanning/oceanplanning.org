@@ -80,9 +80,9 @@
             },
             underway: {
                 normal:{
-                    color: '#192ea8',
+                    color: '#78dbba',
                     opacity: 0.6,
-                    fillColor: '#192ea8',
+                    fillColor: '#78dbba',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -102,9 +102,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#78dbba',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#78dbba',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -173,9 +173,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#78dbba',
+                    color: '#192ea8',
                     opacity: 0.6,
-                    fillColor: '#78dbba',
+                    fillColor: '#192ea8',
                     fillOpacity: 0.5,
                     weight:1
                 },
