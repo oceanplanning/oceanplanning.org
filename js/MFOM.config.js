@@ -44,10 +44,18 @@
         },
         geojsonPolygonStyles: {
             base: {
-                normal: {
-                    color: '#f59918',
+              /*  Other colors to note:
+               *  Scuba blue: #04adca
+               *  Classic blue: #0f4c81
+               *  Strawberry ice: #e38690
+               *  Lucite green: #68d6b6
+               *  Custard yellow: #ebda8c
+               *  Toasted almond: #d5b298
+               */
+                normal: { // Normal is the same as pre-planning
+                    color: '#ebda8c',
                     opacity: 0.6,
-                    fillColor: '#f59918',
+                    fillColor: '#ebda8c',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -69,9 +77,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#d93b52',
+                    color: '#e38690', // Strawberry ice
                     opacity: 0.6,
-                    fillColor: '#d93b52',
+                    fillColor: '#e38690',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -80,9 +88,9 @@
             },
             underway: {
                 normal:{
-                    color: '#78dbba',
+                    color: '#68d6b6', // Lucite green
                     opacity: 0.6,
-                    fillColor: '#78dbba',
+                    fillColor: '#68d6b6',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -91,9 +99,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#f59918',
+                    color: '#ebda8c', // Custard yellow
                     opacity: 0.6,
-                    fillColor: '#f59918',
+                    fillColor: '#ebda8c',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -102,9 +110,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#192ea8',
+                    color: '#0f4c81', // Classic blue
                     opacity: 0.6,
-                    fillColor: '#192ea8',
+                    fillColor: '#0f4c81',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -115,7 +123,7 @@
         // marker styles
         geojsonMarkerStyles: {
             base: {
-                normal: {
+                normal: { // Normal is the same as pre-planning
                     fillColor: '#f59918',
                     color: '#f59918',
                     weight: 2,
@@ -140,9 +148,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#d93b52',
+                    color: '#e38690', // Strawberry ice
                     opacity: 0.6,
-                    fillColor: '#d93b52',
+                    fillColor: '#e38690',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -151,9 +159,9 @@
             },
             underway: {
                 normal:{
-                    color: '#78dbba',
+                    color: '#68d6b6', // Lucite green
                     opacity: 0.6,
-                    fillColor: '#78dbba',
+                    fillColor: '#68d6b6',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -162,9 +170,9 @@
             },
             preplanning: {
                 normal:{
-                    color: '#f59918',
+                    color: '#ebda8c', // Custard yellow
                     opacity: 0.6,
-                    fillColor: '#f59918',
+                    fillColor: '#ebda8c',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -173,9 +181,9 @@
             },
             implemented: {
                 normal:{
-                    color: '#192ea8',
+                    color: '#0f4c81', // Classic blue
                     opacity: 0.6,
-                    fillColor: '#192ea8',
+                    fillColor: '#0f4c81',
                     fillOpacity: 0.5,
                     weight:1
                 },
