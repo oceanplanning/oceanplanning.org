@@ -77,9 +77,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#e38690', // Strawberry ice
+                    color: '#d5b298', // Toasted almond
                     opacity: 0.6,
-                    fillColor: '#e38690',
+                    fillColor: '#d5b298',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -148,9 +148,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#e38690', // Strawberry ice
+                    color: '#d5b298', // Toasted almond
                     opacity: 0.6,
-                    fillColor: '#e38690',
+                    fillColor: '#d5b298',
                     fillOpacity: 0.5,
                     weight:1
                 },
