@@ -311,10 +311,10 @@ button.selected,
 
 .filter-row li.filter-reset.selected:after,
 .filter-row li.filter-reset:hover:after {background: #b2b6b7 !important;}
-.filter-row li.filter-implemented:after {background: #0f4c81;} // Classic blue.
-.filter-row li.filter-underway:after {background: #68d6b6;} // Lucite green.
-.filter-row li.filter-pre-planning:after {background: #ebda8c;} // Custard yellow.
-.filter-row li.filter-stalled:after {background: #e38690;} // Strawberry ice.
+.filter-row li.filter-implemented:after {background: #0f4c81;}
+.filter-row li.filter-underway:after {background: #68d6b6;}
+.filter-row li.filter-pre-planning:after {background: #ebda8c;}
+.filter-row li.filter-stalled:after {background: #e38690;}
 
 
 /* tabs */

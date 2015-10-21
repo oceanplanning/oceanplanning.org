@@ -45,7 +45,7 @@
         geojsonPolygonStyles: {
             base: {
               /*  Other colors to note:
-               *  Scuba blue: #04adcal
+               *  Scuba blue: #04adca
                *  Classic blue: #0f4c81
                *  Strawberry ice: #e38690
                *  Lucite green: #68d6b6
