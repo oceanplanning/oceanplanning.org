@@ -313,8 +313,8 @@ button.selected,
 .filter-row li.filter-reset:hover:after {background: #b2b6b7 !important;}
 .filter-row li.filter-implemented:after {background: #0f4c81;}
 .filter-row li.filter-underway:after {background: #68d6b6;}
-.filter-row li.filter-pre-planning:after {background: #04adca;}
-.filter-row li.filter-stalled:after {background: #d5b298;}
+.filter-row li.filter-pre-planning:after {background: #ebda8c;}
+.filter-row li.filter-stalled:after {background: #fb8b23;}
 
 
 /* tabs */

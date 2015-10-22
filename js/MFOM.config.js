@@ -51,6 +51,7 @@
                *  Lucite green: #68d6b6
                *  Custard yellow: #ebda8c
                *  Toasted almond: #d5b298
+               *  Flame orange: #fb8b23
                */
                 normal: { // Normal is the same as pre-planning
                     color: '#ebda8c',
@@ -77,9 +78,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#d5b298', // Toasted almond
+                    color: '#fb8b23', // Toasted almond
                     opacity: 0.6,
-                    fillColor: '#d5b298',
+                    fillColor: '#fb8b23',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -148,9 +149,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#d5b298', // Toasted almond
+                    color: '#fb8b23', // Toasted almond
                     opacity: 0.6,
-                    fillColor: '#d5b298',
+                    fillColor: '#fb8b23',
                     fillOpacity: 0.5,
                     weight:1
                 },
