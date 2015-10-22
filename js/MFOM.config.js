@@ -53,6 +53,7 @@
                *  Toasted almond: #d5b298
                *  Flame orange: #fb8b23
                *  Hot pink: #e55982
+               *  Prism pink: #f0a1bf
                */
                 normal: { // Normal is the same as pre-planning
                     color: '#ebda8c',
@@ -79,9 +80,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#e55982', // Hot pink
+                    color: '#f0a1bf', // Prism pink
                     opacity: 0.6,
-                    fillColor: '#e55982',
+                    fillColor: '#f0a1bf',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -150,9 +151,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#e55982', // Hot pink
+                    color: '#f0a1bf', // Prism pink
                     opacity: 0.6,
-                    fillColor: '#e55982',
+                    fillColor: '#f0a1bf',
                     fillOpacity: 0.5,
                     weight:1
                 },
