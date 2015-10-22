@@ -314,7 +314,7 @@ button.selected,
 .filter-row li.filter-implemented:after {background: #0f4c81;}
 .filter-row li.filter-underway:after {background: #68d6b6;}
 .filter-row li.filter-pre-planning:after {background: #ebda8c;}
-.filter-row li.filter-stalled:after {background: #df88b7;}
+.filter-row li.filter-stalled:after {background: #f88180;}
 
 
 /* tabs */

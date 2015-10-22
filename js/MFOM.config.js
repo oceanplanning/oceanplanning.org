@@ -55,6 +55,8 @@
                *  Hot pink: #e55982
                *  Prism pink: #f0a1bf
                *  Fuchsia pink: #df88b7
+               *  Purple U: #b634bb
+               *  Shell pink: #f88180
                */
                 normal: { // Normal is the same as pre-planning
                     color: '#ebda8c',
@@ -81,9 +83,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#df88b7', // Fuschia pink
+                    color: '#f88180', // Shell pink
                     opacity: 0.6,
-                    fillColor: '#df88b7',
+                    fillColor: '#f88180',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -152,9 +154,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#df88b7', // Fuschia pink
+                    color: '#f88180', // Shell pink
                     opacity: 0.6,
-                    fillColor: '#df88b7',
+                    fillColor: '#f88180',
                     fillOpacity: 0.5,
                     weight:1
                 },
