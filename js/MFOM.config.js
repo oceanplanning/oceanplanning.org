@@ -52,6 +52,7 @@
                *  Custard yellow: #ebda8c
                *  Toasted almond: #d5b298
                *  Flame orange: #fb8b23
+               *  Hot pink: #e55982
                */
                 normal: { // Normal is the same as pre-planning
                     color: '#ebda8c',
@@ -78,9 +79,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#fb8b23', // Toasted almond
+                    color: '#e55982', // Hot pink
                     opacity: 0.6,
-                    fillColor: '#fb8b23',
+                    fillColor: '#e55982',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -149,9 +150,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#fb8b23', // Toasted almond
+                    color: '#e55982', // Hot pink
                     opacity: 0.6,
-                    fillColor: '#fb8b23',
+                    fillColor: '#e55982',
                     fillOpacity: 0.5,
                     weight:1
                 },
