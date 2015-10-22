@@ -54,6 +54,7 @@
                *  Flame orange: #fb8b23
                *  Hot pink: #e55982
                *  Prism pink: #f0a1bf
+               *  Fuchsia pink: #df88b7
                */
                 normal: { // Normal is the same as pre-planning
                     color: '#ebda8c',
@@ -80,9 +81,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#f0a1bf', // Prism pink
+                    color: '#df88b7', // Fuschia pink
                     opacity: 0.6,
-                    fillColor: '#f0a1bf',
+                    fillColor: '#df88b7',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -151,9 +152,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#f0a1bf', // Prism pink
+                    color: '#df88b7', // Fuschia pink
                     opacity: 0.6,
-                    fillColor: '#f0a1bf',
+                    fillColor: '#df88b7',
                     fillOpacity: 0.5,
                     weight:1
                 },
