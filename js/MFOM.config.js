@@ -83,9 +83,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#f88180', // Shell pink
+                    color: '#b634bb', // Purple U
                     opacity: 0.6,
-                    fillColor: '#f88180',
+                    fillColor: '#b634bb',
                     fillOpacity: 0.5,
                     weight:1
                 },
@@ -154,9 +154,9 @@
             // for variants, you can just include the difference from base
             stalled: {
                 normal:{
-                    color: '#f88180', // Shell pink
+                    color: '#b634bb', // Purple U
                     opacity: 0.6,
-                    fillColor: '#f88180',
+                    fillColor: '#b634bb',
                     fillOpacity: 0.5,
                     weight:1
                 },
